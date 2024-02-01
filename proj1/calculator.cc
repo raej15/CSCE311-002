@@ -49,7 +49,8 @@ void run(char* x, char* y, char op) {
 }
 std::vector<std::string> multDiv(std::vector<std::string> eqn) {
     std::vector<std::string> result = eqn;
-    for (auto itr = result.begin(); itr != result.end(); ++itr){
+    auto itr = result.begin();
+    while(itr != result.end()){
         if (*itr == "x" || *itr == "/") {
             float a = std::stof(*(itr-1));
             std::cout << "a: "<< a << std::endl;
@@ -60,7 +61,9 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
                 //std::cout << "result: " << *itr << std::endl;
                 *itr = std::to_string(divide(a, b));
 
-                result.erase(itr-1);
+                itr = result.erase(itr-1);
+                itr = result.erase(itr+1);
+            
                 //itr = result.erase(itr+1);
                 //itr = std::next(itr);
                 //itr = itr + result.begin() + 1;
@@ -76,6 +79,9 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
             else {
                 multiply(a, b);
             }
+        }
+        else {
+            ++itr;
         }
          for (auto itr = result.begin(); itr != result.end(); ++itr){
         std::cout << *itr << std::endl;
