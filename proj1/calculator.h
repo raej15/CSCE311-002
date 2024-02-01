@@ -7,5 +7,7 @@ float add(float a, float b);
 float subtract(float a, float b);
 float multiply(float a, float b);
 float divide(float a, float b);
-void run(char* x, char* y, char op) ;
+void run(char* x, char* y, char op);
+void run2(std::vector<std::string>);
+
 #endif  // PROJ1_CALCULATE_H_
