@@ -20,7 +20,7 @@ float divide(float a, float b) {
 std::vector<std::string> addSub(std::vector<std::string> eqn) {
     std::vector<std::string> result = eqn;
     auto itr = result.begin();
-    while(itr != result.end()) {
+    while ( itr != result.end() ) {
         if (*itr == "+" || *itr == "-") {
             float a = std::stof(*(itr-1));
             float b = std::stof(*(itr+1));
@@ -28,30 +28,25 @@ std::vector<std::string> addSub(std::vector<std::string> eqn) {
             if (*itr == "+") {
                 // perform addition, replace "+" with result
                 *itr = std::to_string(add(a, b));
-            }
-            // else it is subtraction
-            else {
+            } else {
                 // perform subtraction, replace "-" with result
-                *itr = std::to_string(subtract(a, b));            
+                *itr = std::to_string(subtract(a, b));
             }
-            
+
             // remove the two surrounding floats
             itr = result.erase(itr-1);
             itr = result.erase(itr+1);
-   
-        }
-        else {
+        } else {
             ++itr;
         }
-
     }
-        return result;
+    return result;
 }
 
 std::vector<std::string> multDiv(std::vector<std::string> eqn) {
     std::vector<std::string> result = eqn;
     auto itr = result.begin();
-    while(itr != result.end()) {
+    while (itr != result.end()) {
         if (*itr == "x" || *itr == "/") {
             float a = std::stof(*(itr-1));
             float b = std::stof(*(itr+1));
@@ -59,36 +54,30 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
             if (*itr == "/") {
                 // perform division, replace "/" with result
                 *itr = std::to_string(divide(a, b));
-            }
-            // else it is multiplication
-            else {
+            } else {
                 // perform multiplication, replace "x" with result
-                *itr = std::to_string(multiply(a, b));            
+                *itr = std::to_string(multiply(a, b));
             }
 
             // remove the two surrounding floats
             itr = result.erase(itr-1);
             itr = result.erase(itr+1);
-   
-        }
-        else {
+
+        } else {
             ++itr;
         }
-
     }
-    
+
     return result;
 }
 
-
+// needs to accept negs
 void run(std::vector<std::string> eqn) {
+    std::vector<std::string> MDVect = multDiv(eqn);  // MD of pemdas done
+    std::vector<std::string> newVect = addSub(MDVect);  // AS of pemdas done
 
-    std::vector<std::string> MDVect = multDiv(eqn); // MD of pemdas done 
-    std::vector<std::string> newVect = addSub(MDVect); // AS of pemdas done
-
-    //print the resulting vector
+    // print the resulting vector
     for (auto itr = newVect.begin(); itr != newVect.end(); ++itr) {
         std::cout << *itr << std::endl;
     }
-
 }

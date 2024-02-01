@@ -12,4 +12,4 @@ std::vector<std::string> addSub(std::vector<std::string> eqn);
 std::vector<std::string> multDiv(std::vector<std::string> eqn);
 void run(std::vector<std::string>);
 
-#endif  // PROJ1_CALCULATE_H_
+#endif  // PROJ1_CALCULATOR_H_
