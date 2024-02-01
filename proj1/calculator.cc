@@ -1,5 +1,10 @@
-#include <string>
+#include <proj1/calculator.h>
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <chrono>
+#include <thread>
+#include <vector>
 
 float add(float a, float b) {
     return a + b;

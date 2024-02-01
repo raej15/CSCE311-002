@@ -1,45 +1,40 @@
-//#include <proj1/calculator.h>
+// An example of:
+//   - Reading command line arguments,
+//   - Using the string class constructor to build string class objects from
+//     cstrings (null-terminated character arrays),
+//   - Filling a vector from a source using a for-loop,
+//   - Iterating over a vector using a ``for each'' loop, and
+//   - Iterating over a vector using an interator.
+//
+
+//g++ --std=c++2a -o poop proj1/poop.cc
+
+
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <chrono>
-#include <thread>
 #include <vector>
 
-// int main(){
-//     char* a = "1";
-//     char* b = "2";
-//     run(a, b, '-');
-//     return 0;
-// }
-// int main(int argc, char **argv) {
-//     // g++ -o Jones_Sara_QuickSort Jones_Sara_QuickSort.cpp 
-//     // ./Jones_Sara_QuickSort inputFiles/size10/size10_1.txt output.txt
-     
-//     if (argc == 1) {
-//         cout << "Needs 2 additional arguments passed"
-//              << endl;
-//     }
-//     if (argc == 3) {
-//         cout << "----Command Line Arguments Passed----\n"
-//              << argv[1] << " " << argv[2]
-             
-//              << endl;
-        
-//         run(argv[1], argv[2]);
-        
-//     }
-//     if (argc > 3) {
-//         cout << "Exceeded Required Number of Arguments, Try Again" << endl;
-//     }
- 
-//     return 0;
-// }
+// The main entry point of program.
+//
+// The two parameters argc and argv store the number of arguments supplied at
+// the command line (including the command itself, "./main") and the
+// white-space delimited strings, respectively.
+//
 int main(int argc, char* argv[]) {
-    std::vector<std::string> arguments;
-    for (char** ptr = argv; ptr != argv + argc; ++ptr) {
-        arguments.push_back(std::string(*ptr));
-    }
+  std::vector<std::string> arguments;
+
+
+  // for-loop to fill vector of strings, using pointer as a ``dumb iterator''
+  for (char** ptr = argv; ptr != argv + argc; ++ptr)
+    // Use std::string(const char[]) constructor to fill vector of std::string
+    // Could make implicit call as: arguments.push_back(*ptr)
+    arguments.push_back(std::string(*ptr));
+  //   EQUIVALENT TO
+  // for (int i = 0; i < argc; ++i)
+  //   arguments.push_back(std::string(argv[i]));
+  //     OR
+  //   arguments.push_back(argv[i]);  // implicitly calls std::string(argv[i])
+
 
   // for-each loop to print vector of strings
   for (const std::string& argument : arguments)
@@ -72,5 +67,6 @@ int main(int argc, char* argv[]) {
                                    // reference to each std::string stored in
   std::cout << std::endl;          // arguments
 
-    return 0;
+
+  return 0;  // normal exit code
 }
