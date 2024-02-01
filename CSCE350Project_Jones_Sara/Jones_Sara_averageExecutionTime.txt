@@ -1,4 +1,0 @@
-Input Size    Average Execution Time
-10    1.08348E+00
-100    8.80168E+00
-1000    9.844168E+01
