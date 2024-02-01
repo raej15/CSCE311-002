@@ -1,9 +1,6 @@
 #include <proj1/calculator.h>
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <chrono>
-#include <thread>
 #include <vector>
 
 float add(float a, float b) {
@@ -20,47 +17,21 @@ float divide(float a, float b) {
     return a/b;
 }
 
-void run(char* x, char* y, char op) {
-    float a = atof(x);
-    float b = atof(y);
-
-    float result;
-
-    switch(op) {
-        case '+':
-            result = add(a, b);
-            break;
-        case '-':
-            result = subtract(a, b);
-            break;
-        case 'x':
-            result = multiply(a, b);
-            break;
-        case '/':
-            result = divide(a, b);
-            break;
-        default:
-            std::cout << "Invalid operator" << std::endl;
-    }
-
-    std::cout << result << std::endl;
-}
 std::vector<std::string> addSub(std::vector<std::string> eqn) {
     std::vector<std::string> result = eqn;
     auto itr = result.begin();
     while(itr != result.end()) {
         if (*itr == "+" || *itr == "-") {
             float a = std::stof(*(itr-1));
-            //std::cout << "a: "<< a << std::endl;
             float b = std::stof(*(itr+1));
-            //std::cout << "b: " << b << std::endl;
 
             if (*itr == "+") {
-                // perform division, replace "/" with result
+                // perform addition, replace "+" with result
                 *itr = std::to_string(add(a, b));
             }
+            // else it is subtraction
             else {
-                // perform division, replace "/" with result
+                // perform subtraction, replace "-" with result
                 *itr = std::to_string(subtract(a, b));            
             }
             
@@ -68,18 +39,13 @@ std::vector<std::string> addSub(std::vector<std::string> eqn) {
             itr = result.erase(itr-1);
             itr = result.erase(itr+1);
    
-            std::cout << "new" << std::endl;
         }
         else {
             ++itr;
         }
 
-        //  for (auto itr = result.begin(); itr != result.end(); ++itr){
-        // std::cout << *itr << std::endl;
     }
-    
-    std::cout << "over" << std::endl;
-    return result;
+        return result;
 }
 
 std::vector<std::string> multDiv(std::vector<std::string> eqn) {
@@ -88,16 +54,15 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
     while(itr != result.end()) {
         if (*itr == "x" || *itr == "/") {
             float a = std::stof(*(itr-1));
-            //std::cout << "a: "<< a << std::endl;
             float b = std::stof(*(itr+1));
-            //std::cout << "b: " << b << std::endl;
 
             if (*itr == "/") {
                 // perform division, replace "/" with result
                 *itr = std::to_string(divide(a, b));
             }
+            // else it is multiplication
             else {
-                // perform division, replace "/" with result
+                // perform multiplication, replace "x" with result
                 *itr = std::to_string(multiply(a, b));            
             }
 
@@ -105,39 +70,25 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
             itr = result.erase(itr-1);
             itr = result.erase(itr+1);
    
-            std::cout << "new" << std::endl;
         }
         else {
             ++itr;
         }
 
-        //  for (auto itr = result.begin(); itr != result.end(); ++itr){
-        // std::cout << *itr << std::endl;
     }
     
-    std::cout << "over" << std::endl;
-
-    for (auto itr = result.begin(); itr != result.end(); ++itr){
-        std::cout << *itr << std::endl;
-    }
     return result;
-    // do the same for addition and subtraction
-    //addSub(result);
 }
 
 
-void run2(std::vector<std::string> eqn) {
-    //PE(MD)(AS)
-    //  for (auto itr = eqn.begin(); itr != eqn.end(); ++itr){
-    //     std::cout << *itr << std::endl;
-    //  }
-    std::vector<std::string> MDVect = multDiv(eqn);
-    std::vector<std::string> newVect = addSub(MDVect);
+void run(std::vector<std::string> eqn) {
 
-    for (auto itr = newVect.begin(); itr != newVect.end(); ++itr){
+    std::vector<std::string> MDVect = multDiv(eqn); // MD of pemdas done 
+    std::vector<std::string> newVect = addSub(MDVect); // AS of pemdas done
+
+    //print the resulting vector
+    for (auto itr = newVect.begin(); itr != newVect.end(); ++itr) {
         std::cout << *itr << std::endl;
-     }
-
-
+    }
 
 }
