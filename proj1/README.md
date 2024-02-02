@@ -1,11 +1,11 @@
 # Homework 1
 All files located in proj1 zip
 ## Run Instructions
-To run,\
+To run,
 1. unzip proj1
 2. navigate to the proj1 folder on your system
 3. run "make"
-4. run "./calculate <\INSERT EQUATION>\
+4. run "./calculate <INSERT EQUATION>
 5. command line arguments shoudl be separated by a space, Ex "./calculate 2 / 3 + 4"
 6. available operations are /, +, x, and -
 
