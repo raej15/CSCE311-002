@@ -17,11 +17,13 @@ float divide(float a, float b) {
     return a/b;
 }
 
+// finds and performs all the addition and subtraction operations in vector
 std::vector<std::string> addSub(std::vector<std::string> eqn) {
     std::vector<std::string> result = eqn;
     auto itr = result.begin();
     while ( itr != result.end() ) {
         if (*itr == "+" || *itr == "-") {
+            // get the two surrounding floats
             float a = std::stof(*(itr-1));
             float b = std::stof(*(itr+1));
 
@@ -37,17 +39,21 @@ std::vector<std::string> addSub(std::vector<std::string> eqn) {
             itr = result.erase(itr-1);
             itr = result.erase(itr+1);
         } else {
+            // move to the next element
             ++itr;
         }
     }
+    // returns new vector
     return result;
 }
 
+// finds and performs all the addition and subtraction operations in vector
 std::vector<std::string> multDiv(std::vector<std::string> eqn) {
     std::vector<std::string> result = eqn;
     auto itr = result.begin();
     while (itr != result.end()) {
         if (*itr == "x" || *itr == "/") {
+            // get the two surrounding floats
             float a = std::stof(*(itr-1));
             float b = std::stof(*(itr+1));
 
@@ -64,10 +70,12 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
             itr = result.erase(itr+1);
 
         } else {
+            // move to the next element
             ++itr;
         }
     }
 
+    // returns new vector
     return result;
 }
 
