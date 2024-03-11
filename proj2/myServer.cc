@@ -7,17 +7,21 @@
 #include <sys/un.h>
 #include <unistd.h>     
 #include <iostream>
+#include <vector>
 #include <sys/sysinfo.h>
 
 int main(int argc, char *argv[]) {
+    struct sockaddr_un name;
+    int down_flag = 0;
+    int ret;
+    int connection_socket;
+    int data_socket;
+    int result;
+    char buffer[BUFFER_SIZE];
+    std::string path;
+    std::vector<std::string> data;
+    std::vector<std::string> argLines;
 
-           struct sockaddr_un name;
-           int down_flag = 0;
-           int ret;
-           int connection_socket;
-           int data_socket;
-           int result;
-           char buffer[BUFFER_SIZE];
            
 
 	
@@ -93,7 +97,8 @@ int main(int argc, char *argv[]) {
                
                	std::cout<< "CLIENT CONNECTED" << std::endl;
                    /* Wait for next data packet. */
-
+                data = NULL;
+                path = NULL;
                result = 0;
                int i = 0;
                for (;;) {
@@ -123,21 +128,29 @@ int main(int argc, char *argv[]) {
 
                    /* Add received summand. */
 	
-		if (i==0) {
-			std::cout << "PATH: " << buffer << std::endl;
-		}
-		else if (i==1) {
-			std::cout << "Lines: " << buffer;
-		}
-		else {
-                   //result += atoi(buffer);
-                   std::cout << ", " << buffer;
+                    if (i==0) {
+                        path = std::string(buffer);
+                        data = loadData(path);
+
+                        std::cout << "PATH: " << buffer << std::endl;
+                    }
+                    else if (i==1) {
+                        std::cout << "Lines: " << buffer;
+                        argLines.push_back(std::string(buffer));
+                    }
+                    else {
+                        //result += atoi(buffer);
+                        std::cout << ", " << buffer;
+
+                        argLines.push_back(std::string(buffer));
+
+                    }
+                    i++;
                 }
-                   i++;
-               }
                    std::cout << "\n";
 
                /* Send result. */
+
 
                sprintf(buffer, "%d", result);
                ret = write(data_socket, buffer, sizeof(buffer));

@@ -94,9 +94,22 @@ void run(std::vector<std::string> eqn) {
     }
 }
 
-std::vector<std::string> parseArgs(std::vector<std::string> args) {
+std::vector<std::string> parseArgs(string data, std::vector<std::string> args) {
     
     return args;
+}
+
+string loadData(string fileName) {
+    std::ifstream file(fileName);
+    std::vector<std::string> data;
+    std::string line;
+    if (file.is_open()) {
+        while (getline(file, line)) {
+            data += line + "\n";
+        }
+        file.close();
+    }
+    return data;
 }
 
 
