@@ -19,6 +19,7 @@ compile = $(cc) $(flags) -c -o
 # final linked build to binary executable
 link = $(cc) $(flags) -o
 
+all : server client
 
 server : myServer.o
 	$(link) $@ $^
