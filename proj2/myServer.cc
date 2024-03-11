@@ -9,6 +9,116 @@
 #include <iostream>
 #include <vector>
 #include <sys/sysinfo.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+
+float add(float a, float b) {
+    return a + b;
+}
+float subtract(float a, float b) {
+    return a - b;
+}
+float multiply(float a, float b) {
+    return a*b;
+}
+
+float divide(float a, float b) {
+    return a/b;
+}
+
+// finds and performs all the addition and subtraction operations in vector
+std::vector<std::string> addSub(std::vector<std::string> eqn) {
+    std::vector<std::string> result = eqn;
+    auto itr = result.begin();
+    while ( itr != result.end() ) {
+        if (*itr == "+" || *itr == "-") {
+            // get the two surrounding floats
+            float a = std::stof(*(itr-1));
+            float b = std::stof(*(itr+1));
+
+            if (*itr == "+") {
+                // perform addition, replace "+" with result
+                *itr = std::to_string(add(a, b));
+            } else {
+                // perform subtraction, replace "-" with result
+                *itr = std::to_string(subtract(a, b));
+            }
+
+            // remove the two surrounding floats
+            itr = result.erase(itr-1);
+            itr = result.erase(itr+1);
+        } else {
+            // move to the next element
+            ++itr;
+        }
+    }
+    // returns new vector
+    return result;
+}
+
+// finds and performs all the addition and subtraction operations in vector
+std::vector<std::string> multDiv(std::vector<std::string> eqn) {
+    std::vector<std::string> result = eqn;
+    auto itr = result.begin();
+    while (itr != result.end()) {
+        if (*itr == "x" || *itr == "/") {
+            // get the two surrounding floats
+            float a = std::stof(*(itr-1));
+            float b = std::stof(*(itr+1));
+
+            if (*itr == "/") {
+                // perform division, replace "/" with result
+                *itr = std::to_string(divide(a, b));
+            } else {
+                // perform multiplication, replace "x" with result
+                *itr = std::to_string(multiply(a, b));
+            }
+
+            // remove the two surrounding floats
+            itr = result.erase(itr-1);
+            itr = result.erase(itr+1);
+
+        } else {
+            // move to the next element
+            ++itr;
+        }
+    }
+
+    // returns new vector
+    return result;
+}
+
+// needs to accept negs
+void run(std::vector<std::string> eqn) {
+    std::vector<std::string> MDVect = multDiv(eqn);  // MD of pemdas done
+    std::vector<std::string> newVect = addSub(MDVect);  // AS of pemdas done
+
+    // print the resulting vector
+    for (auto itr = newVect.begin(); itr != newVect.end(); ++itr) {
+        std::cout << *itr << std::endl;
+    }
+}
+
+std::vector<std::string> parseArgs(std::string data, std::vector<std::string> args) {
+    
+    return args;
+}
+
+std::vector<std::string> loadData(std::string fileName) {
+    std::ifstream currFile (fileName);
+    std::vector<std::string> data;
+    std::string line;
+    if (currFile.is_open()) {
+        while (getline(currFile, line)) {
+		data.push_back(line);
+        }
+        currFile.close();
+    }
+    return data;
+}
+
 
 int main(int argc, char *argv[]) {
     struct sockaddr_un name;
@@ -19,8 +129,6 @@ int main(int argc, char *argv[]) {
     int result;
     char buffer[BUFFER_SIZE];
     std::string path;
-    std::vector<std::string> data;
-    std::vector<std::string> argLines;
 
            
 
@@ -97,8 +205,8 @@ int main(int argc, char *argv[]) {
                
                	std::cout<< "CLIENT CONNECTED" << std::endl;
                    /* Wait for next data packet. */
-                data = NULL;
-                path = NULL;
+                    std::vector<std::string> data;
+    		std::vector<std::string> argLines;
                result = 0;
                int i = 0;
                for (;;) {
@@ -130,7 +238,7 @@ int main(int argc, char *argv[]) {
 	
                     if (i==0) {
                         path = std::string(buffer);
-                        data = loadData(path);
+                        //data = loadData(path);
 
                         std::cout << "PATH: " << buffer << std::endl;
                     }
