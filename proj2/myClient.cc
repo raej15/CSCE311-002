@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
 
   buffer[sizeof(buffer) - 1] = 0;
 
-  printf("Result = %s\n", buffer);
+  printf("%s\n", buffer);
 
 
   /* Close socket. */

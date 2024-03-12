@@ -312,9 +312,9 @@ int main(int argc, char *argv[]) {
 		std::cout << "\n";
                 //std::string answer = run(parseArgs(data,argLines));
                 
-                                   buffer[sizeof(buffer) - 1] = 0;
-                	std::string eqnstr = clientEqns(data, argLines);
-                	std::cout << eqnstr << std::endl;
+               buffer[sizeof(buffer) - 1] = 0;
+               std::string eqnstr = clientEqns(data, argLines);
+               std::cout << eqnstr << std::endl;
                 	
      
                 
@@ -324,7 +324,7 @@ int main(int argc, char *argv[]) {
                //sprintf(buffer, "%s", "yassssssssss");
                		//ret = write(data_socket, buffer, sizeof(buffer));
                		
-               		sprintf(buffer, "SERVER CONNECTION ACCEPTED\n %s", "line 3: 52 x 9 + -84 x -69 x 36\nline 2: 5 + 57 + -83");
+               		sprintf(buffer, "SERVER CONNECTION ACCEPTED\n%s", eqnstr.c_str());
                		ret = write(data_socket, buffer, sizeof(buffer));
                 
 
