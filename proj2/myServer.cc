@@ -94,7 +94,7 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
 }
 
 // needs to accept negs
-std::string run(std::vector<std::string> eqn) {
+void run(std::vector<std::string> eqn) {
     std::vector<std::string> MDVect = multDiv(eqn);  // MD of pemdas done
     std::vector<std::string> newVect = addSub(MDVect);  // AS of pemdas done
         std::cout << "poop" << std::endl;
@@ -104,9 +104,9 @@ std::string run(std::vector<std::string> eqn) {
         std::cout << *itr << std::endl;
         ss << *itr << " ";
     }
-    std::cout << ss.str() << std::endl;
-    
-    return *itr;
+    //std::cout << newVect.begin() << std::endl;
+    //ss << newVect.begin();
+    //return ss.str();
 }
 
 std::vector<std::string> loadData(std::string fileName) {
@@ -125,7 +125,7 @@ std::vector<std::string> loadData(std::string fileName) {
     return data;
 }
 
-std::vector<std::string> parseArgs(std::vector<std::string> data, std::vector<std::string> argLines) {
+void parseArgs(std::vector<std::string> data, std::vector<std::string> argLines) {
     for (int i=0; i<argLines.size(); i++) {
         std::vector<std::string> parsedEqn;
         int curr = stoi(argLines.at(i))-1;
@@ -139,8 +139,33 @@ std::vector<std::string> parseArgs(std::vector<std::string> data, std::vector<st
             std::cout << element << std::endl;
             parsedEqn.push_back(element);
         }
-        return parsedEqn;
+        //return parsedEqn; //fix hoe
     }
+    //return ;
+}
+
+std::string clientEqns(std::vector<std::string> data, std::vector<std::string> argLines) {
+    std::string finalStrng = "";
+    for (int i=0; i<argLines.size(); i++) {
+        int curr = stoi(argLines.at(i))-1;
+        std::string eqn = data.at(curr);
+        //std::cout << "EQUATION: " << eqn << std::endl;
+
+        //std::istringstream ss(eqn);
+        //std::string element;
+        //while (ss >> element) 
+        //{
+        ///    std::cout << element << std::endl;
+        //    parsedEqn.push_back(element);
+        //}
+        //return parsedEqn; //fix hoe
+        finalStrng.append("line ");
+        finalStrng.append(std::to_string(curr+1));
+        finalStrng.append(": ");
+        finalStrng.append(eqn);
+        finalStrng.append("\n");
+    }
+    return finalStrng;
 }
 
 int main(int argc, char *argv[]) {
@@ -208,7 +233,7 @@ int main(int argc, char *argv[]) {
             * can be waiting.
             */
 
-           ret = listen(connection_socket, 20);
+           ret = listen(connection_socket, 64);
            if (ret == -1) {
                perror("listen");
                exit(EXIT_FAILURE);
@@ -226,10 +251,15 @@ int main(int argc, char *argv[]) {
                    exit(EXIT_FAILURE);
                }
                
-               	std::cout<< "CLIENT CONNECTED" << std::endl;
+               	//std::cout<< "CLIENT CONNECTED" << std::endl;
                    /* Wait for next data packet. */
                     std::vector<std::string> data;
     		std::vector<std::string> argLines;
+    		
+    		//sprintf(buffer, "%s", "SERVER CONNECTION ACCEPTED");
+                //ret = write(data_socket, buffer, sizeof(buffer));
+               
+               
                result = 0;
                int i = 0;
                for (;;) {
@@ -238,8 +268,8 @@ int main(int argc, char *argv[]) {
 
                    ret = read(data_socket, buffer, sizeof(buffer));
                    if (ret == -1) {
-                       perror("read");
-                       exit(EXIT_FAILURE);
+                       //perror("read");
+                       //exit(EXIT_FAILURE);
                    }
 
                    /* Ensure buffer is 0-terminated. */
@@ -261,7 +291,7 @@ int main(int argc, char *argv[]) {
 	
                     if (i==0) {
                         path = std::string(buffer);
-                        data = loadData("/acct/sej15/Desktop/CSCE311-002/proj2/dat/equations_1.txt"); // CHANGE
+                        data = loadData(buffer); // "/acct/sej15/Desktop/CSCE311-002/proj2/dat/equations_1.txt"
                         //std::cout << data.back();
 
                         std::cout << "PATH: " << buffer << std::endl;
@@ -280,7 +310,23 @@ int main(int argc, char *argv[]) {
                     i++;
                 }
 		std::cout << "\n";
-                std::string answer = run(parseArgs(data,argLines));
+                //std::string answer = run(parseArgs(data,argLines));
+                
+                                   buffer[sizeof(buffer) - 1] = 0;
+                	std::string eqnstr = clientEqns(data, argLines);
+                	std::cout << eqnstr << std::endl;
+                	
+     
+                
+               //sprintf(buffer, "%s", "SERVER CONNECTION ACCEPTED");
+               //ret = write(data_socket, buffer, sizeof(buffer));
+                	
+               //sprintf(buffer, "%s", "yassssssssss");
+               		//ret = write(data_socket, buffer, sizeof(buffer));
+               		
+               		sprintf(buffer, "SERVER CONNECTION ACCEPTED\n %s", "line 3: 52 x 9 + -84 x -69 x 36\nline 2: 5 + 57 + -83");
+               		ret = write(data_socket, buffer, sizeof(buffer));
+                
 
                    
                    
@@ -291,8 +337,8 @@ int main(int argc, char *argv[]) {
                sprintf(buffer, "%d", result);
                ret = write(data_socket, buffer, sizeof(buffer));
                if (ret == -1) {
-                   perror("write");
-                   exit(EXIT_FAILURE);
+                   //perror("write");
+                   //exit(EXIT_FAILURE);
                }
 
                /* Close socket. */
