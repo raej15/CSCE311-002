@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
 
 float add(float a, float b) {
     return a + b;
@@ -41,9 +42,11 @@ std::vector<std::string> addSub(std::vector<std::string> eqn) {
             if (*itr == "+") {
                 // perform addition, replace "+" with result
                 *itr = std::to_string(add(a, b));
+                std::cout << a << "+" << b << subtract(a, b);
             } else {
                 // perform subtraction, replace "-" with result
                 *itr = std::to_string(subtract(a, b));
+               std::cout << a << "-" << b << subtract(a, b);
             }
 
             // remove the two surrounding floats
@@ -94,7 +97,7 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
 void run(std::vector<std::string> eqn) {
     std::vector<std::string> MDVect = multDiv(eqn);  // MD of pemdas done
     std::vector<std::string> newVect = addSub(MDVect);  // AS of pemdas done
-
+        std::cout << "poop" << std::endl;
     // print the resulting vector
     for (auto itr = newVect.begin(); itr != newVect.end(); ++itr) {
         std::cout << *itr << std::endl;
@@ -118,17 +121,11 @@ std::vector<std::string> loadData(std::string fileName) {
 }
 
 void parseArgs(std::vector<std::string> data, std::vector<std::string> argLines) {
-    for (i=1; i<=argLines.size(); i++) {
+    for (int i=0; i<argLines.size(); i++) {
         std::vector<std::string> parsedEqn;
-        curr = argLines.at(i);
-        std::string eqn = std::to_string(data.at(curr));
+        int curr = stoi(argLines.at(i))-1;
+        std::string eqn = data.at(curr);
         std::cout << "EQUATION: " << eqn << std::endl;
-        for (j=0; j<eqn.size(); j++) {
-            if (eqn.at(j) == " ") {
-                eqn.erase(j, 1);
-            }
-
-        }
 
         std::istringstream ss(eqn);
         std::string element;
@@ -277,6 +274,7 @@ int main(int argc, char *argv[]) {
                     }
                     i++;
                 }
+                parseArgs(data,argLines);
                    std::cout << "\n";
                    
                    
