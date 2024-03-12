@@ -94,14 +94,19 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
 }
 
 // needs to accept negs
-void run(std::vector<std::string> eqn) {
+std::string run(std::vector<std::string> eqn) {
     std::vector<std::string> MDVect = multDiv(eqn);  // MD of pemdas done
     std::vector<std::string> newVect = addSub(MDVect);  // AS of pemdas done
         std::cout << "poop" << std::endl;
     // print the resulting vector
+    std::stringstream ss;
     for (auto itr = newVect.begin(); itr != newVect.end(); ++itr) {
         std::cout << *itr << std::endl;
+        ss << *itr << " ";
     }
+    std::cout << ss.str() << std::endl;
+    
+    return *itr;
 }
 
 std::vector<std::string> loadData(std::string fileName) {
@@ -120,7 +125,7 @@ std::vector<std::string> loadData(std::string fileName) {
     return data;
 }
 
-void parseArgs(std::vector<std::string> data, std::vector<std::string> argLines) {
+std::vector<std::string> parseArgs(std::vector<std::string> data, std::vector<std::string> argLines) {
     for (int i=0; i<argLines.size(); i++) {
         std::vector<std::string> parsedEqn;
         int curr = stoi(argLines.at(i))-1;
@@ -134,7 +139,7 @@ void parseArgs(std::vector<std::string> data, std::vector<std::string> argLines)
             std::cout << element << std::endl;
             parsedEqn.push_back(element);
         }
-        run(parsedEqn);
+        return parsedEqn;
     }
 }
 
@@ -274,8 +279,9 @@ int main(int argc, char *argv[]) {
                     }
                     i++;
                 }
-                parseArgs(data,argLines);
-                   std::cout << "\n";
+		std::cout << "\n";
+                std::string answer = run(parseArgs(data,argLines));
+
                    
                    
 
