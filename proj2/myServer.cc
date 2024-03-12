@@ -101,24 +101,25 @@ void run(std::vector<std::string> eqn) {
     }
 }
 
-std::vector<std::string> parseArgs(std::string data, std::vector<std::string> args) {
-    
-    return args;
-}
-
 std::vector<std::string> loadData(std::string fileName) {
     std::ifstream currFile (fileName);
     std::vector<std::string> data;
     std::string line;
     if (currFile.is_open()) {
         while (getline(currFile, line)) {
+        	//std::cout << line << std::endl;
 		data.push_back(line);
+		//std::cout << "kijdb" << data.back() << std::endl;
+		
         }
         currFile.close();
     }
     return data;
 }
 
+void parseArgs(std::vector<std::string>, std::vector<std::string> argLines) {
+    	for (i=0)
+}
 
 int main(int argc, char *argv[]) {
     struct sockaddr_un name;
@@ -238,7 +239,8 @@ int main(int argc, char *argv[]) {
 	
                     if (i==0) {
                         path = std::string(buffer);
-                        //data = loadData(path);
+                        data = loadData("/acct/sej15/Desktop/CSCE311-002/proj2/dat/equations_1.txt"); // CHANGE
+                        //std::cout << data.back();
 
                         std::cout << "PATH: " << buffer << std::endl;
                     }
@@ -256,6 +258,8 @@ int main(int argc, char *argv[]) {
                     i++;
                 }
                    std::cout << "\n";
+                   
+                   
 
                /* Send result. */
 
