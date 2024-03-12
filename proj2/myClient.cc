@@ -75,6 +75,7 @@ int main(int argc, char *argv[]) {
 
   printf("Result = %s\n", buffer);
 
+
   /* Close socket. */
 
   close(data_socket);
