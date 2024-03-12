@@ -117,8 +117,28 @@ std::vector<std::string> loadData(std::string fileName) {
     return data;
 }
 
-void parseArgs(std::vector<std::string>, std::vector<std::string> argLines) {
-    	for (i=0)
+void parseArgs(std::vector<std::string> data, std::vector<std::string> argLines) {
+    for (i=1; i<=argLines.size(); i++) {
+        std::vector<std::string> parsedEqn;
+        curr = argLines.at(i);
+        std::string eqn = std::to_string(data.at(curr));
+        std::cout << "EQUATION: " << eqn << std::endl;
+        for (j=0; j<eqn.size(); j++) {
+            if (eqn.at(j) == " ") {
+                eqn.erase(j, 1);
+            }
+
+        }
+
+        std::istringstream ss(eqn);
+        std::string element;
+        while (ss >> element) 
+        {
+            std::cout << element << std::endl;
+            parsedEqn.push_back(element);
+        }
+        run(parsedEqn);
+    }
 }
 
 int main(int argc, char *argv[]) {
