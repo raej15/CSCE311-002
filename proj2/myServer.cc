@@ -123,7 +123,7 @@ std::vector<std::string> loadData(std::string fileName) {
         currFile.close();
     }
     if (!currFile) {
-    	//std::cout << "file does not exist" << std::endl;
+    	std::cout << "file does not exist" << std::endl;
     	data.push_back("INVALID FILE");
     	
     	return data;
