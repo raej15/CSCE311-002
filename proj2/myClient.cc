@@ -135,7 +135,7 @@ std::vector<std::string> parseArgs(std::string eqn) {
             //std::cout << element << std::endl;
             parsedEqn.push_back(element);
         }
-    return parsedEqn; //fix hoe    
+    return parsedEqn;   
 }
 
 std::string clientEqns(std::vector<std::string> data, std::vector<std::string> argLines) {
@@ -245,6 +245,8 @@ std::vector<std::string> data = loadData(buffer);
       	       allEqn = allEqn.erase(0,allEqn.find("\n")+1);
       	       
       }
+      
+      std::cout << "BYTES RECIEVED: " << sizeof(buffer) << std::endl;
 
 
   /* Close socket. */

@@ -110,7 +110,7 @@ void run(std::vector<std::string> eqn) {
 }
 
 std::vector<std::string> loadData(std::string fileName) {
-    std::ifstream currFile (fileName);
+        std::ifstream currFile (fileName);
     std::vector<std::string> data;
     std::string line;
     if (currFile.is_open()) {
@@ -122,6 +122,13 @@ std::vector<std::string> loadData(std::string fileName) {
         }
         currFile.close();
     }
+    if (!currFile) {
+    	//std::cout << "file does not exist" << std::endl;
+    	data.push_back("INVALID FILE");
+    	
+    	return data;
+    }
+
     return data;
 }
 
@@ -293,6 +300,13 @@ int main(int argc, char *argv[]) {
                         path = std::string(buffer);
                         data = loadData(buffer); // "/acct/sej15/Desktop/CSCE311-002/proj2/dat/equations_1.txt"
                         //std::cout << data.back();
+                        if (data.at(0) == "INVALID FILE") {
+                             sprintf(buffer, "%s", "INVALID FILE");
+               			ret = write(data_socket, buffer, sizeof(buffer));
+                    
+               			break;
+                        
+                        }
 
                         std::cout << "PATH: " << buffer << std::endl;
                     }
@@ -316,16 +330,9 @@ int main(int argc, char *argv[]) {
                std::string eqnstr = clientEqns(data, argLines);
                std::cout << eqnstr << std::endl;
                 	
-     
-                
-               //sprintf(buffer, "%s", "SERVER CONNECTION ACCEPTED");
-               //ret = write(data_socket, buffer, sizeof(buffer));
-                	
-               //sprintf(buffer, "%s", "yassssssssss");
-               		//ret = write(data_socket, buffer, sizeof(buffer));
-               		
-               		sprintf(buffer, "SERVER CONNECTION ACCEPTED\n%s", eqnstr.c_str());
-               		ret = write(data_socket, buffer, sizeof(buffer));
+               	
+               	sprintf(buffer, "SERVER CONNECTION ACCEPTED\n%s", eqnstr.c_str());
+               	ret = write(data_socket, buffer, sizeof(buffer));
                 
 
                    
