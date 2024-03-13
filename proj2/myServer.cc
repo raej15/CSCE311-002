@@ -199,7 +199,7 @@ int main(int argc, char *argv[]) {
            /* Unlink the socket. */
 
 
-           unlink(SOCKET_NAME);
+           unlink(argv[1]);
            }
            
 
@@ -215,7 +215,7 @@ int main(int argc, char *argv[]) {
            /* Bind socket to socket ame. */
 
            name.sun_family = AF_UNIX;
-           strncpy(name.sun_path, SOCKET_NAME, sizeof(name.sun_path) - 1);
+           strncpy(name.sun_path,argv[1], sizeof(name.sun_path) - 1);
 
            ret = bind(connection_socket, (const struct sockaddr *) &name, sizeof(name));
            if (ret == -1) {
