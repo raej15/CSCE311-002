@@ -1,17 +1,15 @@
-// COPYRIGHT Rae Jones 2024
+//  COPYRIGHT Rae Jones 2024
 #include <proj2/myServer.h>
+#include <sys/sysinfo.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/un.h>
-#include <unistd.h>     
+#include <unistd.h>
 #include <iostream>
 #include <vector>
-#include <sys/sysinfo.h>
-#include <iostream>
 #include <string>
-#include <vector>
 #include <fstream>
 #include <sstream>
 
@@ -29,111 +27,108 @@ float divide(float a, float b) {
     return a/b;
 }
 
-// finds and performs all the addition and subtraction operations in vector
+//  finds and performs all the addition and subtraction operations in vector
 std::vector<std::string> addSub(std::vector<std::string> eqn) {
     std::vector<std::string> result = eqn;
     auto itr = result.begin();
     while ( itr != result.end() ) {
         if (*itr == "+" || *itr == "-") {
-            // get the two surrounding floats
+            //  get the two surrounding floats
             float a = std::stof(*(itr-1));
             float b = std::stof(*(itr+1));
 
             if (*itr == "+") {
-                // perform addition, replace "+" with result
+                //  perform addition, replace "+" with result
                 *itr = std::to_string(add(a, b));
                 std::cout << a << "+" << b << subtract(a, b);
             } else {
-                // perform subtraction, replace "-" with result
+                //  perform subtraction, replace "-" with result
                 *itr = std::to_string(subtract(a, b));
                std::cout << a << "-" << b << subtract(a, b);
             }
 
-            // remove the two surrounding floats
+            //  remove the two surrounding floats
             itr = result.erase(itr-1);
             itr = result.erase(itr+1);
         } else {
-            // move to the next element
+            //  move to the next element
             ++itr;
         }
     }
-    // returns new vector
+    //  returns new vector
     return result;
 }
 
-// finds and performs all the addition and subtraction operations in vector
+//  finds and performs all the addition and subtraction operations in vector
 std::vector<std::string> multDiv(std::vector<std::string> eqn) {
     std::vector<std::string> result = eqn;
     auto itr = result.begin();
     while (itr != result.end()) {
         if (*itr == "x" || *itr == "/") {
-            // get the two surrounding floats
+            //  get the two surrounding floats
             float a = std::stof(*(itr-1));
             float b = std::stof(*(itr+1));
 
             if (*itr == "/") {
-                // perform division, replace "/" with result
+                //  perform division, replace "/" with result
                 *itr = std::to_string(divide(a, b));
             } else {
-                // perform multiplication, replace "x" with result
+                //  perform multiplication, replace "x" with result
                 *itr = std::to_string(multiply(a, b));
             }
 
-            // remove the two surrounding floats
+            //  remove the two surrounding floats
             itr = result.erase(itr-1);
             itr = result.erase(itr+1);
 
         } else {
-            // move to the next element
+            //  move to the next element
             ++itr;
         }
     }
 
-    // returns new vector
+    //  returns new vector
     return result;
 }
 
-// needs to accept negs
+//  needs to accept negs
 void run(std::vector<std::string> eqn) {
-    std::vector<std::string> MDVect = multDiv(eqn);  // MD of pemdas done
-    std::vector<std::string> newVect = addSub(MDVect);  // AS of pemdas done
+    std::vector<std::string> MDVect = multDiv(eqn);  //  MD of pemdas done
+    std::vector<std::string> newVect = addSub(MDVect);  //  AS of pemdas done
         std::cout << "poop" << std::endl;
-    // print the resulting vector
+    //  print the resulting vector
     std::stringstream ss;
     for (auto itr = newVect.begin(); itr != newVect.end(); ++itr) {
         std::cout << *itr << std::endl;
         ss << *itr << " ";
     }
-    //std::cout << newVect.begin() << std::endl;
-    //ss << newVect.begin();
-    //return ss.str();
+    // std::cout << newVect.begin() << std::endl;
+    // ss << newVect.begin();
+    // return ss.str();
 }
 
 std::vector<std::string> loadData(std::string fileName) {
-        std::ifstream currFile (fileName);
+        std::ifstream currFile(fileName);
     std::vector<std::string> data;
     std::string line;
     if (currFile.is_open()) {
         while (getline(currFile, line)) {
-        	//std::cout << line << std::endl;
-		data.push_back(line);
-		//std::cout << "kijdb" << data.back() << std::endl;
-		
+        data.push_back(line);
         }
         currFile.close();
     }
     if (!currFile) {
-    	//std::cout << "file does not exist" << std::endl;
-    	data.push_back("INVALID FILE");
-    	
-    	return data;
+      // std::cout << "file does not exist" << std::endl;
+        data.push_back("INVALID FILE");
+      return data;
     }
 
     return data;
 }
 
-void parseArgs(std::vector<std::string> data, std::vector<std::string> argLines) {
-    for (int i=0; i<argLines.size(); i++) {
+void parseArgs(std::vector<std::string> data,
+    std::vector<std::string> argLines) {
+    for (int i = 0; i < argLines.size(); i++) {
         std::vector<std::string> parsedEqn;
         int curr = stoi(argLines.at(i))-1;
         std::string eqn = data.at(curr);
@@ -141,31 +136,21 @@ void parseArgs(std::vector<std::string> data, std::vector<std::string> argLines)
 
         std::istringstream ss(eqn);
         std::string element;
-        while (ss >> element) 
-        {
+        while (ss >> element) {
             std::cout << element << std::endl;
             parsedEqn.push_back(element);
         }
-        //return parsedEqn; //fix hoe
+        // return parsedEqn; // fix hoe
     }
-    //return ;
+    // return ;
 }
 
-std::string clientEqns(std::vector<std::string> data, std::vector<std::string> argLines) {
+std::string clientEqns(std::vector<std::string> data,
+    std::vector<std::string> argLines) {
     std::string finalStrng = "";
-    for (int i=0; i<argLines.size(); i++) {
+    for (int i=0; i < argLines.size(); i++) {
         int curr = stoi(argLines.at(i))-1;
         std::string eqn = data.at(curr);
-        //std::cout << "EQUATION: " << eqn << std::endl;
-
-        //std::istringstream ss(eqn);
-        //std::string element;
-        //while (ss >> element) 
-        //{
-        ///    std::cout << element << std::endl;
-        //    parsedEqn.push_back(element);
-        //}
-        //return parsedEqn; //fix hoe
         finalStrng.append("line ");
         finalStrng.append(std::to_string(curr+1));
         finalStrng.append(": ");
@@ -185,9 +170,6 @@ int main(int argc, char *argv[]) {
     char buffer[BUFFER_SIZE];
     std::string path;
 
-           
-
-	
            /* Create local socket. */
 
            connection_socket = socket(AF_UNIX, SOCK_SEQPACKET, 0);
@@ -201,9 +183,6 @@ int main(int argc, char *argv[]) {
 
            unlink(argv[1]);
            }
-           
-
-	
            /*
             * For portability clear the whole structure, since some
             * implementations have additional (nonstandard) fields in
@@ -215,9 +194,9 @@ int main(int argc, char *argv[]) {
            /* Bind socket to socket ame. */
 
            name.sun_family = AF_UNIX;
-           strncpy(name.sun_path,argv[1], sizeof(name.sun_path) - 1);
-
-           ret = bind(connection_socket, (const struct sockaddr *) &name, sizeof(name));
+           strncpy(name.sun_path, argv[1],  (sizeof(name.sun_path) - 1));
+           ret = bind(connection_socket, (const struct sockaddr *) &name,
+                                        sizeof(name));
            if (ret == -1) {
                perror("bind");
 
@@ -229,10 +208,10 @@ int main(int argc, char *argv[]) {
            unlink(argv[1]);
            exit(EXIT_FAILURE);
            }
-           
            int maxClients = get_nprocs_conf() - 1;
 
-	std::cout<< "\nSERVER STARTED\n" << "MAX CLIENTS: " << maxClients << std::endl;
+  std::cout<< "\nSERVER STARTED\n" << "MAX CLIENTS: " <<
+                maxClients << std::endl;
 
            /*
             * Prepare for accepting connections. The backlog size is set
@@ -249,7 +228,6 @@ int main(int argc, char *argv[]) {
            /* This is the main loop for handling connections. */
 
            for (;;) {
-
                /* Wait for incoming connection. */
 
                data_socket = accept(connection_socket, NULL, NULL);
@@ -257,26 +235,21 @@ int main(int argc, char *argv[]) {
                    perror("accept");
                    exit(EXIT_FAILURE);
                }
-               
-               	std::cout<< "CLIENT CONNECTED" << std::endl;
+                 std::cout<< "CLIENT CONNECTED" << std::endl;
                    /* Wait for next data packet. */
                     std::vector<std::string> data;
-    		std::vector<std::string> argLines;
-    		
-    		//sprintf(buffer, "%s", "SERVER CONNECTION ACCEPTED");
-                //ret = write(data_socket, buffer, sizeof(buffer));
-               
-               
+        std::vector<std::string> argLines;
+        // sprintf(buffer, "%s", "SERVER CONNECTION ACCEPTED");
+        // ret = write(data_socket, buffer, sizeof(buffer));
                result = 0;
                int i = 0;
                for (;;) {
-
                    /* Wait for next data packet. */
 
                    ret = read(data_socket, buffer, sizeof(buffer));
                    if (ret == -1) {
-                       //perror("read");
-                       //exit(EXIT_FAILURE);
+                       // perror("read");
+                       // exit(EXIT_FAILURE);
                    }
 
                    /* Ensure buffer is 0-terminated. */
@@ -295,63 +268,44 @@ int main(int argc, char *argv[]) {
                    }
 
                    /* Add received summand. */
-			if (i==0) {
-				//something
-			
-			}
-                    else if (i==1) {
-                        path = std::string(buffer);
-                        data = loadData(buffer); // "/acct/sej15/Desktop/CSCE311-002/proj2/dat/equations_1.txt"
-                        //std::cout << data.back();
-                        if (data.at(0) == "INVALID FILE") {
-                             sprintf(buffer, "%s", "INVALID FILE");
-               			ret = write(data_socket, buffer, sizeof(buffer));
-                    
-               			break;
-                        
-                        }
+      if (i == 0) {
+      } else if (i == 1) {
+        path = std::string(buffer);
+        data = loadData(buffer);
+        // std::cout << data.back();
+        if (data.at(0) == "INVALID FILE") {
+            snprintf(buffer, "%s", "INVALID FILE");
+                ret = write(data_socket, buffer, sizeof(buffer));
+                break;
+            }
 
                         std::cout << "PATH: " << buffer << std::endl;
-                    }
-                    else if (i==2) {
+            } else if (i == 2) {
                         std::cout << "Lines: " << buffer;
                         argLines.push_back(std::string(buffer));
-                    }
-                    else {
-                        //result += atoi(buffer);
+                    } else {
+                        // result += atoi(buffer);
                         std::cout << ", " << buffer;
 
                         argLines.push_back(std::string(buffer));
-
-                    }
+            }
                     i++;
-                }
-		std::cout << "\n";
-                //std::string answer = run(parseArgs(data,argLines));
-                
+        }
+    std::cout << "\n";
+                // std::string answer = run(parseArgs(data,argLines));
                buffer[sizeof(buffer) - 1] = 0;
                std::string eqnstr = clientEqns(data, argLines);
-               //std::cout << eqnstr << std::endl;
-                	
-               	
-               	sprintf(buffer, "SERVER CONNECTION ACCEPTED\n%s", eqnstr.c_str());
-               	ret = write(data_socket, buffer, sizeof(buffer));
-               	
-               	std::string byteNum = buffer;
-               	std::cout << "BYTES SENT: " << byteNum.size() << "\n" << std::endl;
-                
-
-                   
-                   
-
-               /* Send result. */
-
-
-               sprintf(buffer, "%d", result);
+                 snprintf(buffer, "SERVER CONNECTION ACCEPTED\n%s",
+                         eqnstr.c_str());
+                ret = write(data_socket, buffer, sizeof(buffer));
+                std::string byteNum = buffer;
+                std::cout << "BYTES SENT: " << byteNum.size() <<
+                     "\n" << std::endl;
+                snprintf(buffer, "%d", result);
                ret = write(data_socket, buffer, sizeof(buffer));
                if (ret == -1) {
-                   //perror("write");
-                   //exit(EXIT_FAILURE);
+                   // perror("write");
+                   // exit(EXIT_FAILURE);
                }
 
                /* Close socket. */
