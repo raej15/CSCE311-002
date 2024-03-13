@@ -138,7 +138,8 @@ std::vector<std::string> parseArgs(std::string eqn) {
 std::string clientEqns(std::vector<std::string> data,
                 std::vector<std::string> argLines) {
     std::string finalStrng = "";
-    for (int i =0; i < argLines.size(); i++) {
+    int argSize = argLines.size();
+    for (int i =0; i < argSize; i++) {
         int curr = stoi(argLines.at(i))-1;
         std::string eqn = data.at(curr);
         // std::cout << "EQUATION: " << eqn << std::endl;
@@ -194,7 +195,6 @@ int main(int argc, char *argv[]) {
   }
 
   /* Send arguments. */
-
   for (size_t i = 1; i < argc; ++i) {
     ret = write(data_socket, argv[i], strlen(argv[i]) + 1);
     if (ret == -1) {
@@ -229,7 +229,8 @@ std::vector<std::string> data = loadData(buffer);
   std::string allEqn =  buffer;
   int byteNum = allEqn.size();
   allEqn = allEqn.erase(0, allEqn.find("\n")+1);
-    for (int i = 0; i < data.size(); i++) {
+  int dataSize = data.size();
+    for (int i = 0; i < dataSize; i++) {
     std::string curr = data.at(i);
     // std::cout << allEqn.find_last_of("line") << std::endl;
     std::string newStr = allEqn.substr(0, allEqn.find("\n"));
