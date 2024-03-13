@@ -91,22 +91,6 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
     return result;
 }
 
-//  needs to accept negs
-void run(std::vector<std::string> eqn) {
-    std::vector<std::string> MDVect = multDiv(eqn);  //  MD of pemdas done
-    std::vector<std::string> newVect = addSub(MDVect);  //  AS of pemdas done
-        std::cout << "poop" << std::endl;
-    //  print the resulting vector
-    std::stringstream ss;
-    for (auto itr = newVect.begin(); itr != newVect.end(); ++itr) {
-        std::cout << *itr << std::endl;
-        ss << *itr << " ";
-    }
-    // std::cout << newVect.begin() << std::endl;
-    // ss << newVect.begin();
-    // return ss.str();
-}
-
 std::vector<std::string> loadData(std::string fileName) {
         std::ifstream currFile(fileName);
     std::vector<std::string> data;
@@ -274,7 +258,7 @@ int main(int argc, char *argv[]) {
         data = loadData(buffer);
         // std::cout << data.back();
         if (data.at(0) == "INVALID FILE") {
-            snprintf(buffer, "%s", "INVALID FILE");
+            snprintf(buffer, BUFFER_SIZE, "%s", "INVALID FILE");
                 ret = write(data_socket, buffer, sizeof(buffer));
                 break;
             }
@@ -295,14 +279,14 @@ int main(int argc, char *argv[]) {
                 // std::string answer = run(parseArgs(data,argLines));
                buffer[sizeof(buffer) - 1] = 0;
                std::string eqnstr = clientEqns(data, argLines);
-                 snprintf(buffer, "SERVER CONNECTION ACCEPTED\n%s",
+                 snprintf(buffer, BUFFER_SIZE, "SERVER CONNECTION ACCEPTED\n%s",
                          eqnstr.c_str());
                 ret = write(data_socket, buffer, sizeof(buffer));
                 std::string byteNum = buffer;
                 std::cout << "BYTES SENT: " << byteNum.size() <<
                      "\n" << std::endl;
-                snprintf(buffer, "%d", result);
-               ret = write(data_socket, buffer, sizeof(buffer));
+                // snprintf(buffer, "%d", result);
+               // ret = write(data_socket, buffer, sizeof(buffer));
                if (ret == -1) {
                    // perror("write");
                    // exit(EXIT_FAILURE);

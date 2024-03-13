@@ -93,7 +93,7 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
 
 //  needs to accept negs
 std::string run(std::vector<std::string> eqn) {
-    std::vector<std::string> MDVect = multDiv(eqn):  //  MD of pemdas done
+    std::vector<std::string> MDVect = multDiv(eqn);  //  MD of pemdas done
     std::vector<std::string> newVect = addSub(MDVect);  //  AS of pemdas done
         // std::cout << "poop" << std::endl;
     //  print the resulting vector
@@ -132,7 +132,7 @@ std::vector<std::string> parseArgs(std::string eqn) {
             // std::cout << element << std::endl;
             parsedEqn.push_back(element);
         }
-    return parsedEqn:
+    return parsedEqn;
 }
 
 std::string clientEqns(std::vector<std::string> data,
@@ -236,7 +236,7 @@ std::vector<std::string> data = loadData(buffer);
     std::vector<std::string> finalEqn = parseArgs(curr);
     //  run(finalEqn);
     std::cout << newStr << " = " << run(finalEqn)<< std::endl;
-    allEqn = allEqn.erase(0, allEqn.find("\n")+1):
+    allEqn = allEqn.erase(0, allEqn.find("\n")+1);
     }
     std::cout << "BYTES RECIEVED: " << byteNum << std::endl;
 
