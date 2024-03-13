@@ -123,7 +123,7 @@ std::vector<std::string> loadData(std::string fileName) {
         currFile.close();
     }
     if (!currFile) {
-    	std::cout << "file does not exist" << std::endl;
+    	//std::cout << "file does not exist" << std::endl;
     	data.push_back("INVALID FILE");
     	
     	return data;
@@ -328,11 +328,14 @@ int main(int argc, char *argv[]) {
                 
                buffer[sizeof(buffer) - 1] = 0;
                std::string eqnstr = clientEqns(data, argLines);
-               std::cout << eqnstr << std::endl;
+               //std::cout << eqnstr << std::endl;
                 	
                	
                	sprintf(buffer, "SERVER CONNECTION ACCEPTED\n%s", eqnstr.c_str());
                	ret = write(data_socket, buffer, sizeof(buffer));
+               	
+               	std::string byteNum = buffer;
+               	std::cout << "BYTES SENT: " << byteNum.size() << "\n" << std::endl;
                 
 
                    

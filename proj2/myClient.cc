@@ -230,6 +230,7 @@ int main(int argc, char *argv[]) {
 
 std::vector<std::string> data = loadData(buffer);
   std::string allEqn =  buffer;
+  int byteNum = allEqn.size();
   allEqn = allEqn.erase(0,allEqn.find("\n")+1);
   
   
@@ -246,12 +247,12 @@ std::vector<std::string> data = loadData(buffer);
       	       
       }
       
-      std::cout << "BYTES RECIEVED: " << sizeof(buffer) << std::endl;
+      std::cout << "BYTES RECIEVED: " << byteNum << std::endl;
 
 
   /* Close socket. */
 
   close(data_socket);
-
-  exit(EXIT_SUCCESS);
+  return 0;
+  //exit(EXIT_SUCCESS);
 }

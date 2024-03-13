@@ -1,7 +1,7 @@
 #ifndef PROJ2_MYCLIENT_H_
 #define PROJ2_MYCLIENT_H_
 #define SOCKET_NAME "/tmp/9Lq7BNBnBycd6nxy.socket"
-#define BUFFER_SIZE 100
+#define BUFFER_SIZE 1064
 
 #include <string>
 #include <iostream>
