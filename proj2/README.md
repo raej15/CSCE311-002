@@ -6,7 +6,7 @@ To run,
 2. navigate to the proj2 folder on your system
 3. run "make"
 4. run "./server \<INSERT SOCKET_NAME\> in one terminal
-5. run "./client \<INSERT SOCKET_NAME\> \<INSERT FILE_PATH\> \<INSERT LINE NUMBERS> in one terminal
+5. run "./client \<INSERT SOCKET_NAME\> \<INSERT FILE_PATH\> \<INSERT LINE NUMBERS> in another terminal
 6. command line arguments should be separated by a space, Ex "./client t.socket ./dat/equations_1.txt 2 3 6 "
 
 ## Files
