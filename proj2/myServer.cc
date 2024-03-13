@@ -154,8 +154,7 @@ int main(int argc, char *argv[]) {
     int data_socket;
     char buffer[BUFFER_SIZE];
     std::string path;
-
-	unlink(argv[1]);
+    unlink(argv[1]);
            /* Create local socket. */
 
            connection_socket = socket(AF_UNIX, SOCK_SEQPACKET, 0);
