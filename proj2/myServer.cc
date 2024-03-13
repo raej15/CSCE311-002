@@ -258,7 +258,7 @@ int main(int argc, char *argv[]) {
                    exit(EXIT_FAILURE);
                }
                
-               	//std::cout<< "CLIENT CONNECTED" << std::endl;
+               	std::cout<< "CLIENT CONNECTED" << std::endl;
                    /* Wait for next data packet. */
                     std::vector<std::string> data;
     		std::vector<std::string> argLines;
@@ -295,8 +295,11 @@ int main(int argc, char *argv[]) {
                    }
 
                    /* Add received summand. */
-	
-                    if (i==0) {
+			if (i==0) {
+				//something
+			
+			}
+                    else if (i==1) {
                         path = std::string(buffer);
                         data = loadData(buffer); // "/acct/sej15/Desktop/CSCE311-002/proj2/dat/equations_1.txt"
                         //std::cout << data.back();
@@ -310,7 +313,7 @@ int main(int argc, char *argv[]) {
 
                         std::cout << "PATH: " << buffer << std::endl;
                     }
-                    else if (i==1) {
+                    else if (i==2) {
                         std::cout << "Lines: " << buffer;
                         argLines.push_back(std::string(buffer));
                     }

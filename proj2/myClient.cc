@@ -187,7 +187,7 @@ int main(int argc, char *argv[]) {
   /* Connect socket to socket address. */
 
   addr.sun_family = AF_UNIX;
-  strncpy(addr.sun_path, SOCKET_NAME, sizeof(addr.sun_path) - 1);
+  strncpy(addr.sun_path, argv[1], sizeof(addr.sun_path) - 1);
 
   ret = connect(data_socket, (const struct sockaddr *)&addr, sizeof(addr));
   if (ret == -1) {
