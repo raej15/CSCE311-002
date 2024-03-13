@@ -226,7 +226,7 @@ int main(int argc, char *argv[]) {
            /* Unlink the socket. */
 
 
-           unlink(SOCKET_NAME);
+           unlink(argv[1]);
            exit(EXIT_FAILURE);
            }
            
@@ -370,7 +370,7 @@ int main(int argc, char *argv[]) {
            /* Unlink the socket. */
 
 
-           unlink(SOCKET_NAME);
+           unlink(argv[1]);
 
            exit(EXIT_SUCCESS);
        }

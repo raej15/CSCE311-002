@@ -1,7 +1,7 @@
 #ifndef PROJ2_MYSERVER_H_
 #define PROJ2_MYSERVER_H_
 #define SOCKET_NAME "/tmp/9Lq7BNBnBycd6nxy.socket" // get rid of this
-#define BUFFER_SIZE 1064 // get rid of this
+#define BUFFER_SIZE 5000 // get rid of this
 
 #include <iostream>
 #include <string>
