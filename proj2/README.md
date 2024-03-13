@@ -11,8 +11,8 @@ To run,
 
 ## Files
 ### myServer.h and myServer.cc
-myServer.h is the header file for myServer.cc. myServer.cc hosts client requests for calculations
+myServer.h is the header file for myServer.cc. myServer.cc hosts client requests for calculations. It also prints the path and lines read from the client and sends the information back.
 ### myClient.h and myClient.cc
-myClient.h is the header file for myClient.cc. myClient.cc requests the client for solutions to equations from a file.
+myClient.h is the header file for myClient.cc. myClient.cc sends the text file path and file lines to the server. It then receives the data in the lines from the server and computes the answers to the equations. 
 ### makefile
 the makefile contains an all target, a client target, a server target, as well as a "clean" target.

@@ -39,3 +39,6 @@ lint : myClient.cc myClient.h myServer.cc myServer.h
 # UTILITY: removes intermediary files
 clean:
 	$(RM) *.o
+	$(RM) server
+	$(RM) client
+	$(RM) *.socket

@@ -112,7 +112,8 @@ std::vector<std::string> loadData(std::string fileName) {
 
 void parseArgs(std::vector<std::string> data,
     std::vector<std::string> argLines) {
-    for (int i = 0; i < argLines.size(); i++) {
+    int argSize = argLines.size();
+    for (int i = 0; i < argSize; i++) {
         std::vector<std::string> parsedEqn;
         int curr = stoi(argLines.at(i))-1;
         std::string eqn = data.at(curr);
@@ -132,7 +133,8 @@ void parseArgs(std::vector<std::string> data,
 std::string clientEqns(std::vector<std::string> data,
     std::vector<std::string> argLines) {
     std::string finalStrng = "";
-    for (int i=0; i < argLines.size(); i++) {
+       int argSize = argLines.size();
+    for (int i=0; i < argSize; i++) {
         int curr = stoi(argLines.at(i))-1;
         std::string eqn = data.at(curr);
         finalStrng.append("line ");
@@ -150,7 +152,6 @@ int main(int argc, char *argv[]) {
     int ret;
     int connection_socket;
     int data_socket;
-    int result;
     char buffer[BUFFER_SIZE];
     std::string path;
 
@@ -226,7 +227,6 @@ int main(int argc, char *argv[]) {
         std::vector<std::string> argLines;
         // sprintf(buffer, "%s", "SERVER CONNECTION ACCEPTED");
         // ret = write(data_socket, buffer, sizeof(buffer));
-               result = 0;
                int i = 0;
                for (;;) {
                    /* Wait for next data packet. */
