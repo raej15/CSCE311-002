@@ -271,7 +271,7 @@ int main(int argc, char** argv) {
     std::vector<std::vector<std::string>> motherVect;
         std::vector<std::string> data = loadData(read_buffer);
     int dataSize = data.size();
-    for (int i = 0; i < dataSize; i++) {
+    for (int i = 0; i < dataSize-1; i++) {
         std::string curr = data.at(i);
         std::vector<std::string> finalEqn = parseArgs(curr);
         motherVect.push_back(finalEqn);
