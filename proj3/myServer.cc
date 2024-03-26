@@ -3,6 +3,7 @@ Licensed under GNU General Public License v2 or later.
 */
 #include <ctype.h>
 #include <proj3/myServer.h>
+#include <proj3/shm_store.h>
 
 int main(int argc, char *argv[])
 {
@@ -30,10 +31,19 @@ int main(int argc, char *argv[])
 
     /* Map the object into the caller's address space. */
 
-    shmp = mmap(nullptr, sizeof(*shmp), PROT_READ | PROT_WRITE,
-                MAP_SHARED, fd, 0);
+    // shmp = mmap(nullptr, sizeof(*shmp), PROT_READ | PROT_WRITE,
+    //             MAP_SHARED, fd, 0);
+    // if (shmp == MAP_FAILED)
+    //     errExit("mmap");
+
+    const int kProt = PROT_READ | PROT_WRITE;
+    shmp = static_cast<SharedMemoryStore<kSharedMemSize> *>(
+        ::mmap(nullptr, kSharedMemSize, kProt, MAP_SHARED, fd, 0));
+
     if (shmp == MAP_FAILED)
+    {
         errExit("mmap");
+    }
 
     /* Initialize semaphores as process-shared, with value 0. */
 
