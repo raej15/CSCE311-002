@@ -105,7 +105,7 @@ std::vector<std::string> loadData(std::string fileName) {
     if (currFile.is_open()) {
         while (getline(currFile, line)) {
         data.push_back(line);
-        std::cout << line << std::endl;
+        //std::cout << line << std::endl;
         }
         currFile.close();
        std::cout << "\tFILE CLOSED" << std::endl;
