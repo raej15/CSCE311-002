@@ -279,13 +279,13 @@ int main(int argc, char** argv) {
     for (int i = 0; i < dataSize-1; i++) {
         std::string curr = data.at(i);
         std::vector<std::string> finalEqn = parseArgs(curr);
-        if count == 0 {
+        if (count == 0) {
             motherVect0.push_back(finalEqn);
             std::cout << "EQUATION0: " << motherVect0[i][0] << std::endl;
-        } else if count == 1 {
+        } else if (count == 1) {
             motherVect1.push_back(finalEqn);
             std::cout << "EQUATION1: " << motherVect1[i][0] << std::endl;
-        } else if count == 2 {
+        } else if (count == 2) {
             motherVect2.push_back(finalEqn);
             std::cout << "EQUATION2: " << motherVect2[i][0] << std::endl;
         } else {
