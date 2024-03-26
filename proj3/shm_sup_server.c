@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
     // sem_open returns -1 on fail, perhaps worth checking
     sem_t *sem1 = sem_open(SEM_SERVER, O_CREAT, 0660, 0);
     sem_t *sem2 = sem_open(SEM_CLIENT, O_CREAT, 0660, 0);
-    sem_t *sem3 = sem_open(SEM_CLIENT, O_CREAT, 0660, 0);
+    sem_t *sem3 = sem_open(SEM_SERVER, O_CREAT, 0660, 0);
 
 
     // wait for client to open shared memory
