@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
     // print client string from read_buffer
     printf("%s", read_buffer);
     
-    printf("SHARED MEMORY SIZE: %ld BYTES\n", sizeof(struct shmbuf)); // ISs this done correctly??
+    //printf("SHARED MEMORY SIZE: %ld BYTES\n", sizeof(struct shmbuf)); // ISs this done correctly??
 
 
      pthread_t thread0, thread1, thread2, thread3;
