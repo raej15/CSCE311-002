@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
 
     // Truncate the memory (VERY IMPORTANT, will get a Bus Error otherwise)
     ftruncate(shmfd, sizeof(struct shmbuf));
+    printf("SHARED MEMORY SIZE: %ld BYTES", sizeof(struct shmbuf)); // ISs this done correctly??
 
     // map shared memory
     shmp = mmap(NULL,
@@ -45,6 +46,7 @@ int main(int argc, char** argv) {
     // wait for server to be ready to read
     sem_wait(sem1);
 
+    //buf[sizeof(buff)-1]=0;
     // load the string into shared memory
     snprintf(shmp->buf, BUFFER_SIZE, "%s\n", argv[1]);
     
@@ -59,7 +61,7 @@ int main(int argc, char** argv) {
     sem_wait(sem1);
 
     // load the string into shared memory
-    snprintf(shmp->buf, BUFFER_SIZE, "%s\n", "lit");
+    snprintf(shmp->buf, BUFFER_SIZE, "%s\n", argv[2]);
     
     //snprintf(shmp->buf, BUFFER_SIZE, "%s", argv[1]);
 
