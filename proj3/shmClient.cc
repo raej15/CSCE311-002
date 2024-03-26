@@ -268,23 +268,41 @@ int main(int argc, char** argv) {
     
     //std::string data = std::string(read_buffer);
 
-    std::vector<std::vector<std::string>> motherVect;
+    std::vector<std::vector<std::string>> motherVect0;
+    std::vector<std::vector<std::string>> motherVect1;
+    std::vector<std::vector<std::string>> motherVect2;
+    std::vector<std::vector<std::string>> motherVect3;
+
         std::vector<std::string> data = loadData(read_buffer);
     int dataSize = data.size();
+    int counter = 0;
     for (int i = 0; i < dataSize-1; i++) {
         std::string curr = data.at(i);
         std::vector<std::string> finalEqn = parseArgs(curr);
-        motherVect.push_back(finalEqn);
-        std::cout << "EQUATION: " << motherVect[i][0] << std::endl;
+        if count == 0 {
+            motherVect0.push_back(finalEqn);
+            std::cout << "EQUATION0: " << motherVect0[i][0] << std::endl;
+        } else if count == 1 {
+            motherVect1.push_back(finalEqn);
+            std::cout << "EQUATION1: " << motherVect1[i][0] << std::endl;
+        } else if count == 2 {
+            motherVect2.push_back(finalEqn);
+            std::cout << "EQUATION2: " << motherVect2[i][0] << std::endl;
+        } else {
+            motherVect3.push_back(finalEqn);
+            std::cout << "EQUATION3: " << motherVect3[i][0] << std::endl;
+        }
+        if counter == 3 {
+            counter = 0;
+        } else {
+            counter++;
+        }
     }
     //std::vector<std::string> vectEqns = parseArgs(data);
-    std::cout<< "got here" << std::endl;
-   global[0] = motherVect;
-   // std::cout<< vectEqns.at(1) << std::endl;
-    //std::string threadFinal = 
-    
-    //printf("SHARED MEMORY SIZE: %ld BYTES\n", sizeof(struct shmbuf)); // ISs this done correctly??
-
+    global[0] = motherVect0;
+    global[1] = motherVect1;
+    global[2] = motherVect2;
+    global[3] = motherVect3;
 
      pthread_t thread0, thread1, thread2, thread3;
      char *message0 = "Thread 0";
