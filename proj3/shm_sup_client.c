@@ -46,7 +46,22 @@ int main(int argc, char** argv) {
     sem_wait(sem1);
 
     // load the string into shared memory
-    snprintf(shmp->buf, BUFFER_SIZE, "%s", argv[1]);
+    snprintf(shmp->buf, BUFFER_SIZE, "%s\n", argv[1]);
+    
+    //snprintf(shmp->buf, BUFFER_SIZE, "%s", argv[1]);
+
+    // notify server that string is ready to read
+    sem_post(sem2);
+        // prepare string to send
+    //char sup_string[] = *argv[1];
+
+    // wait for server to be ready to read
+    sem_wait(sem1);
+
+    // load the string into shared memory
+    snprintf(shmp->buf, BUFFER_SIZE, "%s\n", "lit");
+    
+    //snprintf(shmp->buf, BUFFER_SIZE, "%s", argv[1]);
 
     // notify server that string is ready to read
     sem_post(sem2);

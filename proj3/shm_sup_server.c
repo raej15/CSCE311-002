@@ -53,6 +53,19 @@ int main(int argc, char** argv) {
 
     // print client string from read_buffer
     printf("%s", read_buffer);
+    
+        // ready to read from client
+    sem_post(sem1);
+
+    // wait for client to finish writing
+    sem_wait(sem2);
+
+    // read string from shared memory
+    snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
+
+    // print client string from read_buffer
+    printf("%s", read_buffer);
+    
 }
 
 // I'm a happy signal boy
