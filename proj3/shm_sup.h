@@ -15,6 +15,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <string.h>
+#include <sys/unistd.h>  // Unix standard header (ftruncate)
 
 #define BUFFER_SIZE 0x400
 #define SHMPATH "raecool1"

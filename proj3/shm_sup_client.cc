@@ -36,11 +36,11 @@ int main(int argc, char** argv) {
                                   S_IRUSR | S_IWUSR);
 
     // Truncate the memory (VERY IMPORTANT, will get a Bus Error otherwise)
-    ftruncate(shmfd, sizeof(struct shmbuf));
+    ::ftruncate(shmfd, sizeof(struct shmbuf));
     printf("SHARED MEMORY SIZE: %ld BYTES\n", sizeof(struct shmbuf)); // ISs this done correctly??
 
     // map shared memory
-    shmp = mmap(0,
+    shmp = (shmbuf*)mmap(0,
                 sizeof(*shmp),
                 PROT_READ | PROT_WRITE,
                 MAP_SHARED,
