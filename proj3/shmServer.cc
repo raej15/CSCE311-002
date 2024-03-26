@@ -150,7 +150,7 @@ std::string clientEqns(std::vector<std::string> data) {
 int main(int argc, char** argv) {
     std::string path;
     std::vector<std::string> data;
-    std::cout<< "SERVER STARTED\n" << std::endl;
+    std::cout<< "SERVER STARTED" << std::endl;
     
     // happy signal time (properly cleanup on terminate)
  //   signal(SIGTERM, quit);
@@ -169,11 +169,11 @@ int main(int argc, char** argv) {
 
     // wait for client to open shared memory
     sem_wait(sem2);
-    std::cout << "CLIENT REQUEST RECIEVED\n" << std::endl;
+    std::cout << "CLIENT REQUEST RECIEVED" << std::endl;
 
     // so does shm_open
     int shmfd = shm_open(SHMPATH, O_RDWR, 0);
-    std::cout << "\tMEMORY OPEN\n" << std::endl;
+    std::cout << "\tMEMORY OPEN" << std::endl;
 
     // map shared memory
     // BUFFER_SIZE is defined in shm_sup.h
