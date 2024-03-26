@@ -239,7 +239,7 @@ int main(int argc, char** argv) {
 
     //buf[sizeof(buff)-1]=0;
     // load the string into shared memory
-    snprintf(shmp->buf, BUFFER_SIZE, "%s\n", argv[1]);
+    snprintf(shmp->buf, BUFFER_SIZE, "%s", argv[1]);
     
     //snprintf(shmp->buf, BUFFER_SIZE, "%s", argv[1]);
 
@@ -252,7 +252,7 @@ int main(int argc, char** argv) {
     sem_wait(sem1);
 
     // load the string into shared memory
-    snprintf(shmp->buf, BUFFER_SIZE, "%s\n", argv[2]);
+    snprintf(shmp->buf, BUFFER_SIZE, "\n%s\n", argv[2]);
     
     //snprintf(shmp->buf, BUFFER_SIZE, "%s", argv[1]);
 
