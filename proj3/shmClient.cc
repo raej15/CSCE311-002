@@ -303,6 +303,14 @@ int main(int argc, char** argv) {
     global[1] = motherVect1;
     global[2] = motherVect2;
     global[3] = motherVect3;
+    std::cout << "yolo" << std::endl;
+    
+    for (int i=0; i < motherVect0.size(); i++) {
+         for (int j=0; j<motherVect0[i].size(); j++) {
+            std::cout << motherVect0[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
 
      pthread_t thread0, thread1, thread2, thread3;
      char *message0 = "Thread 0";
