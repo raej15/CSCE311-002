@@ -126,6 +126,11 @@
     "concepts": "cpp",
     "numeric": "cpp",
     "random": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "pshm_ucase.h": "c",
+    "ctype.h": "c",
+    "csignal": "cpp",
+    "sysctl.h": "c",
+    "shm_sup.h": "c"
   }
 }
