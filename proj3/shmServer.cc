@@ -198,29 +198,8 @@ int main(int argc, char** argv) {
     // print client path from read_buffer
     std::cout<< "\tOPENING: " << read_buffer <<std::endl;
     path = std::string(read_buffer);
-    //data = loadData(path);
-    //std::string eqnstr = clientEqns(data);
-    std::cout << "entered filename: " << read_buffer << std::endl;
-    //std::ifstream currFile2("dat/equations_691.txt"); // CHANGE!!!!
-    std::ifstream currFile(read_buffer);
-    //std::ifstream currFile;
-    //currFile.open(fileName.c_str());
-    std::vector<std::string> data;
-    std::string line;
-    if (currFile.is_open()) {
-        while (getline(currFile, line)) {
-        data.push_back(line);
-        std::cout << line << std::endl;
-        }
-        currFile.close();
-    } else {
-       std::cout << "file does not exist" << std::endl;
-        data.push_back("INVALID FILE");
-      //return data;
-      std::cout << "INVALID FILE" << std::endl;
-    }
-
-    //return data;
+    data = loadData(path);
+    std::string eqnstr = clientEqns(data);
     
     // ready to read from client
     sem_post(sem1);
