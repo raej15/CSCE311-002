@@ -19,7 +19,6 @@ void DomainSocketClient::Run() {
     exit(2);
 
   // (3) write to socket
-  while (true) {
     std::string input;
     std::getline(std::cin, input);
     ::ssize_t bytes_wrote = Write(input);
@@ -31,7 +30,28 @@ void DomainSocketClient::Run() {
       std::cerr << "Server disconnected" << std::endl;
       exit(4);
     }
-  }
+  // (4) read from socket
+  
+
+      while (true) {
+      // (5) Receive data from client(s)
+      std::string msg;
+      ::ssize_t bytes_read = Read(&msg, socket_fd);
+
+      if (bytes_read < 0) {
+        std::cerr << "Server shutting down..." << std::endl;
+
+        exit(0);
+      } else if (!bytes_read) {
+        std::cout << "Client disconnected" << std::endl;
+
+        close(socket_fd);
+        break;
+      }
+
+      std::cout << "read " << bytes_read << " bytes: ";
+      std::cout << msg << std::endl;
+    }
 }
 
 

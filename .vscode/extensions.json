@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "mine.cpplint"
+        "mine.cpplint",
+        "nicolasvuillamy.vscode-groovy-lint"
     ]
 }
