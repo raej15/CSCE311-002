@@ -95,9 +95,10 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
 }
 
 std::vector<std::string> loadData(std::string fileName) {
-    std::cout << fileName << std::endl;
+    std::cout << "entered filename: " << fileName << std::endl;
     std::ifstream currFile("dat/equations_691.txt"); // CHANGE!!!!
-    //std::ifstream currFile(fileName);
+    //std::ifstream currFile;
+    //currFile.open(fileName.c_str());
     std::vector<std::string> data;
     std::string line;
     if (currFile.is_open()) {

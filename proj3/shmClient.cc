@@ -15,6 +15,9 @@
 #include <fstream>
 #include <sstream>
 
+std::vector<std::vector<std::string>> global[4];
+
+
 void *print_message_function( void *ptr )
 {
      char *message;
@@ -122,11 +125,7 @@ std::vector<std::string> loadData(std::string str) {
       std::string line;
     int count = 0;
     while (std::getline(s, line)) {
-      if (count!= 0) {
-        std::string crop = line.substr(line.find(": ")+2, line.length());
-        // std::cout << crop << std::endl;
-        data.push_back(crop);
-      }
+        data.push_back(line);
       count++;
     }
     return data;
@@ -168,6 +167,26 @@ std::string clientEqns(std::vector<std::string> data,
     }
     return finalStrng;
 }
+
+
+
+void *threadSum( void *arg) {
+    std::vector<std::string> *arr;
+    int *pIndex;
+    pIndex = (int *) arg;
+    int index = *pIndex;
+    //std::vector<std::string> parsedEqn = parseArgs(strEqn);
+    std::vector<std::string> sum;
+    //std::string partThreadSum = run(global[index]);
+    std::vector<std::vector<std::string>> currVect = global[index];
+    for (int i = 0; i< currVect.size(); i++) {
+        std::string pSum = run(currVect[i]);
+        std::cout << pSum << std::endl;
+        //for (int j = 0; j < currVect[i].size(); j++) {
+        
+      }
+    
+    }
 struct shmbuf* shmp;
 
 int main(int argc, char** argv) {
@@ -247,7 +266,22 @@ int main(int argc, char** argv) {
     snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
 
     // print client string from read_buffer
-    printf("%s", read_buffer);
+    //printf("%s", read_buffer);
+    
+    //std::string data = std::string(read_buffer);
+
+    std::vector<std::vector<std::string>> motherVect;
+        std::vector<std::string> data = loadData(read_buffer);
+    int dataSize = data.size();
+    for (int i = 0; i < dataSize; i++) {
+        std::string curr = data.at(i);
+        std::vector<std::string> finalEqn = parseArgs(curr);
+        motherVect.push_back(finalEqn);
+    }
+    //std::vector<std::string> vectEqns = parseArgs(data);
+   global[0] = motherVect;
+   // std::cout<< vectEqns.at(1) << std::endl;
+    //std::string threadFinal = 
     
     //printf("SHARED MEMORY SIZE: %ld BYTES\n", sizeof(struct shmbuf)); // ISs this done correctly??
 
@@ -258,10 +292,11 @@ int main(int argc, char** argv) {
      char *message2 = "Thread 2";
      char *message3 = "Thread 3";
      int  iret0, iret1, iret2, iret3;
+     std::string *eqns0 = 0;
 
     /* Create independent threads each of which will execute function */
 
-     iret0 = pthread_create( &thread0, NULL, print_message_function, (void*) message0);
+     iret0 = pthread_create( &thread0, NULL, print_message_function, (void*) eqns0);
      iret1 = pthread_create( &thread1, NULL, print_message_function, (void*) message1);
      iret2 = pthread_create( &thread2, NULL, print_message_function, (void*) message2);
      iret3 = pthread_create( &thread3, NULL, print_message_function, (void*) message3);
