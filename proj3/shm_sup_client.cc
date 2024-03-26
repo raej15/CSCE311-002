@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
     printf("SHARED MEMORY SIZE: %ld BYTES\n", sizeof(struct shmbuf)); // ISs this done correctly??
 
     // map shared memory
-    shmp = mmap(NULL,
+    shmp = mmap(0,
                 sizeof(*shmp),
                 PROT_READ | PROT_WRITE,
                 MAP_SHARED,
