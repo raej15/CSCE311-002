@@ -17,6 +17,9 @@ void *print_message_function( void *ptr )
 struct shmbuf* shmp;
 
 int main(int argc, char** argv) {
+
+    // ./dat/equations_691.txt
+
     //char path[] = argv[1];
     printf("%s\n",argv[1]);
     // make sure shared memory does not already exist
