@@ -1,13 +1,14 @@
 // Copyright 2023 LittleCube
 //
 
-#include "shm_sup.h" //change
+#include </acct/sej15/Desktop/CSCE311-002/proj3/shm_sup.h> //change
 
 #include <signal.h>
 
 struct shmbuf* shmp;
 
 int main(int argc, char** argv) {
+    printf("SERVER STARTED\n");
     // happy signal time (properly cleanup on terminate)
     signal(SIGTERM, quit);
     signal(SIGINT, quit);

@@ -1,7 +1,7 @@
 // Copyright 2023 LittleCube
 //
 
-#include "shm_sup.h" //change
+#include </acct/sej15/Desktop/CSCE311-002/proj3/shm_sup.h> //change
 struct shmbuf* shmp;
 
 int main(int argc, char** argv) {

@@ -56,14 +56,14 @@ VPATH			:= $(foreach dir, $(SOURCES), $(dir)) $(foreach dir, $(INCLUDES), $(dir)
 
 all: unix
 
-unix: shm_sup_server shm_sup_client
+unix: server client
 
 
 
-shm_sup_server: shm_sup_server.o
+server: shm_sup_server.o
 	$(CXX) $< -o $(@:.o=) $(LDFLAGS)
 
-shm_sup_client: shm_sup_client.o
+client: shm_sup_client.o
 	$(CXX) $< -o $(@:.o=) $(LDFLAGS)
 
 

@@ -11,7 +11,7 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include <sys/sysctl.h> // change back
+#include <sys/sysinfo.h> // change back
 #include <pthread.h>
 #include <semaphore.h>
 #include <string.h>
