@@ -119,5 +119,5 @@ int main(int argc, char** argv) {
      printf("THREAD 1: %d\n",iret1);
      printf("THREAD 2: %d\n",iret2);
      printf("THREAD 3: %d\n",iret3);
-     exit(0);
+     //exit(0);
 }
