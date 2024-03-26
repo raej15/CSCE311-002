@@ -275,6 +275,7 @@ int main(int argc, char** argv) {
         std::string curr = data.at(i);
         std::vector<std::string> finalEqn = parseArgs(curr);
         motherVect.push_back(finalEqn);
+        std::cout << "EQUATION: " << motherVect[i][0] << std::endl;
     }
     //std::vector<std::string> vectEqns = parseArgs(data);
    global[0] = motherVect;
