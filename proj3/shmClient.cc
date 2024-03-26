@@ -1,7 +1,5 @@
-// Copyright 2023 LittleCube
-//
-
-#include </acct/sej15/Desktop/CSCE311-002/proj3/shm_sup.h>  // change
+// Copyright 2024 Rae Jones
+#include <proj3/shmClient.h>  // change
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>

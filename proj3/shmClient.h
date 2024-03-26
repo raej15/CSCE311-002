@@ -1,8 +1,7 @@
-// Copyright 2023 LittleCube
-//
+// Copyright 2024 Rae Jones
 
-#ifndef PROJ3_SHM_SUP_H_
-#define PROJ3_SHM_SUP_H_
+#ifndef PROJ3_SHMCLIENT_H_
+#define PROJ3_SHMCLIENT_H_
 
 #pragma once
 
@@ -28,4 +27,4 @@ struct shmbuf {
 };
 
 void quit();
-#endif  // PROJ3_SHM_SUP_H_
+#endif  // PROJ3_SHMCLIENT_H_

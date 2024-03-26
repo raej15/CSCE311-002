@@ -19,27 +19,26 @@ compile = $(cc) $(flags) -c -o
 # final linked build to binary executable
 link = $(cc) $(flags) -o
 
-all: unix
+all : server client
 
-unix: server client
+server : shmServer.o
+	$(link) $@ $^
 
+client : shmClient.o
+	$(link) $@ $^
 
+shmServer.o : shmServer.cc shmServer.h
+	$(compile)  $@ $<
 
-server: shm_sup_server.o
-	$(CXX) $< -o $(@:.o=) $(LDFLAGS)
+shmClient.o : shmClient.cc shmClient.h
+	$(compile)  $@ $<
 
-client: shm_sup_client.o
-	$(CXX) $< -o $(@:.o=) $(LDFLAGS)
+lint : shmClient.cc shmClient.h shmServer.cc shmServer.h
+	cpplint --root=$(path) $^
 
-
-
-lint:
-	cpplint --root=.. src/* inc/*
-
+# UTILITY: removes intermediary files
 clean:
-	@echo clean ...
-	
-	@rm -f *.o
-	
-	@rm -f shm_sup_client
-	@rm -f shm_sup_server
+	$(RM) *.o
+	$(RM) server
+	$(RM) client
+	$(RM) *.socket
