@@ -2,12 +2,154 @@
 //
 
 #include </acct/sej15/Desktop/CSCE311-002/proj3/shm_sup.h> //change
-
+#include <sys/sysinfo.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <unistd.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
 #include <signal.h>
 
 struct shmbuf* shmp;
 
+float add(float a, float b) {
+    return a + b;
+}
+float subtract(float a, float b) {
+    return a - b;
+}
+float multiply(float a, float b) {
+    return a*b;
+}
+
+float divide(float a, float b) {
+    return a/b;
+}
+
+//  finds and performs all the addition and subtraction operations in vector
+std::vector<std::string> addSub(std::vector<std::string> eqn) {
+    std::vector<std::string> result = eqn;
+    auto itr = result.begin();
+    while ( itr != result.end() ) {
+        if (*itr == "+" || *itr == "-") {
+            //  get the two surrounding floats
+            float a = std::stof(*(itr-1));
+            float b = std::stof(*(itr+1));
+
+            if (*itr == "+") {
+                //  perform addition, replace "+" with result
+                *itr = std::to_string(add(a, b));
+                std::cout << a << "+" << b << subtract(a, b);
+            } else {
+                //  perform subtraction, replace "-" with result
+                *itr = std::to_string(subtract(a, b));
+               std::cout << a << "-" << b << subtract(a, b);
+            }
+
+            //  remove the two surrounding floats
+            itr = result.erase(itr-1);
+            itr = result.erase(itr+1);
+        } else {
+            //  move to the next element
+            ++itr;
+        }
+    }
+    //  returns new vector
+    return result;
+}
+
+//  finds and performs all the addition and subtraction operations in vector
+std::vector<std::string> multDiv(std::vector<std::string> eqn) {
+    std::vector<std::string> result = eqn;
+    auto itr = result.begin();
+    while (itr != result.end()) {
+        if (*itr == "x" || *itr == "/") {
+            //  get the two surrounding floats
+            float a = std::stof(*(itr-1));
+            float b = std::stof(*(itr+1));
+
+            if (*itr == "/") {
+                //  perform division, replace "/" with result
+                *itr = std::to_string(divide(a, b));
+            } else {
+                //  perform multiplication, replace "x" with result
+                *itr = std::to_string(multiply(a, b));
+            }
+
+            //  remove the two surrounding floats
+            itr = result.erase(itr-1);
+            itr = result.erase(itr+1);
+
+        } else {
+            //  move to the next element
+            ++itr;
+        }
+    }
+
+    //  returns new vector
+    return result;
+}
+
+std::vector<std::string> loadData(std::string fileName) {
+    std::cout << fileName << std::endl;
+    std::ifstream currFile("dat/equations_691.txt"); // CHANGE!!!!
+    //std::ifstream currFile(fileName);
+    std::vector<std::string> data;
+    std::string line;
+    if (currFile.is_open()) {
+        while (getline(currFile, line)) {
+        data.push_back(line);
+        std::cout << line << std::endl;
+        }
+        currFile.close();
+    } else {
+       std::cout << "file does not exist" << std::endl;
+        data.push_back("INVALID FILE");
+      return data;
+    }
+
+    return data;
+}
+
+void parseArgs(std::vector<std::string> data,
+    std::vector<std::string> argLines) {
+    int argSize = argLines.size();
+    for (int i = 0; i < argSize; i++) {
+        std::vector<std::string> parsedEqn;
+        int curr = stoi(argLines.at(i))-1;
+        std::string eqn = data.at(curr);
+        std::cout << "EQUATION: " << eqn << std::endl;
+
+        std::istringstream ss(eqn);
+        std::string element;
+        while (ss >> element) {
+            std::cout << element << std::endl;
+            parsedEqn.push_back(element);
+        }
+        // return parsedEqn; // fix hoe
+    }
+    // return ;
+}
+
+std::string clientEqns(std::vector<std::string> data) {
+    std::string finalStrng = "";
+       int argSize = data.size();
+    for (int i=0; i < argSize; i++) {
+        std::string eqn = data.at(i);
+        finalStrng.append(eqn);
+        finalStrng.append("\n");
+    }
+    return finalStrng;
+}
 int main(int argc, char** argv) {
+    std::string path;
+    std::vector<std::string> data;
     printf("SERVER STARTED\n");
     
     // happy signal time (properly cleanup on terminate)
@@ -50,11 +192,14 @@ int main(int argc, char** argv) {
     // wait for client to finish writing
     sem_wait(sem2);
 
-    // read string from shared memory
+    // read path from shared memory
     snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
 
-    // print client string from read_buffer
-    printf("%s", read_buffer);
+    // print client path from read_buffer
+    std::cout<< "\tOPENING: " << read_buffer <<std::endl;
+    path = std::string(read_buffer);
+    data = loadData(path);
+    std::string eqnstr = clientEqns(data);
     
     // ready to read from client
     sem_post(sem1);
@@ -66,12 +211,13 @@ int main(int argc, char** argv) {
     snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
 
     // print client string from read_buffer
-    printf("%s", read_buffer);
-
+    printf("LINES: %s (REMOVE)", read_buffer);
+    
+    // writing file to client
     sem_post(sem3);
-    snprintf(shmp->buf, BUFFER_SIZE, "%s\n", "SERVER: GOODBYE\n");
+    snprintf(shmp->buf, BUFFER_SIZE, "%s\n", eqnstr.c_str());
 
-    printf("SERVER: GOODBYEsemt\n");
+    //printf("SERVER: GOODBYE\n");
 
     
     

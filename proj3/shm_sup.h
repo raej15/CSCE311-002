@@ -17,8 +17,8 @@
 #include <string.h>
 #include <sys/unistd.h>  // Unix standard header (ftruncate)
 
-#define BUFFER_SIZE 0x400
-#define SHMPATH "raecool1"
+#define BUFFER_SIZE 25000
+#define SHMPATH "raecool"
 
 #define SEM_SERVER "/sem_server"
 #define SEM_CLIENT "/sem_client"

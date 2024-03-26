@@ -1,58 +1,23 @@
-####################################################
-#                                                  #
-#  But God, being rich in mercy, because of the    #
-#  great love with which he loved us, even when    #
-#  we were dead in our trespasses, made us alive   #
-#  together with Christ - by grace you             #
-#  have been saved                                 #
-#                                                  #
-#      Ephesians 2:4-5                             #
-#                                                  #
-####################################################
+# use g++ compiler
+cc = g++
 
-C				:= gcc
-CXX				:= g++
-LINT			:= cpplint --root=..
+# path for include directive and linter
+path = ..
 
-INCLUDES		:= inc
+# compile with C++ 20 standard
+flags = -std=c++2a
+# compile with all warnings
+flags += -Wall
+# compile with path on #include path
+flags += -I $(path)
+# compile with instrumentation for gdb
+flags += -g
 
-OPTFLAGS		:= -Ofast -ffast-math \
-				   -ffunction-sections \
-				   -fmerge-all-constants -Wl,--gc-sections \
-				   -flto -fomit-frame-pointer \
+# compilation to intermediary .o files
+compile = $(cc) $(flags) -c -o
 
-DEBUGOPTFLAGS	:= -g
-
-LIBS			:= -lrt -pthread
-LIBDIRS			:= .
-
-SOURCES			:= src
-
-
-
-export INCLUDE	:= $(foreach dir, $(INCLUDES), -I$(dir))
-
-C_SRCS			:= $(foreach f, $(SOURCES), $(notdir $(wildcard $(f)/*.c)))
-CC_SRCS			:= $(foreach f, $(SOURCES), $(notdir $(wildcard $(f)/*.cc)))
-CXX_SRCS		:= $(foreach f, $(SOURCES), $(notdir $(wildcard $(f)/*.cpp)))
-
-OBJS			:= $(foreach f, $(C_SRCS), $(notdir $(f:.c=.o)))
-OBJS			:= $(OBJS) $(foreach f, $(CC_SRCS), $(notdir $(f:.cc=.o)))
-OBJS			:= $(OBJS) $(foreach f, $(CXX_SRCS), $(notdir $(f:.cpp=.o)))
-
-LDFLAGS			:= -L$(LIBDIRS) $(LIBS)
-
-FLAGS			:= $(INCLUDE) $(DEBUGOPTFLAGS) -Wno-implicit-function-declaration
-CFLAGS			:= -std=c17 $(FLAGS)
-CXXFLAGS		:= -std=c++17 $(FLAGS)
-
-VPATH			:= $(foreach dir, $(SOURCES), $(dir)) $(foreach dir, $(INCLUDES), $(dir))
-
-
-
-.PHONY: all unix lint clean run
-
-
+# final linked build to binary executable
+link = $(cc) $(flags) -o
 
 all: unix
 
