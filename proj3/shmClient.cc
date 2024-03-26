@@ -136,7 +136,7 @@ std::vector<std::string> parseArgs(std::string eqn) {
         std::istringstream ss(eqn);
         std::string element;
         while (ss >> element) {
-            // std::cout << element << std::endl;
+            std::cout << element << std::endl;
             parsedEqn.push_back(element);
         }
     return parsedEqn;
