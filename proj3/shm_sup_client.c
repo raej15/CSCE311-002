@@ -48,6 +48,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "error mapping memory\n");
         return -1;
     }
+    char read_buffer[BUFFER_SIZE];
 
     while (sem1 == 0) {}
 
