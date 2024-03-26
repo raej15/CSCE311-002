@@ -35,8 +35,8 @@ int main(int argc, char** argv) {
 
     // map shared memory
     // BUFFER_SIZE is defined in shm_sup.h
-    shmp = mmap(0,
-                (shmbuf*)sizeof(*shmp),
+    shmp = (shmbuf*)mmap(0,
+                sizeof(*shmp),
                 PROT_READ | PROT_WRITE,
                 MAP_SHARED,
                 shmfd,
