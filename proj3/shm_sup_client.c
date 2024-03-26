@@ -85,6 +85,9 @@ int main(int argc, char** argv) {
     // wait for server to be ready to write
     sem_wait(sem3);
 
+    // read string from shared memory
+    snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
+
      pthread_t thread0, thread1, thread2, thread3;
      char *message0 = "Thread 0";
      char *message1 = "Thread 1";
