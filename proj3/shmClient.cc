@@ -276,7 +276,7 @@ int main(int argc, char** argv) {
         std::vector<std::string> data = loadData(read_buffer);
     int dataSize = data.size();
     int counter = 0;
-    for (int i = 0; i < dataSize; i++) {
+    for (int i = 0; i < dataSize-1; i++) {
         std::string curr = data.at(i);
         std::vector<std::string> finalEqn = parseArgs(curr);
         if (counter == 0) {
@@ -290,7 +290,7 @@ int main(int argc, char** argv) {
             std::cout << "EQUATION2: " << finalEqn[0] << std::endl;
         } else {
             motherVect3.push_back(finalEqn);
-            std::cout << "EQUATION3: " << finalEqn[0] << std::endl;
+            std::cout << "EQUATION3: " << motherVect3.size() << std::endl;
         }
         if (counter == 3) {
             counter = 0;
