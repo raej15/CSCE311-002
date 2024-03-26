@@ -3,7 +3,7 @@ Licensed under GNU General Public License v2 or later.
 */
 
 #include <string.h>
-#include <proj3/myServer.h>
+#include <proj3/myClient.h>
 
 int main(int argc, char *argv[])
 {

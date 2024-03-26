@@ -1,5 +1,5 @@
-#ifndef PROJ3_MYSERVER_H_
-#define PROJ3_MYSERVER_H_
+#ifndef PROJ3_MYCLIENT_H_
+#define PROJ3_MYCLIENT_H_
 #include <fcntl.h>
 #include <semaphore.h>
 #include <stdio.h>
@@ -28,4 +28,4 @@ struct shmbuf
     char buf[BUF_SIZE]; /* Data being transferred */
 };
 
-#endif // PROJ3_MYSERVER_H_
+#endif // PROJ3_MYCLIENT_H_
