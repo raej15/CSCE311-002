@@ -278,6 +278,7 @@ int main(int argc, char** argv) {
         std::cout << "EQUATION: " << motherVect[i][0] << std::endl;
     }
     //std::vector<std::string> vectEqns = parseArgs(data);
+    std::cout<< "got here" << std::endl;
    global[0] = motherVect;
    // std::cout<< vectEqns.at(1) << std::endl;
     //std::string threadFinal = 
