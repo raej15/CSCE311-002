@@ -2,8 +2,7 @@
 Licensed under GNU General Public License v2 or later.
 */
 #include <ctype.h>
-
-#include "pshm_ucase.h"
+#include <proj3/myServer.h>
 
 int main(int argc, char *argv[])
 {

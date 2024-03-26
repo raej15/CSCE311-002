@@ -1,3 +1,5 @@
+#ifndef PROJ3_MYSERVER_H_
+#define PROJ2_MYSERVER_H_
 #include <fcntl.h>
 #include <semaphore.h>
 #include <stdio.h>
@@ -25,3 +27,5 @@ struct shmbuf
     size_t cnt;         /* Number of bytes used in 'buf' */
     char buf[BUF_SIZE]; /* Data being transferred */
 };
+
+#endif // PROJ3_MYSERVER_H_
