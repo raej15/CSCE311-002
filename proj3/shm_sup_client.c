@@ -91,6 +91,9 @@ int main(int argc, char** argv) {
 
     // print client string from read_buffer
     printf("%s", read_buffer);
+    
+    printf("SHARED MEMORY SIZE: %ld BYTES\n", sizeof(struct shmbuf)); // ISs this done correctly??
+
 
      pthread_t thread0, thread1, thread2, thread3;
      char *message0 = "Thread 0";
@@ -119,5 +122,5 @@ int main(int argc, char** argv) {
      printf("THREAD 1: %d\n",iret1);
      printf("THREAD 2: %d\n",iret2);
      printf("THREAD 3: %d\n",iret3);
-     //exit(0);
+     exit(0);
 }

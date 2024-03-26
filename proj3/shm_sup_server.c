@@ -71,6 +71,8 @@ int main(int argc, char** argv) {
     sem_post(sem3);
     snprintf(shmp->buf, BUFFER_SIZE, "%s\n", "SERVER: GOODBYE\n");
 
+    printf("SERVER: GOODBYEsemt\n");
+
     
     
 }
