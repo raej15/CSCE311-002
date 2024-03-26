@@ -108,8 +108,8 @@ std::vector<std::string> loadData(std::string fileName) {
         std::cout << line << std::endl;
         }
         currFile.close();
+       std::cout << "\tFILE CLOSED" << std::endl;
     } else {
-       std::cout << "file does not exist" << std::endl;
         data.push_back("INVALID FILE");
       return data;
     }
@@ -150,7 +150,7 @@ std::string clientEqns(std::vector<std::string> data) {
 int main(int argc, char** argv) {
     std::string path;
     std::vector<std::string> data;
-    printf("SERVER STARTED\n");
+    std::cout<< "SERVER STARTED\n" << std::endl;
     
     // happy signal time (properly cleanup on terminate)
  //   signal(SIGTERM, quit);
@@ -169,11 +169,11 @@ int main(int argc, char** argv) {
 
     // wait for client to open shared memory
     sem_wait(sem2);
-    printf("CLIENT REQUEST RECIEVED\n");
+    std::cout << "CLIENT REQUEST RECIEVED\n" << std::endl;
 
     // so does shm_open
     int shmfd = shm_open(SHMPATH, O_RDWR, 0);
-    printf("\tMEMORY OPEN\n");
+    std::cout << "\tMEMORY OPEN\n" << std::endl;
 
     // map shared memory
     // BUFFER_SIZE is defined in shm_sup.h
@@ -211,16 +211,15 @@ int main(int argc, char** argv) {
     snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
 
     // print client string from read_buffer
-    printf("LINES: %s (REMOVE)", read_buffer);
+   // printf("LINES: %s (REMOVE)", read_buffer);
     
-    // writing file to client
+    // ready to write file to client
     sem_post(sem3);
+
+    // writing file to client
     snprintf(shmp->buf, BUFFER_SIZE, "%s\n", eqnstr.c_str());
 
     //printf("SERVER: GOODBYE\n");
-
-    
-    
 }
 
 // I'm a happy signal boy

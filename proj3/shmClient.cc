@@ -245,8 +245,6 @@ int main(int argc, char** argv) {
 
     // notify server that string is ready to read
     sem_post(sem2);
-    // prepare string to send
-    //char sup_string[] = *argv[1];
 
     // wait for server to be ready to read
     sem_wait(sem1);
