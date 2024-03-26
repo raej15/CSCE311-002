@@ -5,6 +5,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <unistd.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
 
 void *print_message_function( void *ptr )
 {
@@ -12,7 +23,153 @@ void *print_message_function( void *ptr )
      message = (char *) ptr;
      printf("%s \n", message);
 }
+float add(float a, float b) {
+    return a + b;
+}
+float subtract(float a, float b) {
+    return a - b;
+}
+float multiply(float a, float b) {
+    return a*b;
+}
 
+float divide(float a, float b) {
+    return a/b;
+}
+
+//  finds and performs all the addition and subtraction operations in vector
+std::vector<std::string> addSub(std::vector<std::string> eqn) {
+    std::vector<std::string> result = eqn;
+    auto itr = result.begin();
+    while ( itr != result.end() ) {
+        if (*itr == "+" || *itr == "-") {
+            //  get the two surrounding floats
+            float a = std::stof(*(itr-1));
+            float b = std::stof(*(itr+1));
+
+            if (*itr == "+") {
+                //  perform addition, replace "+" with result
+                *itr = std::to_string(add(a, b));
+                // std::cout << a << "+" << b << subtract(a, b);
+            } else {
+                //  perform subtraction, replace "-" with result
+                *itr = std::to_string(subtract(a, b));
+               // std::cout << a << "-" << b << subtract(a, b);
+            }
+
+            //  remove the two surrounding floats
+            itr = result.erase(itr-1);
+            itr = result.erase(itr+1);
+        } else {
+            //  move to the next element
+            ++itr;
+        }
+    }
+    //  returns new vector
+    return result;
+}
+
+//  finds and performs all the addition and subtraction operations in vector
+std::vector<std::string> multDiv(std::vector<std::string> eqn) {
+    std::vector<std::string> result = eqn;
+    auto itr = result.begin();
+    while (itr != result.end()) {
+        if (*itr == "x" || *itr == "/") {
+            //  get the two surrounding floats
+            float a = std::stof(*(itr-1));
+            float b = std::stof(*(itr+1));
+
+            if (*itr == "/") {
+                //  perform division, replace "/" with result
+                *itr = std::to_string(divide(a, b));
+            } else {
+                //  perform multiplication, replace "x" with result
+                *itr = std::to_string(multiply(a, b));
+            }
+
+            //  remove the two surrounding floats
+            itr = result.erase(itr-1);
+            itr = result.erase(itr+1);
+
+        } else {
+            //  move to the next element
+            ++itr;
+        }
+    }
+
+    //  returns new vector
+    return result;
+}
+
+//  needs to accept negs
+std::string run(std::vector<std::string> eqn) {
+    std::vector<std::string> MDVect = multDiv(eqn);  //  MD of pemdas done
+    std::vector<std::string> newVect = addSub(MDVect);  //  AS of pemdas done
+        // std::cout << "poop" << std::endl;
+    //  print the resulting vector
+    std::stringstream ss;
+    for (auto itr = newVect.begin(); itr != newVect.end(); ++itr) {
+        // std::cout << *itr << std::endl;
+        ss << *itr << " ";
+    }
+    // std::cout << newVect.at(0) << std::endl;
+
+    std::string answer = newVect.at(0);
+    return answer;
+}
+
+std::vector<std::string> loadData(std::string str) {
+    std::vector<std::string> data;
+      std::istringstream s(str);
+      std::string line;
+    int count = 0;
+    while (std::getline(s, line)) {
+      if (count!= 0) {
+        std::string crop = line.substr(line.find(": ")+2, line.length());
+        // std::cout << crop << std::endl;
+        data.push_back(crop);
+      }
+      count++;
+    }
+    return data;
+}
+
+std::vector<std::string> parseArgs(std::string eqn) {
+  std::vector<std::string> parsedEqn;
+        std::istringstream ss(eqn);
+        std::string element;
+        while (ss >> element) {
+            // std::cout << element << std::endl;
+            parsedEqn.push_back(element);
+        }
+    return parsedEqn;
+}
+
+std::string clientEqns(std::vector<std::string> data,
+                std::vector<std::string> argLines) {
+    std::string finalStrng = "";
+    int argSize = argLines.size();
+    for (int i =0; i < argSize; i++) {
+        int curr = stoi(argLines.at(i))-1;
+        std::string eqn = data.at(curr);
+        // std::cout << "EQUATION: " << eqn << std::endl;
+
+        // std::istringstream ss(eqn);
+        // std::string element;
+        // while (ss >> element)
+        // {
+        // /    std::cout << element << std::endl;
+        //     parsedEqn.push_back(element);
+        // }
+        // return parsedEqn; // fix hoe
+        finalStrng.append("line ");
+        finalStrng.append(std::to_string(curr+1));
+        finalStrng.append(": ");
+        finalStrng.append(eqn);
+        finalStrng.append("\n");
+    }
+    return finalStrng;
+}
 struct shmbuf* shmp;
 
 int main(int argc, char** argv) {
