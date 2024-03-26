@@ -9,9 +9,10 @@ struct shmbuf* shmp;
 
 int main(int argc, char** argv) {
     printf("SERVER STARTED\n");
+    
     // happy signal time (properly cleanup on terminate)
-    signal(SIGTERM, quit);
-    signal(SIGINT, quit);
+ //   signal(SIGTERM, quit);
+//    signal(SIGINT, quit);
 
     // make sure semaphores do not already exist
     sem_unlink(SEM_SERVER);
@@ -24,9 +25,11 @@ int main(int argc, char** argv) {
 
     // wait for client to open shared memory
     sem_wait(sem2);
+    printf("CLIENT REQUEST RECIEVED\n");
 
     // so does shm_open
     int shmfd = shm_open(SHMPATH, O_RDWR, 0);
+    printf("\tMEMORY OPEN\n");
 
     // map shared memory
     // BUFFER_SIZE is defined in shm_sup.h
@@ -53,9 +56,9 @@ int main(int argc, char** argv) {
 }
 
 // I'm a happy signal boy
-void quit() {
-    shm_unlink(SHMPATH);
-    sem_unlink(SEM_SERVER);
-    sem_unlink(SEM_CLIENT);
-    exit(0);
-}
+//void quit() {
+//    shm_unlink(SHMPATH);
+//    sem_unlink(SEM_SERVER);
+//    sem_unlink(SEM_CLIENT);
+//    exit(0);
+//}

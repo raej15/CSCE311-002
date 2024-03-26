@@ -5,6 +5,8 @@
 struct shmbuf* shmp;
 
 int main(int argc, char** argv) {
+    //char path[] = argv[1];
+    printf("%s\n",argv[1]);
     // make sure shared memory does not already exist
     shm_unlink(SHMPATH);
 
@@ -38,13 +40,13 @@ int main(int argc, char** argv) {
     sem_post(sem2);
 
     // prepare string to send
-    char sup_string[] = "sup\n";
+    //char sup_string[] = *argv[1];
 
     // wait for server to be ready to read
     sem_wait(sem1);
 
     // load the string into shared memory
-    snprintf(shmp->buf, BUFFER_SIZE, "%s", sup_string);
+    snprintf(shmp->buf, BUFFER_SIZE, "%s", argv[1]);
 
     // notify server that string is ready to read
     sem_post(sem2);
