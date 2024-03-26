@@ -22,6 +22,8 @@ int main(int argc, char** argv) {
     // sem_open returns -1 on fail, perhaps worth checking
     sem_t *sem1 = sem_open(SEM_SERVER, O_CREAT, 0660, 0);
     sem_t *sem2 = sem_open(SEM_CLIENT, O_CREAT, 0660, 0);
+    sem_t *sem3 = sem_open(SEM_CLIENT, O_CREAT, 0660, 0);
+
 
     // wait for client to open shared memory
     sem_wait(sem2);
@@ -54,7 +56,7 @@ int main(int argc, char** argv) {
     // print client string from read_buffer
     printf("%s", read_buffer);
     
-        // ready to read from client
+    // ready to read from client
     sem_post(sem1);
 
     // wait for client to finish writing
@@ -65,6 +67,11 @@ int main(int argc, char** argv) {
 
     // print client string from read_buffer
     printf("%s", read_buffer);
+
+    sem_post(sem3);
+    snprintf(shmp->buf, BUFFER_SIZE, "%s\n", "SERVER: GOODBYE\n");
+
+    
     
 }
 

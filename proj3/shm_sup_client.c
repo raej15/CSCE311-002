@@ -1,7 +1,7 @@
 // Copyright 2023 LittleCube
 //
 
-#include </acct/sej15/Desktop/CSCE311-002/proj3/shm_sup.h> //change
+#include </acct/sej15/Desktop/CSCE311-002/proj3/shm_sup.h>  // change
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -25,6 +25,8 @@ int main(int argc, char** argv) {
     // open existing semaphores located on server
     sem_t *sem1 = sem_open(SEM_SERVER, 0);
     sem_t *sem2 = sem_open(SEM_CLIENT, 0);
+    sem_t *sem3 = sem_open(SEM_SERVER, 0);
+
 
     // create previously uninstantiated shared memory
     int shmfd = shm_open(SHMPATH, O_CREAT | O_EXCL | O_RDWR,
@@ -66,7 +68,7 @@ int main(int argc, char** argv) {
 
     // notify server that string is ready to read
     sem_post(sem2);
-        // prepare string to send
+    // prepare string to send
     //char sup_string[] = *argv[1];
 
     // wait for server to be ready to read
@@ -79,6 +81,9 @@ int main(int argc, char** argv) {
 
     // notify server that string is ready to read
     sem_post(sem2);
+
+    // wait for server to be ready to write
+    sem_wait(sem3);
 
      pthread_t thread0, thread1, thread2, thread3;
      char *message0 = "Thread 0";
@@ -93,6 +98,7 @@ int main(int argc, char** argv) {
      iret1 = pthread_create( &thread1, NULL, print_message_function, (void*) message1);
      iret2 = pthread_create( &thread2, NULL, print_message_function, (void*) message2);
      iret3 = pthread_create( &thread3, NULL, print_message_function, (void*) message3);
+     
      /* Wait till threads are complete before main continues. Unless we  */
      /* wait we run the risk of executing an exit which will terminate   */
      /* the process and all threads before the threads have completed.   */
