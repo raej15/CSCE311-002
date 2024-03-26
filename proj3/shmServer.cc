@@ -199,7 +199,7 @@ int main(int argc, char** argv) {
     std::cout<< "\tOPENING: " << read_buffer <<std::endl;
     path = std::string(read_buffer);
     //data = loadData(path);
-    std::string eqnstr = clientEqns(data);
+    //std::string eqnstr = clientEqns(data);
     std::cout << "entered filename: " << read_buffer << std::endl;
     //std::ifstream currFile2("dat/equations_691.txt"); // CHANGE!!!!
     std::ifstream currFile(read_buffer);
@@ -216,10 +216,11 @@ int main(int argc, char** argv) {
     } else {
        std::cout << "file does not exist" << std::endl;
         data.push_back("INVALID FILE");
-      return data;
+      //return data;
+      std::cout << "INVALID FILE" << std::endl;
     }
 
-    return data;
+    //return data;
     
     // ready to read from client
     sem_post(sem1);
