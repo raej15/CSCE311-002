@@ -168,7 +168,7 @@ std::string clientEqns(std::vector<std::string> data,
 }
 
 void *threadSum(void *arg) {
-    threadVars *tv = reinterpret_cast<threadVars *>arg;
+    threadVars *tv = (threadVars *)arg;
     int id = tv->id;
     long tParSum;
     std::vector<std::vector<std::string>> currVect = global[id];
