@@ -16,6 +16,13 @@
 #include <sstream>
 
 std::vector<std::vector<std::string>> global[4];
+int partialSums[4];
+
+int thread0Sum;
+int thread1Sum;
+int thread2Sum;
+int thread3Sum;
+int threadCounter = 0;
 
 
 void *print_message_function( void *ptr )
@@ -174,21 +181,27 @@ std::string clientEqns(std::vector<std::string> data,
 
 void *threadSum( void *arg) {
     //std::vector<std::string> *arr;
-    int *pIndex = NULL;
-    pIndex = (int *) arg;
+    //int *pIndex = NULL;
+    //pIndex = (int *) arg;
     //int index = *pIndex;
-    int index = 0;
+    //std::cout << arg << std::endl;
+    int index = threadCounter;
     //std::vector<std::string> parsedEqn = parseArgs(strEqn);
     std::vector<std::string> sum;
     //std::string partThreadSum = run(global[index]);
     std::vector<std::vector<std::string>> currVect = global[index];
+    int tSum = 0;
     for (int i = 0; i< currVect.size(); i++) {
         std::string pSum = run(currVect[i]);
-        std::cout << "hoes" << std::endl;
-        std::cout << pSum << std::endl;
+        //std::cout << "hoes" << std::endl;
+        //std::cout << pSum << std::endl;
+        tSum = tSum + stoi(pSum);
         //for (int j = 0; j < currVect[i].size(); j++) {
         
       }
+      
+      partialSums[index] = tSum;
+      //threadCounter++;
         return NULL;
     }
 struct shmbuf* shmp;
@@ -322,7 +335,7 @@ int main(int argc, char** argv) {
      char *message2 = "Thread 2";
      char *message3 = "Thread 3";
      int  iret0, iret1, iret2, iret3;
-     std::string *eqns0 = 0;
+     int *eqns0 = 0;
 
     /* Create independent threads each of which will execute function */
 
@@ -340,7 +353,7 @@ int main(int argc, char** argv) {
      pthread_join( thread2, NULL); 
      pthread_join( thread3, NULL); 
 
-     printf("THREAD 0: %d\n",iret0);
+     std::cout >> "THREAD 0: " >> iret0;
      printf("THREAD 1: %d\n",iret1);
      printf("THREAD 2: %d\n",iret2);
      printf("THREAD 3: %d\n",iret3);

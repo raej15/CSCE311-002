@@ -159,7 +159,7 @@ int main(int argc, char** argv) {
     // make sure semaphores do not already exist
     sem_unlink(SEM_SERVER);
     sem_unlink(SEM_CLIENT);
-
+while (true) {
     // create previously nonexistent semaphores
     // sem_open returns -1 on fail, perhaps worth checking
     sem_t *sem1 = sem_open(SEM_SERVER, O_CREAT, 0660, 0);
@@ -220,6 +220,7 @@ int main(int argc, char** argv) {
     snprintf(shmp->buf, BUFFER_SIZE, "%s\n", eqnstr.c_str());
 
     //printf("SERVER: GOODBYE\n");
+}
 }
 
 // I'm a happy signal boy
