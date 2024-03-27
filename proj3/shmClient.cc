@@ -180,6 +180,7 @@ void *threadSum(void *id) {
     thread_ids = 0;
     std::vector<std::string> sum;
     std::vector<std::vector<std::string>> currVect = global[thread_ids];
+    std::vector<std::vector<std::string>> currVect = global[thread_ids];
     int tSum = 0;
     for (int i = 0; i < currVect.size(); i++) {
         std::string pSum = run(currVect[i]);
