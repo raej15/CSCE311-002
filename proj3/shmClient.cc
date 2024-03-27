@@ -1,5 +1,5 @@
 // Copyright 2024 Rae Jones
-#include <proj3/shmClient.h> // change
+#include <proj3/shmClient.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -17,19 +17,6 @@ std::vector<std::vector<std::string>> global[4];
 int partialSums[4];
 int finalSum = 0;
 
-int thread0Sum;
-int thread1Sum;
-int thread2Sum;
-int thread3Sum;
-int threadCounter = 0;
-
-void *print_message_function(void *ptr) {
-    char *message;
-    message = (char *)ptr;
-    printf("%s \n", message);
-
-    return NULL;
-}
 float add(float a, float b) {
     return a + b;
 }
@@ -86,8 +73,7 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
             float a = std::stof(*(itr - 1));
             float b = std::stof(*(itr + 1));
 
-            if (*itr == "/")
-            {
+            if (*itr == "/") {
                 //  perform division, replace "/" with result
                 *itr = std::to_string(divide(a, b));
             } else {
@@ -110,8 +96,8 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
 
 //  needs to accept negs
 std::string run(std::vector<std::string> eqn) {
-    std::vector<std::string> MDVect = multDiv(eqn);    //  MD of pemdas done
-    std::vector<std::string> newVect = addSub(MDVect); //  AS of pemdas done
+    std::vector<std::string> MDVect = multDiv(eqn);  //  MD of pemdas done
+    std::vector<std::string> newVect = addSub(MDVect);  //  AS of pemdas done
 
     // print the resulting vector
     std::stringstream ss;
@@ -179,15 +165,12 @@ void *threadSum(void *id) {
     sleep(1);
     thread_ids = (long*) id;
     std::cout << "THREAD ID: " << *thread_ids << std::endl;
-    //thread_ids = 0;
     std::vector<std::string> sum;
     std::vector<std::vector<std::string>> currVect = global[*thread_ids];
-    //std::vector<std::vector<std::string>> currVect = global[thread_ids];
     int tSum = 0;
     int currVectSize = currVect.size();
     for (int i = 0; i < currVectSize; i++) {
         std::string pSum = run(currVect[i]);
-        // std::cout << pSum << std::endl;
         tSum = tSum + stoi(pSum);
     }
 
@@ -198,11 +181,6 @@ void *threadSum(void *id) {
 struct shmbuf *shmp;
 
 int main(int argc, char **argv) {
-
-    // ./dat/equations_691.txt
-
-    // char path[] = argv[1];
-    printf("%s\n", argv[1]);
     // make sure shared memory does not already exist
     shm_unlink(SHMPATH);
 
@@ -217,7 +195,7 @@ int main(int argc, char **argv) {
 
     // Truncate the memory (VERY IMPORTANT, will get a Bus Error otherwise)
     ::ftruncate(shmfd, sizeof(struct shmbuf));
-    printf("SHARED MEMORY SIZE: %ld BYTES\n", sizeof(struct shmbuf)); // ISs this done correctly??
+    printf("SHARED MEMORY SIZE: %ld BYTES\n", sizeof(struct shmbuf));
 
     // map shared memory
     shmp = (shmbuf *)mmap(0,
@@ -290,12 +268,10 @@ int main(int argc, char **argv) {
         if (counter == 0) {
             motherVect0.push_back(finalEqn);
             // std::cout << "EQUATION0: " << motherVect0[i][0] << std::endl;
-        }
-        else if (counter == 1) {
+        } else if (counter == 1) {
             motherVect1.push_back(finalEqn);
             // std::cout << "EQUATION1: " << finalEqn[0] << std::endl;
-        }
-        else if (counter == 2) {
+        } else if (counter == 2) {
             motherVect2.push_back(finalEqn);
             // std::cout << "EQUATION2: " << finalEqn[0] << std::endl;
         } else {
@@ -307,13 +283,12 @@ int main(int argc, char **argv) {
         } else {
             counter++;
         }
-    }
-    // std::vector<std::string> vectEqns = parseArgs(data);
+    }    
     global[0] = motherVect0;
     global[1] = motherVect1;
     global[2] = motherVect2;
     global[3] = motherVect3;
-    //std::cout << "yolo" << std::endl;
+    // std::cout << "yolo" << std::endl;
 
     // for (int i=0; i < motherVect0.size(); i++) {
     //      for (int j=0; j<motherVect0[i].size(); j++) {
@@ -321,52 +296,21 @@ int main(int argc, char **argv) {
     //     }
     //     //std::cout << std::endl;
     // }
-    pthread_t threads[4]; // creates 4 threads
-    long thread_ids[4] = {0,1,2,3};   // creates 4 thread_data structs
+    pthread_t threads[4];  // creates 4 threads
+    long thread_ids[4] = {0, 1 , 2, 3};  // creates 4 thread_data structs
 
     for (int i = 0; i < 4; i++) {
-        int tr = pthread_create(&threads[i], NULL, threadSum, (void*) (&(thread_ids[i])));
-
-   
+        int tr = pthread_create(&threads[i], NULL, threadSum,
+                                  (void*) (&(thread_ids[i])));
     }
-    for (int i = 0; i < 4; i++) {  
-
+    for (int i = 0; i < 4; i++) {
         pthread_join(threads[i], NULL);
     }
-
-    std::cout << "GETTING SUM" << std::endl;
     for (int i = 0; i < 4; i++) {
         finalSum = finalSum + partialSums[i];
     }
 
     std::cout << "SUM: " << finalSum << std::endl;
-    //  pthread_t thread0, thread1, thread2, thread3;
-    //  char *message0 = "Thread 0";
-    //  char *message1 = "Thread 1";
-    //  char *message2 = "Thread 2";
-    //  char *message3 = "Thread 3";
-    //  int  iret0, iret1, iret2, iret3;
-    //  int *eqns0 = 0;
 
-    // /* Create independent threads each of which will execute function */
-
-    //  iret0 = pthread_create( &thread0, NULL, threadSum, (void*) eqns0);
-    //  iret1 = pthread_create( &thread1, NULL, print_message_function, (void*) message1);
-    //  iret2 = pthread_create( &thread2, NULL, print_message_function, (void*) message2);
-    //  iret3 = pthread_create( &thread3, NULL, print_message_function, (void*) message3);
-
-    /* Wait till threads are complete before main continues. Unless we  */
-    /* wait we run the risk of executing an exit which will terminate   */
-    /* the process and all threads before the threads have completed.   */
-
-    //  pthread_join( thread0, NULL);
-    //  pthread_join( thread1, NULL);
-    //  pthread_join( thread2, NULL);
-    //  pthread_join( thread3, NULL);
-
-    //  std::cout >> "THREAD 0: " >> iret0;
-    //  printf("THREAD 1: %d\n",iret1);
-    //  printf("THREAD 2: %d\n",iret2);
-    //  printf("THREAD 3: %d\n",iret3);
     exit(0);
 }
