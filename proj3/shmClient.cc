@@ -310,7 +310,7 @@ int main(int argc, char **argv) {
     global[1] = motherVect1;
     global[2] = motherVect2;
     global[3] = motherVect3;
-    std::cout << "yolo" << std::endl;
+    //std::cout << "yolo" << std::endl;
 
     // for (int i=0; i < motherVect0.size(); i++) {
     //      for (int j=0; j<motherVect0[i].size(); j++) {
