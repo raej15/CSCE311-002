@@ -24,6 +24,11 @@ int thread2Sum;
 int thread3Sum;
 int threadCounter = 0;
 
+struct thread_data {
+    char* thread_id;
+    int partialThreadSum;
+};
+
 
 void *print_message_function( void *ptr )
 {
@@ -185,6 +190,8 @@ void *threadSum( void *arg) {
     //pIndex = (int *) arg;
     //int index = *pIndex;
     //std::cout << arg << std::endl;
+    thread_data *td = (thread_data *) arg;
+    td -> partialThreadSum = 0;
     int index = threadCounter;
     //std::vector<std::string> parsedEqn = parseArgs(strEqn);
     std::vector<std::string> sum;
@@ -328,34 +335,41 @@ int main(int argc, char** argv) {
         }
         //std::cout << std::endl;
     }
+    pthread_t tHolder[4]; // creates 4 threads
+    thread_data td[4]; // creates 4 thread_data structs
 
-     pthread_t thread0, thread1, thread2, thread3;
-     char *message0 = "Thread 0";
-     char *message1 = "Thread 1";
-     char *message2 = "Thread 2";
-     char *message3 = "Thread 3";
-     int  iret0, iret1, iret2, iret3;
-     int *eqns0 = 0;
+    for (int i = 0; i < 4; i++) {
+        td[i].thread_id = store->buffer[i];
+        //td[i].partialThreadSum = 0;
+        pthread_create(&tHolder[i], NULL, threadSum, (void *) &td[i]);
+    }
+    //  pthread_t thread0, thread1, thread2, thread3;
+    //  char *message0 = "Thread 0";
+    //  char *message1 = "Thread 1";
+    //  char *message2 = "Thread 2";
+    //  char *message3 = "Thread 3";
+    //  int  iret0, iret1, iret2, iret3;
+    //  int *eqns0 = 0;
 
-    /* Create independent threads each of which will execute function */
+    // /* Create independent threads each of which will execute function */
 
-     iret0 = pthread_create( &thread0, NULL, threadSum, (void*) eqns0);
-     iret1 = pthread_create( &thread1, NULL, print_message_function, (void*) message1);
-     iret2 = pthread_create( &thread2, NULL, print_message_function, (void*) message2);
-     iret3 = pthread_create( &thread3, NULL, print_message_function, (void*) message3);
+    //  iret0 = pthread_create( &thread0, NULL, threadSum, (void*) eqns0);
+    //  iret1 = pthread_create( &thread1, NULL, print_message_function, (void*) message1);
+    //  iret2 = pthread_create( &thread2, NULL, print_message_function, (void*) message2);
+    //  iret3 = pthread_create( &thread3, NULL, print_message_function, (void*) message3);
      
      /* Wait till threads are complete before main continues. Unless we  */
      /* wait we run the risk of executing an exit which will terminate   */
      /* the process and all threads before the threads have completed.   */
      
-     pthread_join( thread0, NULL);
-     pthread_join( thread1, NULL);
-     pthread_join( thread2, NULL); 
-     pthread_join( thread3, NULL); 
+    //  pthread_join( thread0, NULL);
+    //  pthread_join( thread1, NULL);
+    //  pthread_join( thread2, NULL); 
+    //  pthread_join( thread3, NULL); 
 
-     std::cout >> "THREAD 0: " >> iret0;
-     printf("THREAD 1: %d\n",iret1);
-     printf("THREAD 2: %d\n",iret2);
-     printf("THREAD 3: %d\n",iret3);
+    //  std::cout >> "THREAD 0: " >> iret0;
+    //  printf("THREAD 1: %d\n",iret1);
+    //  printf("THREAD 2: %d\n",iret2);
+    //  printf("THREAD 3: %d\n",iret3);
      exit(0);
 }
