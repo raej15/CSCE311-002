@@ -267,16 +267,12 @@ int main(int argc, char **argv) {
         std::vector<std::string> finalEqn = parseArgs(curr);
         if (counter == 0) {
             motherVect0.push_back(finalEqn);
-             std::cout << "EQUATION0: " << motherVect0.size() << std::endl;
         } else if (counter == 1) {
             motherVect1.push_back(finalEqn);
-             std::cout << "EQUATION1: " << motherVect1.size() << std::endl;
         } else if (counter == 2) {
             motherVect2.push_back(finalEqn);
-             std::cout << "EQUATION2: " << motherVect2.size() << std::endl;
         } else {
             motherVect3.push_back(finalEqn);
-             std::cout << "EQUATION3: " << motherVect3.size() << std::endl;
         }
         if (counter == 3) {
             counter = 0;
