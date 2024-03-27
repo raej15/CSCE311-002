@@ -1,5 +1,6 @@
 // Copyright 2024 Rae Jones
 #include <proj3/shmClient.h>
+#include <proj3/shmConsts.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>

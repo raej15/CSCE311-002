@@ -1,5 +1,6 @@
 // Copyright 2024 Rae Jones
-#include <proj3/shmServer.h> //change
+#include <proj3/shmServer.h>
+#include <proj3/shmConsts.h>
 #include <sys/sysinfo.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -5,16 +5,8 @@
 
 #pragma once
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/mman.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/sysinfo.h> // change back
-#include <pthread.h>
-#include <semaphore.h>
-#include <string.h>
-#include <sys/unistd.h>  // Unix standard header (ftruncate)
+#include <proj3/shmConsts.h>
+
 
 #define BUFFER_SIZE mem[1<<2][1<<19]
 #define SHMPATH "raecool1"
