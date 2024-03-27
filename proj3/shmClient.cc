@@ -18,17 +18,17 @@ std::vector<std::vector<std::string>> global[4];
 long partialSums[4];
 long finalSum = 0;
 
-float add(float a, float b) {
+long add(long a, long b) {
     return a + b;
 }
-float subtract(float a, float b) {
+long subtract(long a, long b) {
     return a - b;
 }
-float multiply(float a, float b) {
+long multiply(long a, long b) {
     return a * b;
 }
 
-float divide(float a, float b) {
+long divide(long a, long b) {
     return a / b;
 }
 
@@ -39,8 +39,8 @@ std::vector<std::string> addSub(std::vector<std::string> eqn) {
     while (itr != result.end()) {
         if (*itr == "+" || *itr == "-") {
             //  get the two surrounding floats
-            float a = std::stof(*(itr - 1));
-            float b = std::stof(*(itr + 1));
+            long a = std::stol(*(itr - 1));
+            long b = std::stol(*(itr + 1));
 
             if (*itr == "+") {
                 //  perform addition, replace "+" with result
@@ -71,8 +71,8 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
     while (itr != result.end()) {
         if (*itr == "x" || *itr == "/") {
             //  get the two surrounding floats
-            float a = std::stof(*(itr - 1));
-            float b = std::stof(*(itr + 1));
+            long a = std::stol(*(itr - 1));
+            long b = std::stol(*(itr + 1));
 
             if (*itr == "/") {
                 //  perform division, replace "/" with result
