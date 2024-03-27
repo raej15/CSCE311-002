@@ -15,8 +15,8 @@
 #include <sstream>
 
 std::vector<std::vector<std::string>> global[4];
-int partialSums[4];
-int finalSum = 0;
+long partialSums[4];
+long finalSum = 0;
 
 float add(float a, float b) {
     return a + b;
@@ -165,14 +165,13 @@ void *threadSum(void *id) {
     long* thread_ids;
     sleep(1);
     thread_ids = (long*) id;
-    std::cout << "THREAD ID: " << *thread_ids << std::endl;
     std::vector<std::string> sum;
     std::vector<std::vector<std::string>> currVect = global[*thread_ids];
-    int tSum = 0;
+    long tSum = 0;
     int currVectSize = currVect.size();
     for (int i = 0; i < currVectSize; i++) {
         std::string pSum = run(currVect[i]);
-        tSum = tSum + stoi(pSum);
+        tSum = tSum + std::stol(pSum);
     }
 
     partialSums[*thread_ids] = tSum;
@@ -263,21 +262,21 @@ int main(int argc, char **argv) {
     std::vector<std::string> data = loadData(read_buffer);
     int dataSize = data.size();
     int counter = 0;
-    for (int i = 0; i < dataSize - 1; i++) {
+    for (int i = 0; i < dataSize-1; i++) {
         std::string curr = data.at(i);
         std::vector<std::string> finalEqn = parseArgs(curr);
         if (counter == 0) {
             motherVect0.push_back(finalEqn);
-            // std::cout << "EQUATION0: " << motherVect0[i][0] << std::endl;
+             std::cout << "EQUATION0: " << motherVect0.size() << std::endl;
         } else if (counter == 1) {
             motherVect1.push_back(finalEqn);
-            // std::cout << "EQUATION1: " << finalEqn[0] << std::endl;
+             std::cout << "EQUATION1: " << motherVect1.size() << std::endl;
         } else if (counter == 2) {
             motherVect2.push_back(finalEqn);
-            // std::cout << "EQUATION2: " << finalEqn[0] << std::endl;
+             std::cout << "EQUATION2: " << motherVect2.size() << std::endl;
         } else {
             motherVect3.push_back(finalEqn);
-            // std::cout << "EQUATION3: " << motherVect3.size() << std::endl;
+             std::cout << "EQUATION3: " << motherVect3.size() << std::endl;
         }
         if (counter == 3) {
             counter = 0;

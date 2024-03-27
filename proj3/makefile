@@ -27,13 +27,13 @@ server : shmServer.o
 client : shmClient.o
 	$(link) $@ $^
 
-shmServer.o : shmServer.cc shmServer.h
+shmServer.o : shmServer.cc shmServer.h shmConsts.h
 	$(compile)  $@ $<
 
-shmClient.o : shmClient.cc shmClient.h
+shmClient.o : shmClient.cc shmClient.h shmConsts.h
 	$(compile)  $@ $<
 
-lint : shmClient.cc shmClient.h shmServer.cc shmServer.h
+lint : shmClient.cc shmClient.h shmServer.cc shmServer.h shmConsts.h
 	cpplint --root=$(path) $^
 
 # UTILITY: removes intermediary files
