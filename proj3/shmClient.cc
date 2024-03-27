@@ -14,6 +14,12 @@
 #include <fstream>
 #include <sstream>
 
+typedef struct threadVars {
+	int id;
+	int lines;
+	long tParSum;
+} threadVars;
+
 std::vector<std::vector<std::string>> global[4];
 long partialSums[4];
 long finalSum = 0;
@@ -161,22 +167,27 @@ std::string clientEqns(std::vector<std::string> data,
     return finalStrng;
 }
 
-void *threadSum(void *id) {
-    long* thread_ids;
-    sleep(1);
-    thread_ids = (long*) id;
-    std::vector<std::string> sum;
-    std::vector<std::vector<std::string>> currVect = global[*thread_ids];
+void *threadSum(void *arg) {
+	threadVars *tv=(threadVars *)arg;
+    //long* thread_ids;
+    //sleep(1);
+    //thread_ids = (long*) id;
+    int id = tv -> id;
+	int lines = tv -> lines;
+	long tParSum;
+    //std::vector<std::string> sum;
+    std::vector<std::vector<std::string>> currVect = global[id];
     long tSum = 0;
     int currVectSize = currVect.size();
     for (int i = 0; i < currVectSize; i++) {
         std::string pSum = run(currVect[i]);
-        tSum = tSum + std::stol(pSum);
+        tParSum = tParSum + std::stol(pSum);
     }
 
-    partialSums[*thread_ids] = tSum;
-    std::cout << "THREAD " << *thread_ids << ": " << tSum << std::endl;
-    return 0;
+    //partialSums[*thread_ids] = tSum;
+    tv->tParSum=tParSum;
+    std::cout << "THREAD " << id << ": " << tParSum << std::endl;
+    pthread_exit(NULL);
 }
 struct shmbuf *shmp;
 
@@ -294,14 +305,20 @@ int main(int argc, char **argv) {
     // }
     pthread_t threads[4];  // creates 4 threads
     long thread_ids[4] = {0, 1 , 2, 3};  // creates 4 thread_data structs
+threadVars tv[4];
+    long tr[4];
 
     for (int i = 0; i < 4; i++) {
-        int tr = pthread_create(&threads[i], NULL, threadSum,
-                                  (void*) (&(thread_ids[i])));
+	    tv[i].id = i;
+	tv[i].lines = 8;
+	pthread_create(&threads[i], NULL, threadSum,
+                                  (void*) (&(tv[i])));
     }
     for (int i = 0; i < 4; i++) {
         pthread_join(threads[i], NULL);
     }
+
+//    std::cout << tr[0] << std::cout;
     for (int i = 0; i < 4; i++) {
         finalSum = finalSum + partialSums[i];
     }
