@@ -328,7 +328,8 @@ int main(int argc, char **argv) {
 
         pthread_exit(NULL);
     }
-
+    
+    std::cout << "GETTING SUM" << std::endl;
     for (int i = 0; i < 4; i++) {
         finalSum = finalSum + partialSums[i];
     }
