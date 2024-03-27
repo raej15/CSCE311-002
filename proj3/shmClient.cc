@@ -284,7 +284,8 @@ int main(int argc, char **argv) {
     }
 
     for (int i = 0; i < 4; i++) {
-        std::cout << "THREAD " << tv[i].id << ":  " << tv[i].lines << " LINES, " << tv[i].tParSum << std::endl;
+        std::cout << "THREAD " << tv[i].id << ":  " << tv[i].lines
+                  << " LINES, " << tv[i].tParSum << std::endl;
         finalSum = finalSum + tv[i].tParSum;
     }
 
