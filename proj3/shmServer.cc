@@ -38,7 +38,6 @@ std::vector<std::string> loadData(std::string fileName) {
     return data;
 }
 
-
 std::string clientEqns(std::vector<std::string> data) {
     std::string finalStrng = "";
     int argSize = data.size();
@@ -97,24 +96,10 @@ int main(int argc, char **argv) {
         std::cout << "\tOPENING: " << read_buffer << std::endl;
         path = std::string(read_buffer);
 
-        /* 
-        INVALID FILE case is handled within loadData function
-        FILE CLOSED is handled within loadData function
-        */
+        // INVALID FILE case is handled within loadData function
+        // FILE CLOSED is handled within loadData function
         data = loadData(path);
         std::string eqnstr = clientEqns(data);
-
-        // // ready to read from client
-        // sem_post(sem1);
-
-        // // wait for client to finish writing
-        // sem_wait(sem2);
-
-        // // read string from shared memory
-        // snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
-
-        // // print client string from read_buffer
-        // // printf("LINES: %s (REMOVE)", read_buffer);
 
         // ready to write file to client
         sem_post(sem3);
