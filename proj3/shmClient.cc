@@ -24,11 +24,6 @@ int thread2Sum;
 int thread3Sum;
 int threadCounter = 0;
 
-struct thread_data {
-    char* thread_id;
-    int partialThreadSum;
-};
-
 
 void *print_message_function( void *ptr )
 {
@@ -184,19 +179,23 @@ std::string clientEqns(std::vector<std::string> data,
 
 
 
-void *threadSum( void *arg) {
+void *threadSum( void *id) {
+    long thread_ids;
+    sleep(1);
+    thread_ids = (long) id;
+    thread_ids = 0;
     //std::vector<std::string> *arr;
     //int *pIndex = NULL;
     //pIndex = (int *) arg;
     //int index = *pIndex;
     //std::cout << arg << std::endl;
-    thread_data *td = (thread_data *) arg;
-    td -> partialThreadSum = 0;
-    int index = threadCounter;
+    //thread_data *td = (thread_data *) arg;
+    //td -> partialThreadSum = 0;
+    //int index = threadCounter;
     //std::vector<std::string> parsedEqn = parseArgs(strEqn);
     std::vector<std::string> sum;
     //std::string partThreadSum = run(global[index]);
-    std::vector<std::vector<std::string>> currVect = global[index];
+    std::vector<std::vector<std::string>> currVect = global[thread_ids];
     int tSum = 0;
     for (int i = 0; i< currVect.size(); i++) {
         std::string pSum = run(currVect[i]);
@@ -207,9 +206,9 @@ void *threadSum( void *arg) {
         
       }
       
-      partialSums[index] = tSum;
-      //threadCounter++;
-        return NULL;
+      partialSums[thread_ids] = tSum;
+      std::cout << "THREAD " << thread_ids << ": " << tSum << std::endl;
+        pthread_exit(NULL);
     }
 struct shmbuf* shmp;
 
@@ -335,13 +334,14 @@ int main(int argc, char** argv) {
         }
         //std::cout << std::endl;
     }
-    pthread_t tHolder[4]; // creates 4 threads
-    thread_data td[4]; // creates 4 thread_data structs
+    pthread_t threads[4]; // creates 4 threads
+    long thread_ids[4]; // creates 4 thread_data structs
+    int tr;
 
     for (int i = 0; i < 4; i++) {
-        td[i].thread_id = store->buffer[i];
-        //td[i].partialThreadSum = 0;
-        pthread_create(&tHolder[i], NULL, threadSum, (void *) &td[i]);
+        tr = pthread_create(&threads[i], NULL, threadSum, (void *) thread_ids[i]);
+        
+        pthread_exit(NULL);
     }
     //  pthread_t thread0, thread1, thread2, thread3;
     //  char *message0 = "Thread 0";
