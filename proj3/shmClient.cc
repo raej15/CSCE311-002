@@ -213,7 +213,7 @@ int main(int argc, char **argv) {
     }
     // char read_buffer[BUFFER_SIZE];
     char read_buffer[1 << 2][1 << 19];
-    std::cout.setf(std::ios::fixed, std::ios::floatfield);
+    //std::cout.setf(std::ios::fixed, std::ios::floatfield);
     while (sem1 == 0) {
     }
 
@@ -284,12 +284,12 @@ int main(int argc, char **argv) {
     }
 
     for (int i = 0; i < 4; i++) {
-        std::cout << "THREAD " << tv[i].id << ":  " << tv[i].lines
+        std::cout << std::noshowpoint <<  "THREAD " << tv[i].id << ":  " << tv[i].lines
                   << " LINES, " << tv[i].tParSum << std::endl;
         finalSum = finalSum + tv[i].tParSum;
     }
 
-    std::cout << "SUM: " << finalSum << std::endl;
+    std::cout << std::noshowpoint << "SUM: " << finalSum << std::endl;
 
     shmfd = shm_unlink(SHMPATH);
     exit(0);
