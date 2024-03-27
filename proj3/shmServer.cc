@@ -2,6 +2,7 @@
 #include <proj3/shmServer.h>
 #include <proj3/shmConsts.h>
 #include <sys/sysinfo.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,31 +14,23 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <signal.h>
 
 struct shmbuf *shmp;
 
-std::vector<std::string> loadData(std::string fileName)
-{
-    // std::cout << "entered filename: " << fileName << std::endl;
-    std::ifstream currFile2("dat/equations_691.txt"); // CHANGE!!!!
+std::vector<std::string> loadData(std::string fileName) {
     std::ifstream currFile(fileName.c_str());
     // std::ifstream currFile;
     // currFile.open(fileName.c_str());
     std::vector<std::string> data;
     std::string line;
-    if (currFile.is_open())
-    {
-        while (getline(currFile, line))
-        {
+    if (currFile.is_open()) {
+        while (getline(currFile, line)) {
             data.push_back(line);
             // std::cout << line << std::endl;
         }
         currFile.close();
         std::cout << "\tFILE CLOSED" << std::endl;
-    }
-    else
-    {
+    } else {
         data.push_back("INVALID FILE");
         return data;
     }
@@ -46,12 +39,10 @@ std::vector<std::string> loadData(std::string fileName)
 }
 
 
-std::string clientEqns(std::vector<std::string> data)
-{
+std::string clientEqns(std::vector<std::string> data) {
     std::string finalStrng = "";
     int argSize = data.size();
-    for (int i = 0; i < argSize; i++)
-    {
+    for (int i = 0; i < argSize; i++) {
         std::string eqn = data.at(i);
         finalStrng.append(eqn);
         finalStrng.append("\n");
@@ -59,8 +50,7 @@ std::string clientEqns(std::vector<std::string> data)
     return finalStrng;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     std::string path;
     std::vector<std::string> data;
 
@@ -70,8 +60,7 @@ int main(int argc, char **argv)
     // unlinking any pre-existing semaphores
     sem_unlink(SEM_SERVER);
     sem_unlink(SEM_CLIENT);
-    while (true)
-    {
+    while (true) {
         // create semaphores
         sem_t *sem1 = sem_open(SEM_SERVER, O_CREAT, 0660, 0);
         sem_t *sem2 = sem_open(SEM_CLIENT, O_CREAT, 0660, 0);
@@ -86,12 +75,12 @@ int main(int argc, char **argv)
         std::cout << "\tMEMORY OPEN" << std::endl;
 
         // create map of shared memory
-        shmp = (shmbuf *)mmap(0,
+        shmp = reinterpret_cast<shmbuf *>(mmap(0,
                               sizeof(*shmp),
                               PROT_READ | PROT_WRITE,
                               MAP_SHARED,
                               shmfd,
-                              0);
+                              0));
 
         char read_buffer[BUFFER_SIZE];
 
