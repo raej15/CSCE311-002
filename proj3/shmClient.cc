@@ -184,7 +184,8 @@ void *threadSum(void *id) {
     std::vector<std::vector<std::string>> currVect = global[*thread_ids];
     //std::vector<std::vector<std::string>> currVect = global[thread_ids];
     int tSum = 0;
-    for (int i = 0; i < currVect.size(); i++) {
+    int currVectSize = currVect.size();
+    for (int i = 0; i < currVectSize; i++) {
         std::string pSum = run(currVect[i]);
         // std::cout << pSum << std::endl;
         tSum = tSum + stoi(pSum);
@@ -322,10 +323,9 @@ int main(int argc, char **argv) {
     // }
     pthread_t threads[4]; // creates 4 threads
     long thread_ids[4] = {0,1,2,3};   // creates 4 thread_data structs
-    int tr;
 
     for (int i = 0; i < 4; i++) {
-        tr = pthread_create(&threads[i], NULL, threadSum, (void*) (&(thread_ids[i])));
+        int tr = pthread_create(&threads[i], NULL, threadSum, (void*) (&(thread_ids[i])));
 
    
     }
