@@ -197,32 +197,7 @@ int main(int argc, char **argv)
 
         // wait for client to open shared memory
         sem_wait(sem2);
-        //std::cout << "CLIENT REQUEST RECIEVED" << std::endl;
-
-        // // so does shm_open
-        // int shmfd = shm_open(SHMPATH, O_RDWR, 0);
-        // std::cout << "\tMEMORY OPEN" << std::endl;
-
-        // // map shared memory
-        // // BUFFER_SIZE is defined in shm_sup.h
-        // shmp = (shmbuf *)mmap(0,
-        //                       sizeof(*shmp),
-        //                       PROT_READ | PROT_WRITE,
-        //                       MAP_SHARED,
-        //                       shmfd,
-        //                       0);
-
-        // char read_buffer[BUFFER_SIZE];
-
-        // ready to read from client
-        sem_post(sem1);
-
-        // wait for client to finish writing
-        sem_wait(sem2);
-
-        // read path from shared memory
-        snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
-                std::cout << "CLIENT REQUEST RECIEVED" << std::endl;
+        std::cout << "CLIENT REQUEST RECIEVED" << std::endl;
 
         // so does shm_open
         int shmfd = shm_open(SHMPATH, O_RDWR, 0);
@@ -239,6 +214,14 @@ int main(int argc, char **argv)
 
         char read_buffer[BUFFER_SIZE];
 
+        // ready to read from client
+        sem_post(sem1);
+
+        // wait for client to finish writing
+        sem_wait(sem2);
+
+        // read path from shared memory
+        snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
 
         // print client path from read_buffer
         std::cout << "\tOPENING: " << read_buffer << std::endl;
