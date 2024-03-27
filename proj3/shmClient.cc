@@ -186,7 +186,7 @@ void *threadSum(void *arg) {
 
     //partialSums[*thread_ids] = tSum;
     tv->tParSum=tParSum;
-    std::cout << "THREAD " << id << ": " << tParSum << std::endl;
+    //std::cout << "THREAD " << id << ": " << tParSum << std::endl;
     pthread_exit(NULL);
 }
 struct shmbuf *shmp;
@@ -206,7 +206,7 @@ int main(int argc, char **argv) {
 
     // Truncate the memory (VERY IMPORTANT, will get a Bus Error otherwise)
     ::ftruncate(shmfd, sizeof(struct shmbuf));
-    printf("SHARED MEMORY SIZE: %ld BYTES\n", sizeof(struct shmbuf));
+    printf("SHARED MEMORY ALLOCATED: %ld BYTES\n", sizeof(struct shmbuf));
 
     // map shared memory
     shmp = (shmbuf *)mmap(0,
@@ -310,17 +310,20 @@ threadVars tv[4];
 
     for (int i = 0; i < 4; i++) {
 	    tv[i].id = i;
-	tv[i].lines = 8;
+	tv[i].lines = global[i].size();
 	pthread_create(&threads[i], NULL, threadSum,
                                   (void*) (&(tv[i])));
     }
+
+    std::cout << "THREADS CREATED" << std::endl;
     for (int i = 0; i < 4; i++) {
         pthread_join(threads[i], NULL);
     }
 
 //    std::cout << tr[0] << std::cout;
     for (int i = 0; i < 4; i++) {
-        finalSum = finalSum + partialSums[i];
+	std::cout << "THREAD " << tv[i].id << ":  " << tv[i].lines << " LINES, " << tv[i].tParSum << std::endl;
+        finalSum = finalSum + tv[i].tParSum;
     }
 
     std::cout << "SUM: " << finalSum << std::endl;
