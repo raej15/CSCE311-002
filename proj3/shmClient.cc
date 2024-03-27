@@ -174,14 +174,14 @@ std::string clientEqns(std::vector<std::string> data,
     return finalStrng;
 }
 
-void *threadSum(void *id) {
-    long* thread_ids;
-    sleep(1);
-    thread_ids = (long*) id;
-    std::cout << "THREAD ID: " << *thread_ids << std::endl;
+void *threadSum(void *_id) {
+    unsigned int thread_ids;
+    //sleep(1);
+    thread_ids = *((unsigned int *)_id);
+    std::cout << "THREAD ID: " << thread_ids << std::endl;
     //thread_ids = 0;
     std::vector<std::string> sum;
-    std::vector<std::vector<std::string>> currVect = global[*thread_ids];
+    std::vector<std::vector<std::string>> currVect = global[thread_ids];
     //std::vector<std::vector<std::string>> currVect = global[thread_ids];
     int tSum = 0;
     for (int i = 0; i < currVect.size(); i++) {
@@ -190,8 +190,8 @@ void *threadSum(void *id) {
         tSum = tSum + stoi(pSum);
     }
 
-    partialSums[*thread_ids] = tSum;
-    std::cout << "THREAD " << *thread_ids << ": " << tSum << std::endl;
+    partialSums[thread_ids] = tSum;
+    std::cout << "THREAD " << thread_ids << ": " << tSum << std::endl;
     pthread_exit(NULL);
 }
 struct shmbuf *shmp;
@@ -321,7 +321,7 @@ int main(int argc, char **argv) {
     //     //std::cout << std::endl;
     // }
     pthread_t threads[4]; // creates 4 threads
-    long thread_ids[4] = {0,1,2,3};   // creates 4 thread_data structs
+    int thread_ids[4] = {0,1,2,3};   // creates 4 thread_data structs
     int tr;
 
     for (int i = 0; i < 4; i++) {
