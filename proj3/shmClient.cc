@@ -183,18 +183,30 @@ void *threadSum( void *id) {
     long thread_ids;
     sleep(1);
     thread_ids = (long) id;
-    thread_ids = 0;
-    //std::vector<std::string> *arr;
-    //int *pIndex = NULL;
-    //pIndex = (int *) arg;
-    //int index = *pIndex;
-    //std::cout << arg << std::endl;
-    //thread_data *td = (thread_data *) arg;
-    //td -> partialThreadSum = 0;
-    //int index = threadCounter;
-    //std::vector<std::string> parsedEqn = parseArgs(strEqn);
+    //thread_ids = 1;
     std::vector<std::string> sum;
-    //std::string partThreadSum = run(global[index]);
+    std::vector<std::vector<std::string>> currVect = global[thread_ids];
+    int tSum = 0;
+    for (int i = 0; i< currVect.size(); i++) {
+        std::string pSum = run(currVect[i]);
+        //std::cout << "hoes" << std::endl;
+        //std::cout << pSum << std::endl;
+        tSum = tSum + stoi(pSum);
+        //for (int j = 0; j < currVect[i].size(); j++) {
+        
+      }
+      
+      partialSums[thread_ids] = tSum;
+      //std::cout << "THREAD " << thread_ids << ": " << tSum << std::endl;
+      pthread_exit(NULL);
+    }
+    
+    void *threadSum0( void *id) {
+    long thread_ids;
+    sleep(1);
+    thread_ids = (long) id;
+    thread_ids = 0;
+    std::vector<std::string> sum;
     std::vector<std::vector<std::string>> currVect = global[thread_ids];
     int tSum = 0;
     for (int i = 0; i< currVect.size(); i++) {
@@ -208,7 +220,73 @@ void *threadSum( void *id) {
       
       partialSums[thread_ids] = tSum;
       std::cout << "THREAD " << thread_ids << ": " << tSum << std::endl;
-        pthread_exit(NULL);
+      pthread_exit(NULL);
+    }
+    
+    void *threadSum1( void *id) {
+    long thread_ids;
+    sleep(1);
+    thread_ids = (long) id;
+    thread_ids = 1;
+    std::vector<std::string> sum;
+    std::vector<std::vector<std::string>> currVect = global[thread_ids];
+    int tSum = 0;
+    for (int i = 0; i< currVect.size(); i++) {
+        std::string pSum = run(currVect[i]);
+        //std::cout << "hoes" << std::endl;
+        //std::cout << pSum << std::endl;
+        tSum = tSum + stoi(pSum);
+        //for (int j = 0; j < currVect[i].size(); j++) {
+        
+      }
+      
+      partialSums[thread_ids] = tSum;
+      std::cout << "THREAD " << thread_ids << ": " << tSum << std::endl;
+      pthread_exit(NULL);
+    }
+    
+    void *threadSum2( void *id) {
+    long thread_ids;
+    sleep(1);
+    thread_ids = (long) id;
+    thread_ids = 2;
+    std::vector<std::string> sum;
+    std::vector<std::vector<std::string>> currVect = global[thread_ids];
+    int tSum = 0;
+    for (int i = 0; i< currVect.size(); i++) {
+        std::string pSum = run(currVect[i]);
+        //std::cout << "hoes" << std::endl;
+        //std::cout << pSum << std::endl;
+        tSum = tSum + stoi(pSum);
+        //for (int j = 0; j < currVect[i].size(); j++) {
+        
+      }
+      
+      partialSums[thread_ids] = tSum;
+      std::cout << "THREAD " << thread_ids << ": " << tSum << std::endl;
+      pthread_exit(NULL);
+    }
+    
+    void *threadSum3( void *id) {
+    long thread_ids;
+    sleep(1);
+    thread_ids = (long) id;
+    thread_ids = 3;
+    std::vector<std::string> sum;
+    std::vector<std::vector<std::string>> currVect = global[thread_ids];
+    int tSum = 0;
+    for (int i = 0; i< currVect.size(); i++) {
+        std::string pSum = run(currVect[i]);
+        //std::cout << "hoes" << std::endl;
+        //std::cout << pSum << std::endl;
+        tSum = tSum + stoi(pSum);
+        //for (int j = 0; j < currVect[i].size(); j++) {
+        
+      }
+      
+      partialSums[thread_ids] = tSum;
+      std::cout << "THREAD " << thread_ids << ": " << tSum << std::endl;
+      pthread_exit(NULL);
     }
 struct shmbuf* shmp;
 
@@ -335,14 +413,25 @@ int main(int argc, char** argv) {
         //std::cout << std::endl;
     }
     pthread_t threads[4]; // creates 4 threads
-    long thread_ids[4]; // creates 4 thread_data structs
-    int tr;
+    long thread_ids[4]; // creates 4 ids
+    int tr0, tr1, tr2, tr3;
 
-    for (int i = 0; i < 4; i++) {
-        tr = pthread_create(&threads[i], NULL, threadSum, (void *) thread_ids[i]);
-        
-        pthread_exit(NULL);
-    }
+    //for (int i = 0; i < 4; i++) {
+    //    tr = pthread_create(&threads[i], NULL, threadSum, (void *) thread_ids[i]);
+     //   std::cout << "thread created" << i << std::endl;
+     //   
+    //}
+    
+            tr0 = pthread_create(&threads[0], NULL, threadSum0, (void *) thread_ids[0]);
+            tr1 = pthread_create(&threads[1], NULL, threadSum1, (void *) thread_ids[1]);
+            tr2 = pthread_create(&threads[2], NULL, threadSum2, (void *) thread_ids[3]);
+            tr3 = pthread_create(&threads[4], NULL, threadSum3, (void *) thread_ids[4]);
+    pthread_join( threads[0], NULL);
+    pthread_join( threads[1], NULL);
+    pthread_join( threads[2], NULL); 
+    pthread_join( threads[3], NULL); 
+            
+    pthread_exit(NULL);
     //  pthread_t thread0, thread1, thread2, thread3;
     //  char *message0 = "Thread 0";
     //  char *message1 = "Thread 1";
@@ -362,14 +451,15 @@ int main(int argc, char** argv) {
      /* wait we run the risk of executing an exit which will terminate   */
      /* the process and all threads before the threads have completed.   */
      
-    //  pthread_join( thread0, NULL);
-    //  pthread_join( thread1, NULL);
-    //  pthread_join( thread2, NULL); 
-    //  pthread_join( thread3, NULL); 
+     std::cout << partialSums[0] << std::endl;
+     
 
-    //  std::cout >> "THREAD 0: " >> iret0;
-    //  printf("THREAD 1: %d\n",iret1);
-    //  printf("THREAD 2: %d\n",iret2);
-    //  printf("THREAD 3: %d\n",iret3);
+      std::cout << "THREAD 0: " << tr0;
+            std::cout << "THREAD 1: " << tr1;
+                  std::cout << "THREAD 2: " << tr2;
+                        std::cout << "THREAD 3: " << tr3;
+    //  printf("THREAD 1: %d\n",tr1);
+    //  printf("THREAD 2: %d\n",tr2);
+    //  printf("THREAD 3: %d\n",tr3);
      exit(0);
 }
