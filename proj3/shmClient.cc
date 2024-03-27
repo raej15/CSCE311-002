@@ -268,14 +268,14 @@ int main(int argc, char **argv) {
     global[2] = motherVect2;
     global[3] = motherVect3;
 
-    pthread_t threads[4]; // creates 4 threads
+    pthread_t threads[4];  // creates 4 threads
     threadVars tv[4];
 
     for (int i = 0; i < 4; i++) {
         tv[i].id = i;
         tv[i].lines = global[i].size();
         pthread_create(&threads[i], NULL, threadSum,
-                       (void *)(&(tv[i])));
+                       reinterpret_cast<void *>(&(tv[i])));
     }
 
     std::cout << "THREADS CREATED" << std::endl;
