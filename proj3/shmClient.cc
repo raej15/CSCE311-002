@@ -17,24 +17,24 @@
 typedef struct threadVars {
     int id;
     int lines;
-    double tParSum;
+    long tParSum;
 } threadVars;
 
 std::vector<std::vector<std::string>> global[4];
-double partialSums[4];
-double finalSum = 0;
+long partialSums[4];
+long finalSum = 0;
 
-double add(double a, double b) {
+long add(long a, long b) {
     return a + b;
 }
-double subtract(double a, double b) {
+long subtract(long a, long b) {
     return a - b;
 }
-double multiply(double a, double b) {
+long multiply(long a, long b) {
     return a * b;
 }
 
-double divide(double a, double b) {
+long divide(long a, long b) {
     return a / b;
 }
 
@@ -45,8 +45,8 @@ std::vector<std::string> addSub(std::vector<std::string> eqn) {
     while (itr != result.end()) {
         if (*itr == "+" || *itr == "-") {
             //  get the two surrounding floats
-            double a = std::stol(*(itr - 1));
-            double b = std::stol(*(itr + 1));
+            long a = std::stol(*(itr - 1));
+            long b = std::stol(*(itr + 1));
 
             if (*itr == "+") {
                 //  perform addition, replace "+" with result
@@ -77,8 +77,8 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
     while (itr != result.end()) {
         if (*itr == "x" || *itr == "/") {
             //  get the two surrounding floats
-            double a = std::stol(*(itr - 1));
-            double b = std::stol(*(itr + 1));
+            long a = std::stol(*(itr - 1));
+            long b = std::stol(*(itr + 1));
 
             if (*itr == "/") {
                 //  perform division, replace "/" with result
@@ -170,7 +170,7 @@ std::string clientEqns(std::vector<std::string> data,
 void *threadSum(void *arg) {
     threadVars *tv = reinterpret_cast<threadVars *>arg;
     int id = tv->id;
-    double tParSum;
+    long tParSum;
     std::vector<std::vector<std::string>> currVect = global[id];
     int currVectSize = currVect.size();
     for (int i = 0; i < currVectSize; i++) {
@@ -200,7 +200,7 @@ int main(int argc, char **argv) {
     printf("SHARED MEMORY ALLOCATED: %ld BYTES\n", sizeof(struct shmbuf));
 
     // map shared memory
-    shmp = reinterpret_cast<shmbuf *>mmap(0,
+    shmp = (shmbuf *)mmap(0,
                           sizeof(*shmp),
                           PROT_READ | PROT_WRITE,
                           MAP_SHARED,
@@ -268,14 +268,14 @@ int main(int argc, char **argv) {
     global[2] = motherVect2;
     global[3] = motherVect3;
 
-    pthread_t threads[4];  // creates 4 threads
+    pthread_t threads[4]; // creates 4 threads
     threadVars tv[4];
 
     for (int i = 0; i < 4; i++) {
         tv[i].id = i;
         tv[i].lines = global[i].size();
         pthread_create(&threads[i], NULL, threadSum,
-                       reinterpret_cast<void *>(&(tv[i])));
+                       (void *)(&(tv[i])));
     }
 
     std::cout << "THREADS CREATED" << std::endl;
@@ -284,8 +284,7 @@ int main(int argc, char **argv) {
     }
 
     for (int i = 0; i < 4; i++) {
-        std::cout << "THREAD " << tv[i].id << ":  " << tv[i].lines
-                  << " LINES, " << tv[i].tParSum << std::endl;
+        std::cout << "THREAD " << tv[i].id << ":  " << tv[i].lines << " LINES, " << tv[i].tParSum << std::endl;
         finalSum = finalSum + tv[i].tParSum;
     }
 
