@@ -192,7 +192,7 @@ void *threadSum(void *id) {
 
     partialSums[*thread_ids] = tSum;
     std::cout << "THREAD " << *thread_ids << ": " << tSum << std::endl;
-    pthread_exit(NULL);
+    return 0;
 }
 struct shmbuf *shmp;
 
@@ -325,11 +325,15 @@ int main(int argc, char **argv) {
     int tr;
 
     for (int i = 0; i < 4; i++) {
-        tr = pthread_create(&threads[i], NULL, threadSum, (void *)thread_ids[i]);
+        tr = pthread_create(&threads[i], NULL, threadSum, (void*) (&(thread_ids[i])));
 
-        pthread_exit(NULL);
+   
     }
-    
+    for (int i = 0; i < 4; i++) {  
+
+        pthread_join(threads[i], NULL);
+    }
+
     std::cout << "GETTING SUM" << std::endl;
     for (int i = 0; i < 4; i++) {
         finalSum = finalSum + partialSums[i];
