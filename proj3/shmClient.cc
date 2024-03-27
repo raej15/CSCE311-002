@@ -175,7 +175,7 @@ std::string clientEqns(std::vector<std::string> data,
 }
 
 void *threadSum(void *id) {
-    long thread_ids;
+    long* thread_ids;
     sleep(1);
     thread_ids = (long*) id;
     //thread_ids = 0;
