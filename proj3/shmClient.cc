@@ -23,6 +23,8 @@ void *print_message_function( void *ptr )
      char *message;
      message = (char *) ptr;
      printf("%s \n", message);
+     
+     return NULL;
 }
 float add(float a, float b) {
     return a + b;
@@ -136,7 +138,7 @@ std::vector<std::string> parseArgs(std::string eqn) {
         std::istringstream ss(eqn);
         std::string element;
         while (ss >> element) {
-            std::cout << element << std::endl;
+            //std::cout << element << std::endl;
             parsedEqn.push_back(element);
         }
     return parsedEqn;
@@ -171,21 +173,23 @@ std::string clientEqns(std::vector<std::string> data,
 
 
 void *threadSum( void *arg) {
-    std::vector<std::string> *arr;
-    int *pIndex;
+    //std::vector<std::string> *arr;
+    int *pIndex = NULL;
     pIndex = (int *) arg;
-    int index = *pIndex;
+    //int index = *pIndex;
+    int index = 0;
     //std::vector<std::string> parsedEqn = parseArgs(strEqn);
     std::vector<std::string> sum;
     //std::string partThreadSum = run(global[index]);
     std::vector<std::vector<std::string>> currVect = global[index];
     for (int i = 0; i< currVect.size(); i++) {
         std::string pSum = run(currVect[i]);
+        std::cout << "hoes" << std::endl;
         std::cout << pSum << std::endl;
         //for (int j = 0; j < currVect[i].size(); j++) {
         
       }
-    
+        return NULL;
     }
 struct shmbuf* shmp;
 
@@ -307,9 +311,9 @@ int main(int argc, char** argv) {
     
     for (int i=0; i < motherVect0.size(); i++) {
          for (int j=0; j<motherVect0[i].size(); j++) {
-            std::cout << motherVect0[i][j] << " ";
+            //std::cout << motherVect0[i][j] << " ";
         }
-        std::cout << std::endl;
+        //std::cout << std::endl;
     }
 
      pthread_t thread0, thread1, thread2, thread3;
@@ -322,7 +326,7 @@ int main(int argc, char** argv) {
 
     /* Create independent threads each of which will execute function */
 
-     iret0 = pthread_create( &thread0, NULL, print_message_function, (void*) eqns0);
+     iret0 = pthread_create( &thread0, NULL, threadSum, (void*) eqns0);
      iret1 = pthread_create( &thread1, NULL, print_message_function, (void*) message1);
      iret2 = pthread_create( &thread2, NULL, print_message_function, (void*) message2);
      iret3 = pthread_create( &thread3, NULL, print_message_function, (void*) message3);
