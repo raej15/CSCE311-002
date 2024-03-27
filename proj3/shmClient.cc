@@ -320,7 +320,7 @@ int main(int argc, char **argv) {
     //     //std::cout << std::endl;
     // }
     pthread_t threads[4]; // creates 4 threads
-    long thread_ids[4];   // creates 4 thread_data structs
+    long thread_ids[4] = {0,1,2,3};   // creates 4 thread_data structs
     int tr;
 
     for (int i = 0; i < 4; i++) {
