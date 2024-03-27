@@ -177,10 +177,10 @@ std::string clientEqns(std::vector<std::string> data,
 void *threadSum(void *id) {
     long thread_ids;
     sleep(1);
-    thread_ids = (long)id;
+    thread_ids = (long*) id;
     //thread_ids = 0;
     std::vector<std::string> sum;
-    std::vector<std::vector<std::string>> currVect = global[thread_ids];
+    std::vector<std::vector<std::string>> currVect = global[*thread_ids];
     //std::vector<std::vector<std::string>> currVect = global[thread_ids];
     int tSum = 0;
     for (int i = 0; i < currVect.size(); i++) {
@@ -189,8 +189,8 @@ void *threadSum(void *id) {
         tSum = tSum + stoi(pSum);
     }
 
-    partialSums[thread_ids] = tSum;
-    std::cout << "THREAD " << thread_ids << ": " << tSum << std::endl;
+    partialSums[*thread_ids] = tSum;
+    std::cout << "THREAD " << *thread_ids << ": " << tSum << std::endl;
     pthread_exit(NULL);
 }
 struct shmbuf *shmp;
