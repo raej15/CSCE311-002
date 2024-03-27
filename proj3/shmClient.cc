@@ -13,6 +13,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
 typedef struct threadVars {
     int id;
@@ -284,12 +285,12 @@ int main(int argc, char **argv) {
     }
 
     for (int i = 0; i < 4; i++) {
-        std::cout << std::noshowpoint <<  "THREAD " << tv[i].id << ":  " << tv[i].lines
+        std::cout << std::setprecision(15) << std::noshowpoint <<  "THREAD " << tv[i].id << ":  " << tv[i].lines
                   << " LINES, " << tv[i].tParSum << std::endl;
         finalSum = finalSum + tv[i].tParSum;
     }
 
-    std::cout << std::noshowpoint << "SUM: " << finalSum << std::endl;
+    std::cout << std::setprecision(15) << std::noshowpoint << "SUM: " << finalSum << std::endl;
 
     shmfd = shm_unlink(SHMPATH);
     exit(0);
