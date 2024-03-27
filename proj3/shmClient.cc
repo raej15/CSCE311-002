@@ -17,24 +17,24 @@
 typedef struct threadVars {
     int id;
     int lines;
-    long tParSum;
+    double tParSum;
 } threadVars;
 
 std::vector<std::vector<std::string>> global[4];
-long partialSums[4];
-long finalSum = 0;
+double partialSums[4];
+double finalSum = 0;
 
-long add(long a, long b) {
+double add(double a, double b) {
     return a + b;
 }
-long subtract(long a, long b) {
+double subtract(double a, double b) {
     return a - b;
 }
-long multiply(long a, long b) {
+double multiply(double a, double b) {
     return a * b;
 }
 
-long divide(long a, long b) {
+double divide(double a, double b) {
     return a / b;
 }
 
@@ -45,8 +45,8 @@ std::vector<std::string> addSub(std::vector<std::string> eqn) {
     while (itr != result.end()) {
         if (*itr == "+" || *itr == "-") {
             //  get the two surrounding floats
-            long a = std::stol(*(itr - 1));
-            long b = std::stol(*(itr + 1));
+            double a = std::stod(*(itr - 1));
+            double b = std::stod(*(itr + 1));
 
             if (*itr == "+") {
                 //  perform addition, replace "+" with result
@@ -77,8 +77,8 @@ std::vector<std::string> multDiv(std::vector<std::string> eqn) {
     while (itr != result.end()) {
         if (*itr == "x" || *itr == "/") {
             //  get the two surrounding floats
-            long a = std::stol(*(itr - 1));
-            long b = std::stol(*(itr + 1));
+            double a = std::stod(*(itr - 1));
+            double b = std::stod(*(itr + 1));
 
             if (*itr == "/") {
                 //  perform division, replace "/" with result
@@ -170,12 +170,12 @@ std::string clientEqns(std::vector<std::string> data,
 void *threadSum(void *arg) {
     threadVars *tv = reinterpret_cast<threadVars *>(arg);
     int id = tv->id;
-    long tParSum;
+    double tParSum;
     std::vector<std::vector<std::string>> currVect = global[id];
     int currVectSize = currVect.size();
     for (int i = 0; i < currVectSize; i++) {
         std::string pSum = run(currVect[i]);
-        tParSum = tParSum + std::stol(pSum);
+        tParSum = tParSum + std::stod(pSum);
     }
     tv->tParSum = tParSum;
     pthread_exit(NULL);
