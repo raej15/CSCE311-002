@@ -213,7 +213,7 @@ int main(int argc, char **argv) {
     }
     // char read_buffer[BUFFER_SIZE];
     char read_buffer[1 << 2][1 << 19];
-
+    std::cout.setf(std::ios::fixed, std::ios::floatfield);
     while (sem1 == 0) {
     }
 
