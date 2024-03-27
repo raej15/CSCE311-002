@@ -21,8 +21,8 @@
 #define BUFFER_SIZE 524288  // change
 #define SHMPATH "raecool"
 
-#define SEM_SERVER "/sem_server"
-#define SEM_CLIENT "/sem_client"
+#define SEM_SERVER "/sem_server23231"
+#define SEM_CLIENT "/sem_client23231"
 
 struct shmbuf {
     char buf[BUFFER_SIZE];
