@@ -205,7 +205,7 @@ int main(int argc, char **argv) {
                           PROT_READ | PROT_WRITE,
                           MAP_SHARED,
                           shmfd,
-                          0);:`:q
+                          0);
 
     if (shmp == MAP_FAILED) {
         fprintf(stderr, "error mapping memory\n");
