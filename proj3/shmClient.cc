@@ -200,12 +200,12 @@ int main(int argc, char **argv) {
     printf("SHARED MEMORY ALLOCATED: %ld BYTES\n", sizeof(struct shmbuf));
 
     // map shared memory
-    shmp = (shmbuf *)mmap(0,
+    shmp = reinterpret_cast<shmbuf *>(mmap(0,
                           sizeof(*shmp),
                           PROT_READ | PROT_WRITE,
                           MAP_SHARED,
                           shmfd,
-                          0);
+                          0));
 
     if (shmp == MAP_FAILED) {
         fprintf(stderr, "error mapping memory\n");
