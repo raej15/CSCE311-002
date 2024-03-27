@@ -134,6 +134,6 @@ int main(int argc, char **argv)
         snprintf(shmp->buf, BUFFER_SIZE, "%s\n", eqnstr.c_str());
 
         // CLOSING SHARED MEMORY
-        shm_unlink(SHMPATH);
+        shmfd = shm_unlink(SHMPATH);
     }
 }

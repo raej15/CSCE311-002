@@ -220,7 +220,8 @@ int main(int argc, char **argv) {
         fprintf(stderr, "error mapping memory\n");
         return -1;
     }
-    char read_buffer[BUFFER_SIZE];
+    //char read_buffer[BUFFER_SIZE];
+    char read_buffer[1<<2][1<<19];
 
     while (sem1 == 0) {
     }
@@ -247,7 +248,7 @@ int main(int argc, char **argv) {
     sem_wait(sem3);
 
     // read string from shared memory
-    snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
+    snprintf(read_buffer[1], BUFFER_SIZE, "%s", shmp->buf);
 
     // print client string from read_buffer
     // printf("%s", read_buffer);
@@ -259,7 +260,7 @@ int main(int argc, char **argv) {
     std::vector<std::vector<std::string>> motherVect2;
     std::vector<std::vector<std::string>> motherVect3;
 
-    std::vector<std::string> data = loadData(read_buffer);
+    std::vector<std::string> data = loadData(read_buffer[1]);
     int dataSize = data.size();
     int counter = 0;
     for (int i = 0; i < dataSize-1; i++) {
@@ -317,5 +318,6 @@ threadVars tv[4];
 
     std::cout << "SUM: " << finalSum << std::endl;
 
+    shmfd = shm_unlink(SHMPATH);
     exit(0);
 }

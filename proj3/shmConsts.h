@@ -18,7 +18,7 @@
 
 // char mem[1<<2][1<<19];
 
-#define BUFFER_SIZE 4194304  // change
+#define BUFFER_SIZE 524288  // change
 #define SHMPATH "raecool"
 
 #define SEM_SERVER "/sem_server"
