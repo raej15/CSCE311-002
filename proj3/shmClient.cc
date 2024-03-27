@@ -173,11 +173,10 @@ void *threadSum(void *arg) {
     //sleep(1);
     //thread_ids = (long*) id;
     int id = tv -> id;
-	int lines = tv -> lines;
-	long tParSum;
+    long tParSum;
     //std::vector<std::string> sum;
     std::vector<std::vector<std::string>> currVect = global[id];
-    long tSum = 0;
+    //long tSum = 0;
     int currVectSize = currVect.size();
     for (int i = 0; i < currVectSize; i++) {
         std::string pSum = run(currVect[i]);
@@ -294,9 +293,9 @@ int main(int argc, char **argv) {
     //     //std::cout << std::endl;
     // }
     pthread_t threads[4];  // creates 4 threads
-    long thread_ids[4] = {0, 1 , 2, 3};  // creates 4 thread_data structs
+    //long thread_ids[4] = {0, 1 , 2, 3};  // creates 4 thread_data structs
 threadVars tv[4];
-    long tr[4];
+    //long tr[4];
 
     for (int i = 0; i < 4; i++) {
 	    tv[i].id = i;
