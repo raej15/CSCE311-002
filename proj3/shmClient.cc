@@ -243,17 +243,6 @@ int main(int argc, char **argv) {
     // notify server that string is ready to read
     sem_post(sem2);
 
-    // wait for server to be ready to read
-    sem_wait(sem1);
-
-    // load the string into shared memory
-    snprintf(shmp->buf, BUFFER_SIZE, "\n%s\n", argv[2]);
-
-    // snprintf(shmp->buf, BUFFER_SIZE, "%s", argv[1]);
-
-    // notify server that string is ready to read
-    sem_post(sem2);
-
     // wait for server to be ready to write
     sem_wait(sem3);
 

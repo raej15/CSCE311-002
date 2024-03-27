@@ -17,103 +17,6 @@
 
 struct shmbuf *shmp;
 
-float add(float a, float b)
-{
-    return a + b;
-}
-float subtract(float a, float b)
-{
-    return a - b;
-}
-float multiply(float a, float b)
-{
-    return a * b;
-}
-
-float divide(float a, float b)
-{
-    return a / b;
-}
-
-//  finds and performs all the addition and subtraction operations in vector
-std::vector<std::string> addSub(std::vector<std::string> eqn)
-{
-    std::vector<std::string> result = eqn;
-    auto itr = result.begin();
-    while (itr != result.end())
-    {
-        if (*itr == "+" || *itr == "-")
-        {
-            //  get the two surrounding floats
-            float a = std::stof(*(itr - 1));
-            float b = std::stof(*(itr + 1));
-
-            if (*itr == "+")
-            {
-                //  perform addition, replace "+" with result
-                *itr = std::to_string(add(a, b));
-                std::cout << a << "+" << b << subtract(a, b);
-            }
-            else
-            {
-                //  perform subtraction, replace "-" with result
-                *itr = std::to_string(subtract(a, b));
-                std::cout << a << "-" << b << subtract(a, b);
-            }
-
-            //  remove the two surrounding floats
-            itr = result.erase(itr - 1);
-            itr = result.erase(itr + 1);
-        }
-        else
-        {
-            //  move to the next element
-            ++itr;
-        }
-    }
-    //  returns new vector
-    return result;
-}
-
-//  finds and performs all the addition and subtraction operations in vector
-std::vector<std::string> multDiv(std::vector<std::string> eqn)
-{
-    std::vector<std::string> result = eqn;
-    auto itr = result.begin();
-    while (itr != result.end())
-    {
-        if (*itr == "x" || *itr == "/")
-        {
-            //  get the two surrounding floats
-            float a = std::stof(*(itr - 1));
-            float b = std::stof(*(itr + 1));
-
-            if (*itr == "/")
-            {
-                //  perform division, replace "/" with result
-                *itr = std::to_string(divide(a, b));
-            }
-            else
-            {
-                //  perform multiplication, replace "x" with result
-                *itr = std::to_string(multiply(a, b));
-            }
-
-            //  remove the two surrounding floats
-            itr = result.erase(itr - 1);
-            itr = result.erase(itr + 1);
-        }
-        else
-        {
-            //  move to the next element
-            ++itr;
-        }
-    }
-
-    //  returns new vector
-    return result;
-}
-
 std::vector<std::string> loadData(std::string fileName)
 {
     // std::cout << "entered filename: " << fileName << std::endl;
@@ -142,28 +45,6 @@ std::vector<std::string> loadData(std::string fileName)
     return data;
 }
 
-void parseArgs(std::vector<std::string> data,
-               std::vector<std::string> argLines)
-{
-    int argSize = argLines.size();
-    for (int i = 0; i < argSize; i++)
-    {
-        std::vector<std::string> parsedEqn;
-        int curr = stoi(argLines.at(i)) - 1;
-        std::string eqn = data.at(curr);
-        std::cout << "EQUATION: " << eqn << std::endl;
-
-        std::istringstream ss(eqn);
-        std::string element;
-        while (ss >> element)
-        {
-            std::cout << element << std::endl;
-            parsedEqn.push_back(element);
-        }
-        // return parsedEqn; // fix hoe
-    }
-    // return ;
-}
 
 std::string clientEqns(std::vector<std::string> data)
 {
@@ -177,6 +58,7 @@ std::string clientEqns(std::vector<std::string> data)
     }
     return finalStrng;
 }
+
 int main(int argc, char **argv)
 {
     std::string path;
@@ -195,16 +77,15 @@ int main(int argc, char **argv)
         sem_t *sem2 = sem_open(SEM_CLIENT, O_CREAT, 0660, 0);
         sem_t *sem3 = sem_open(SEM_SERVER, O_CREAT, 0660, 0);
 
-        // wait for client to open shared memory
+        // STEP 2: wait for client to open shared memory
         sem_wait(sem2);
         std::cout << "CLIENT REQUEST RECIEVED" << std::endl;
 
-        // so does shm_open
+        // STEP 3: open shared memory
         int shmfd = shm_open(SHMPATH, O_RDWR, 0);
         std::cout << "\tMEMORY OPEN" << std::endl;
 
-        // map shared memory
-        // BUFFER_SIZE is defined in shm_sup.h
+        // create map of shared memory
         shmp = (shmbuf *)mmap(0,
                               sizeof(*shmp),
                               PROT_READ | PROT_WRITE,
@@ -223,23 +104,28 @@ int main(int argc, char **argv)
         // read path from shared memory
         snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
 
-        // print client path from read_buffer
+        // STEP 4: open file from shared memory
         std::cout << "\tOPENING: " << read_buffer << std::endl;
         path = std::string(read_buffer);
+
+        /* 
+        INVALID FILE case is handled within loadData function
+        FILE CLOSED is handled within loadData function
+        */
         data = loadData(path);
         std::string eqnstr = clientEqns(data);
 
-        // ready to read from client
-        sem_post(sem1);
+        // // ready to read from client
+        // sem_post(sem1);
 
-        // wait for client to finish writing
-        sem_wait(sem2);
+        // // wait for client to finish writing
+        // sem_wait(sem2);
 
-        // read string from shared memory
-        snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
+        // // read string from shared memory
+        // snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
 
-        // print client string from read_buffer
-        // printf("LINES: %s (REMOVE)", read_buffer);
+        // // print client string from read_buffer
+        // // printf("LINES: %s (REMOVE)", read_buffer);
 
         // ready to write file to client
         sem_post(sem3);
@@ -247,14 +133,7 @@ int main(int argc, char **argv)
         // writing file to client
         snprintf(shmp->buf, BUFFER_SIZE, "%s\n", eqnstr.c_str());
 
-        // printf("SERVER: GOODBYE\n");
+        // CLOSING SHARED MEMORY
+        shm_unlink(SHMPATH);
     }
 }
-
-// I'm a happy signal boy
-// void quit() {
-//    shm_unlink(SHMPATH);
-//    sem_unlink(SEM_SERVER);
-//    sem_unlink(SEM_CLIENT);
-//    exit(0);
-//}
