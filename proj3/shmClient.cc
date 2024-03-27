@@ -178,6 +178,7 @@ void *threadSum(void *id) {
     long* thread_ids;
     sleep(1);
     thread_ids = (long*) id;
+    std::cout << "THREAD ID: " << *thread_ids << std::endl;
     //thread_ids = 0;
     std::vector<std::string> sum;
     std::vector<std::vector<std::string>> currVect = global[*thread_ids];
