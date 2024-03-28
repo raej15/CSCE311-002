@@ -123,10 +123,40 @@ int main(int argc, char **argv) {
 
         // writing file to client
         int count = eqnstr.length();
-        for (int i = 0; i < 4; i++) {
-            snprintf(store_->buf[i]+count, shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
+        // for (int i = 0; i < 4; i++) {
+        //     snprintf(store_->buf[i]+count, shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
+        // }
+        std::string curr;
+        while (getline(eqnstr, curr))
+        {
+            std::vector<std::string> finalEqn = parseArgs(curr);
+            if (counter == 0)
+            {
+                snprintf(store_->buf[0] + count, shared_mem_struct::kCols - count, "%s", curr.c_str());
+                std::cout << "0: " << store_->buf[0] << std::endl;
+            }
+            else if (counter == 1)
+            {
+                snprintf(store_->buf[1] + count, shared_mem_struct::kCols - count, "%s", curr.c_str());
+            }
+            else if (counter == 2)
+            {
+                snprintf(store_->buf[2] + count, shared_mem_struct::kCols - count, "%s", curr.c_str());
+            }
+            else
+            {
+                snprintf(store_->buf[3] + count, shared_mem_struct::kCols - count, "%s", curr.c_str());
+            }
+            if (counter == 3)
+            {
+                counter = 0;
+            }
+            else
+            {
+                counter++;
+            }
         }
-        //snprintf(store_->buf[0], shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
+        // snprintf(store_->buf[0], shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
 
         // CLOSING SHARED MEMORY
         shm_fd = shm_unlink(SHMPATH);
