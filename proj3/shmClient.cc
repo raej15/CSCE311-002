@@ -148,7 +148,7 @@ std::vector<std::string> parseArgs(std::string eqn) {
 void fillGlobals(std::vector<std::string> data) {
     int dataSize = data.size();
     int counter = 0;
-    for (int i = 0; i < dataSize - 1; i++) {
+    for (int i = 0; i < dataSize; i++) {
         std::string curr = data.at(i);
         std::vector<std::string> finalEqn = parseArgs(curr);
         if (counter == 0) {

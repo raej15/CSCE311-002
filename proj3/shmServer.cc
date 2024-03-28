@@ -29,7 +29,7 @@ std::vector<std::string> loadData(std::string fileName) {
             // std::cout << line << std::endl;
         }
         currFile.close();
-        std::cout << "\tFILE CLOSED\n" << std::endl;
+        std::cout << "\tFILE CLOSED" << std::endl;
     } else {
         std::cout << "\tINVALID FILE" << std::endl;
         // will send message to client via the shared memory
@@ -107,10 +107,10 @@ int main(int argc, char **argv) {
         sem_post(sem1);
 
         // writing file to client
-        snprintf(shmp->buf, BUFFER_SIZE, "%s\n", eqnstr.c_str());
+        snprintf(shmp->buf, BUFFER_SIZE, "%s", eqnstr.c_str());
 
         // CLOSING SHARED MEMORY
         shmfd = shm_unlink(SHMPATH);
-        std::cout << "\tMEMORY CLOSED" << std::endl;
+        std::cout << "\tMEMORY CLOSED\n" << std::endl;
     }
 }
