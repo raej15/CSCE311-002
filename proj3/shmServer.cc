@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
 
         // get copy of mapped mem
         const int kProt = PROT_READ | PROT_WRITE;
-        store_ = static_cast< Store*>(
+        store_ = static_cast< shared_mem_struct::Store*>(
             ::mmap(nullptr, shared_mem_struct::kCols, kProt, MAP_SHARED, shm_fd, 0));
 
         if (store_ == MAP_FAILED)
