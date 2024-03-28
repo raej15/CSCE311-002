@@ -141,8 +141,8 @@ int main(int argc, char **argv) {
         //     snprintf(store_->buf[i]+count, shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
         // }
         std::string curr;
-        while (getline(eqnstream, curr))
-        {
+        //while (getline(eqnstream, curr))
+        //{
             // if (counter == 0)
             // {
                 //snprintf(store_->buf[1] + count, shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
@@ -173,7 +173,7 @@ int main(int argc, char **argv) {
             // {
             //     counter++;
             // }
-        }
+       // }
         // snprintf(store_->buf[0], shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
 
         // CLOSING SHARED MEMORY
