@@ -124,7 +124,7 @@ int main(int argc, char **argv) {
         // writing file to client
         int count = eqnstr.length();
         for (int i = 0; i < 4; i++) {
-            snprintf(store_->buf[i]-count, shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
+            snprintf(store_->buf[i]+count, shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
         }
         //snprintf(store_->buf[0], shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
 
