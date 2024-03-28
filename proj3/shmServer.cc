@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
             // if (counter == 0)
             // {
                 snprintf(store_->buf[1] + count, shared_mem_struct::kCols, "%s", eqnstr.c_str());
-                std::cout << "0: " << buf[1]+count << std::endl;
+                std::cout << "0: " << eqnstr.c_str() << std::endl;
             // }
             // else if (counter == 1)
             // {
