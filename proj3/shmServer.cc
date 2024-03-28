@@ -131,36 +131,36 @@ int main(int argc, char **argv) {
         std::string curr;
         while (getline(eqnstream, curr))
         {
-            if (counter == 0)
-            {
+            // if (counter == 0)
+            // {
                 snprintf(store_->buf[0] + count, shared_mem_struct::kCols, "%s", eqnstr.c_str());
                 std::cout << "0: " << store_->buf[0] << std::endl;
-            }
-            else if (counter == 1)
-            {
-                std::cout << curr << std::endl;
-                snprintf(store_->buf[1] + count, shared_mem_struct::kCols, "%s", eqnstr.c_str());
-                std::cout << "1: " << store_->buf[1] << std::endl;
+            // }
+            // else if (counter == 1)
+            // {
+            //     std::cout << curr << std::endl;
+            //     snprintf(store_->buf[1] + count, shared_mem_struct::kCols, "%s", eqnstr.c_str());
+            //     std::cout << "1: " << store_->buf[1] << std::endl;
 
-            }
-            else if (counter == 2)
-            {
-                std::cout << curr << std::endl;
-                snprintf(store_->buf[2] + count, shared_mem_struct::kCols, "%s", eqnstr.c_str());
-            }
-            else
-            {
-                std::cout << curr << std::endl;
-                snprintf(store_->buf[3] + count, shared_mem_struct::kCols, "%s", eqnstr.c_str());
-            }
-            if (counter == 3)
-            {
-                counter = 0;
-            }
-            else
-            {
-                counter++;
-            }
+            // }
+            // else if (counter == 2)
+            // {
+            //     std::cout << curr << std::endl;
+            //     snprintf(store_->buf[2] + count, shared_mem_struct::kCols, "%s", eqnstr.c_str());
+            // }
+            // else
+            // {
+            //     std::cout << curr << std::endl;
+            //     snprintf(store_->buf[3] + count, shared_mem_struct::kCols, "%s", eqnstr.c_str());
+            // }
+            // if (counter == 3)
+            // {
+            //     counter = 0;
+            // }
+            // else
+            // {
+            //     counter++;
+            // }
         }
         // snprintf(store_->buf[0], shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
 
