@@ -248,16 +248,8 @@ int main(int argc, char **argv) {
     // wait for server to be ready to write
     sem_wait(sem1);
 
-    // read string from shared memory
-    //for (int i = 0; i < 4; i++) {
-        snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[0]);
-    //    std::cout << read_buffer << std::endl;
-    //}
-
-    sem_post(sem2);
-
-    sem_wait(sem1);
-            snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[0]);
+    // read equations from shared memory
+    snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[0]);
 
     // parse data from server
     std::vector<std::string> data = loadData(read_buffer);
