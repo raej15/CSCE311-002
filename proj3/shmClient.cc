@@ -240,7 +240,7 @@ int main(int argc, char **argv) {
     // read_buffer[sizeof(read_buffer[0])-1][sizeof(read_buffer[1])-1]=0;
 
     // STEP 2: load the path into shared memory
-    snprintf(store_->buf[1], shared_mem_struct::kCols, "%s", argv[1]);
+    snprintf(store_->buf[1], BUFFER_SIZE, "%s", argv[1]);
 
     // notify server that string is ready to read
     sem_post(sem2);
@@ -250,14 +250,14 @@ int main(int argc, char **argv) {
 
     // read string from shared memory
     //for (int i = 0; i < 4; i++) {
-        snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[1]);
+        snprintf(read_buffer, BUFFER_SIZE, "%s", store_->buf[1]);
     //    std::cout << read_buffer << std::endl;
     //}
 
     sem_post(sem2);
 
     sem_wait(sem1);
-            snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[1]);
+            snprintf(read_buffer, BUFFER_SIZE, "%s", store_->buf[1]);
 
     // parse data from server
     std::vector<std::string> data = loadData(read_buffer);
