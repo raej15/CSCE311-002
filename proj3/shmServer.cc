@@ -117,6 +117,7 @@ int main(int argc, char **argv) {
         // FILE CLOSED is handled within loadData function
         data = loadData(path);
         std::string eqnstr = clientEqns(data);
+        std::stringstream eqnstream(eqnstr);
 
         // ready to write file to client
         sem_post(sem1);
@@ -128,7 +129,7 @@ int main(int argc, char **argv) {
         //     snprintf(store_->buf[i]+count, shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
         // }
         std::string curr;
-        while (getline(eqnstr, curr))
+        while (getline(eqnstream, curr))
         {
             if (counter == 0)
             {
