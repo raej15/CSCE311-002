@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
         std::cout << "CLIENT REQUEST RECIEVED" << std::endl;
 
         // STEP 3: open shared memory
-        int shmfd = shm_open(SHMPATH, O_RDWR, 0);
+        int store = shm_open(SHMPATH, O_RDWR, 0);
         std::cout << "\tMEMORY OPEN" << std::endl;
 
         // create map of shared memory
