@@ -122,7 +122,11 @@ int main(int argc, char **argv) {
         sem_post(sem1);
 
         // writing file to client
-        snprintf(store_->buf[0], BUFFER_SIZE, "%s", eqnstr.c_str());
+        int count = eqnstr.length();
+        for (int i = 0; i < 4; i++) {
+            snprintf(store_->buf[i]+count, BUFFER_SIZE, "%s", data.at(i).c_str());
+        }
+        snprintf(store_->buf[0], shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
 
         // CLOSING SHARED MEMORY
         shm_fd = shm_unlink(SHMPATH);
