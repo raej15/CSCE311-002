@@ -234,7 +234,7 @@ int main(int argc, char **argv) {
     sem_post(sem2);
 
     // wait for server to be ready to write
-    sem_wait(sem3);
+    sem_wait(sem1);
 
     // read string from shared memory
     snprintf(read_buffer[1], BUFFER_SIZE, "%s", shmp->buf);
