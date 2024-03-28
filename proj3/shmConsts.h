@@ -25,7 +25,7 @@
 #define SEM_CLIENT "/sem_client23231"
 
 struct shmbuf {
-    char buf[BUFFER_SIZE];
+    char buf[shared_mem_struct::kRows][shared_mem_struct::kCols];
 };
 
 void quit();

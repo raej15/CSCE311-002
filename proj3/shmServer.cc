@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
 
         store_->lens[0] = shared_mem_struct::kCols;  // set store's buffer size
 
-        char read_buffer[buffer_size];
+        char read_buffer[shared_mem_struct::kCols];
 
         // ready to read from client
         sem_post(sem1);
