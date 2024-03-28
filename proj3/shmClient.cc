@@ -248,10 +248,10 @@ int main(int argc, char **argv) {
     sem_wait(sem1);
 
     // read string from shared memory
-    snprintf(*read_buffer[1], BUFFER_SIZE, "%s", shmp->buf[0]);
+    snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf[0]);
     
     // parse data from server
-    std::vector<std::string> data = loadData(*read_buffer[1]);
+    std::vector<std::string> data = loadData(read_buffer);
     if (data.size() == 0) {
         std::cout << "INVALID FILE" << std::endl;
         shm_fd = shm_unlink(SHMPATH);
