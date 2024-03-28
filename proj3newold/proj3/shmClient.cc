@@ -187,6 +187,7 @@ void *threadSum(void *arg) {
 }
 
 int main(int argc, char **argv) {
+
     // make sure shared memory does not already exist
     shm_unlink(SHMPATH);
 
@@ -200,33 +201,20 @@ int main(int argc, char **argv) {
     ::ftruncate(shm_fd, sizeof(struct shmbuf));
     printf("SHARED MEMORY ALLOCATED: %ld BYTES\n", sizeof(struct shmbuf));
 
-    // // map shared memory
-    // shmp = reinterpret_cast<shmbuf *>(mmap(0,
-    //                       sizeof(*shmp),
-    //                       PROT_READ | PROT_WRITE,
-    //                       MAP_SHARED,
-    //                       shmfd,
-    //                       0));
+    const int kProt = PROT_READ | PROT_WRITE;
+    store_ = static_cast<shared_mem_struct::Store *>(
+        ::mmap(nullptr, shared_mem_struct::kCols, kProt, MAP_SHARED, shm_fd, 0));
 
-    // if (shmp == MAP_FAILED) {
-    //     fprintf(stderr, "error mapping memory\n");
-    //     return -1;
-    // }
+    if (store_ == MAP_FAILED)
+    {
+        std::cerr << ::strerror(errno) << std::endl;
 
-        const int kProt = PROT_READ | PROT_WRITE;
-        store_ = static_cast< shared_mem_struct::Store*>(
-            ::mmap(nullptr, shared_mem_struct::kCols, kProt, MAP_SHARED, shm_fd, 0));
+        ::exit(errno);
+    }
 
-        if (store_ == MAP_FAILED)
-        {
-            std::cerr << ::strerror(errno) << std::endl;
+    // store_->lens[0] = shared_mem_struct::kCols;  // set store's buffer size
 
-            ::exit(errno);
-        }
-
-        //store_->lens[0] = shared_mem_struct::kCols;  // set store's buffer size
-
-        char read_buffer[shared_mem_struct::kCols];
+    char read_buffer[shared_mem_struct::kCols];
 
     while (sem1 == 0) {
     }
@@ -250,14 +238,14 @@ int main(int argc, char **argv) {
 
     // read string from shared memory
     //for (int i = 0; i < 4; i++) {
-        snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[0]);
+    snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[0]);
     //    std::cout << read_buffer << std::endl;
     //}
 
     sem_post(sem2);
 
     sem_wait(sem1);
-            snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[0]);
+    snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[0]);
 
     // parse data from server
     std::vector<std::string> data = loadData(read_buffer);
