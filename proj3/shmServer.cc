@@ -15,7 +15,7 @@
 #include <fstream>
 #include <sstream>
 
-struct Store *shmp;
+//struct Store *shmp;
 struct Store *store_;
 
 std::vector<std::string> loadData(std::string fileName) {
@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
             ::exit(errno);
         }
 
-        store_->buffer_size = shared_mem_struct::kCols;  // set store's buffer size
+        store_->lens[0] = shared_mem_struct::kCols;  // set store's buffer size
 
         char read_buffer[buffer_size];
 
@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
         sem_post(sem1);
 
         // writing file to client
-        snprintf(stor_->buf, BUFFER_SIZE, "%s", eqnstr.c_str());
+        snprintf(store_->buf, BUFFER_SIZE, "%s", eqnstr.c_str());
 
         // CLOSING SHARED MEMORY
         shm_fd = shm_unlink(SHMPATH);
