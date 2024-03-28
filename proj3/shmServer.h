@@ -3,9 +3,14 @@
 #ifndef PROJ3_SHMSERVER_H_
 #define PROJ3_SHMSERVER_H_
 
-#pragma once
-
 #include <proj3/shmConsts.h>
+#include <iostream>
+#include <string>
+#include <vector>
 
-void quit();
+struct shmbuf *shmp;
+std::vector<std::string> loadData(std::string fileName);
+std::string clientEqns(std::vector<std::string> data);
+
+
 #endif  // PROJ3_SHMSERVER_H_

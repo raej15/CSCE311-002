@@ -4,13 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <string.h>
-#include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
-#include <iostream>
-#include <vector>
-#include <string>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
@@ -194,7 +189,6 @@ int main(int argc, char **argv) {
     // open existing semaphores located on server
     sem_t *sem1 = sem_open(SEM_SERVER, 0);
     sem_t *sem2 = sem_open(SEM_CLIENT, 0);
-    sem_t *sem3 = sem_open(SEM_SERVER, 0);
 
     // STEP 1: create shared memory
     int shmfd = shm_open(SHMPATH, O_CREAT | O_EXCL | O_RDWR,

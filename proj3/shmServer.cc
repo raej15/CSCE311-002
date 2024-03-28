@@ -65,8 +65,7 @@ int main(int argc, char **argv) {
         // create semaphores
         sem_t *sem1 = sem_open(SEM_SERVER, O_CREAT, 0660, 0);
         sem_t *sem2 = sem_open(SEM_CLIENT, O_CREAT, 0660, 0);
-        sem_t *sem3 = sem_open(SEM_SERVER, O_CREAT, 0660, 0);
-
+    
         // STEP 2: wait for client to open shared memory
         sem_wait(sem2);
         std::cout << "CLIENT REQUEST RECIEVED" << std::endl;
