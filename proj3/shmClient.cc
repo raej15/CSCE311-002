@@ -249,45 +249,45 @@ int main(int argc, char **argv) {
     sem_wait(sem1);
 
     // read string from shared memory
-    for (int i = 0; i < 4; i++) {
-        snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[i]);
-        std::cout << read_buffer << std::endl;
+    //for (int i = 0; i < 4; i++) {
+        snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[0]);
+    //    std::cout << read_buffer << std::endl;
+    //}
+    // parse data from server
+    std::vector<std::string> data = loadData(read_buffer);
+    if (data.size() == 0) {
+        std::cout << "INVALID FILE" << std::endl;
+        shm_fd = shm_unlink(SHMPATH);
+        exit(0);
     }
-    // // parse data from server
-    // std::vector<std::string> data = loadData(read_buffer);
-    // if (data.size() == 0) {
-    //     std::cout << "INVALID FILE" << std::endl;
-    //     shm_fd = shm_unlink(SHMPATH);
-    //     exit(0);
-    // }
-    // fillGlobals(data);
+    fillGlobals(data);
 
-    // // STEP 3: create threads
-    // pthread_t threads[4];
-    // threadVars tv[4];
+    // STEP 3: create threads
+    pthread_t threads[4];
+    threadVars tv[4];
 
-    // for (int i = 0; i < 4; i++) {
-    //     tv[i].id = i;
-    //     tv[i].lines = global[i].size();
-    //     pthread_create(&threads[i], NULL, threadSum,
-    //                    reinterpret_cast<void *>(&(tv[i])));
-    // }
+    for (int i = 0; i < 4; i++) {
+        tv[i].id = i;
+        tv[i].lines = global[i].size();
+        pthread_create(&threads[i], NULL, threadSum,
+                       reinterpret_cast<void *>(&(tv[i])));
+    }
 
-    // std::cout << "THREADS CREATED" << std::endl;
-    // for (int i = 0; i < 4; i++) {
-    //     pthread_join(threads[i], NULL);
-    // }
+    std::cout << "THREADS CREATED" << std::endl;
+    for (int i = 0; i < 4; i++) {
+        pthread_join(threads[i], NULL);
+    }
 
-    // // STEP 4: print thread results
-    // for (int i = 0; i < 4; i++) {
-    //     std::cout << std::setprecision(15) << std::noshowpoint <<  "THREAD "
-    //               << tv[i].id << ":  " << tv[i].lines << " LINES, "
-    //               << tv[i].tParSum << std::endl;
-    //     finalSum = finalSum + tv[i].tParSum;
-    // }
+    // STEP 4: print thread results
+    for (int i = 0; i < 4; i++) {
+        std::cout << std::setprecision(15) << std::noshowpoint <<  "THREAD "
+                  << tv[i].id << ":  " << tv[i].lines << " LINES, "
+                  << tv[i].tParSum << std::endl;
+        finalSum = finalSum + tv[i].tParSum;
+    }
 
-    // std::cout << std::setprecision(15) << std::noshowpoint
-    //           << "SUM: " << finalSum << std::endl;
+    std::cout << std::setprecision(15) << std::noshowpoint
+              << "SUM: " << finalSum << std::endl;
 
     // STEP 5: destroy shared memory
     shm_fd = shm_unlink(SHMPATH);

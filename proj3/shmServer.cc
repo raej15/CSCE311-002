@@ -117,6 +117,7 @@ int main(int argc, char **argv) {
         // FILE CLOSED is handled within loadData function
         data = loadData(path);
         std::string eqnstr = clientEqns(data);
+        snprintf(store_->buf[0], shared_mem_struct::kCols, "%s", eqnstr.c_str());
         std::stringstream eqnstream(eqnstr);
 
         // ready to write file to client
@@ -133,8 +134,8 @@ int main(int argc, char **argv) {
         {
             // if (counter == 0)
             // {
-                snprintf(store_->buf[1] + count, shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
-                std::cout << "0: " << eqnstr.c_str() << std::endl;
+                //snprintf(store_->buf[1] + count, shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
+               // std::cout << "0: " << eqnstr.c_str() << std::endl;
             // }
             // else if (counter == 1)
             // {
