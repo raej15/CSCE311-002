@@ -139,7 +139,7 @@ int main(int argc, char **argv) {
             else if (counter == 1)
             {
                 snprintf(store_->buf[1] + count, shared_mem_struct::kCols - count, "%s", curr.c_str());
-                std::cout << "0: " << store_->buf[0] << std::endl;
+                std::cout << "0: " << store_->buf[1] << std::endl;
 
             }
             else if (counter == 2)
