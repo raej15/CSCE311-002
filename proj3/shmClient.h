@@ -2,6 +2,7 @@
 #ifndef PROJ3_SHMCLIENT_H_
 #define PROJ3_SHMCLIENT_H_
 #include <proj3/shmConsts.h>
+#include <proj3/shmStore.h>
 #include <iostream>
 #include <string>
 #include <vector>
