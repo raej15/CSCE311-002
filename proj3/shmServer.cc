@@ -112,7 +112,7 @@ int main(int argc, char **argv) {
         sem_post(sem1);
         
         // write equations to shared memory
-        snprintf(store_->buf[0], shared_mem_struct::kCols, "%s", eqnstr.substr(0, 12).c_str());
+        snprintf(store_->buf[0], shared_mem_struct::kCols, "%s", eqnstr.c_str());
 
         // CLOSING SHARED MEMORY
         shm_fd = shm_unlink(SHMPATH);
