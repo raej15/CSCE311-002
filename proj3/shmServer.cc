@@ -17,6 +17,7 @@
 
 //struct Store *shmp;
 struct shared_mem_struct::Store *store_;
+//struct smhbuf *shmp;
 
 std::vector<std::string> loadData(std::string fileName) {
     std::ifstream currFile(fileName.c_str());
