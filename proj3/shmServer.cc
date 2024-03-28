@@ -106,7 +106,7 @@ int main(int argc, char **argv) {
         sem_wait(sem2);
 
         // read path from shared memory
-        snprintf(read_buffer, BUFFER_SIZE, "%s", store_->buf);
+        snprintf(read_buffer, BUFFER_SIZE, "%s", store_->buf[0]);
 
         // STEP 4: open file from shared memory
         std::cout << "\tOPENING: " << read_buffer << std::endl;
@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
         sem_post(sem1);
 
         // writing file to client
-        snprintf(store_->buf, BUFFER_SIZE, "%s", eqnstr.c_str());
+        snprintf(store_-[0], BUFFER_SIZE, "%s", eqnstr.c_str());
 
         // CLOSING SHARED MEMORY
         shm_fd = shm_unlink(SHMPATH);
