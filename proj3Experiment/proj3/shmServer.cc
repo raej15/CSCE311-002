@@ -111,11 +111,15 @@ int main(int argc, char **argv) {
         
         // write equations to shared memory
         snprintf(store_->buf[0], shared_mem_struct::kCols, "%s", eqnstr.c_str());
-
-        store_->buf[1] = "moooooo"
-        for (size_t j = 1; j < store_->lens[1]; j++)
-            store_->buf[1][j] = toupper((unsigned char)store_->buf[1][j]);
-        std::cout << store_->buf[1] << std::endl;
+	
+	std::string yes = "mooooooooo";
+	int count = yes.length();
+	strncpy(store_->buf[1]+count, yes.c_str() , shared_mem_struct::kCols-count);
+        //->buf[1] = "moooooo"
+	
+        // for (size_t j = 1; j < store_->lens[1]; j++)
+            // store_->buf[1][j] = toupper((unsigned char)store_->buf[1][j]);
+        std::cout << "sjbkfjhs" << store_->buf[1] << std::endl;
 
         // CLOSING SHARED MEMORY
         shm_fd = shm_unlink(SHMPATH);
