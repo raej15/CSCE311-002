@@ -130,7 +130,6 @@ int main(int argc, char **argv) {
         std::string curr;
         while (getline(eqnstr, curr))
         {
-            std::vector<std::string> finalEqn = parseArgs(curr);
             if (counter == 0)
             {
                 snprintf(store_->buf[0] + count, shared_mem_struct::kCols - count, "%s", curr.c_str());
