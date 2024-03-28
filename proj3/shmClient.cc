@@ -250,8 +250,8 @@ int main(int argc, char **argv) {
 
     // read string from shared memory
     for (int i = 0; i < 4; i++) {
-    snprintf(read_buffer, BUFFER_SIZE, "%s", store_->buf[i]);
-    std::cout << read_buffer << std::endl;
+        snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[i]);
+        std::cout << read_buffer << std::endl;
     }
     // // parse data from server
     // std::vector<std::string> data = loadData(read_buffer);
