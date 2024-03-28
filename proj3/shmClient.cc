@@ -142,9 +142,10 @@ std::vector<std::string> parseArgs(std::string eqn) {
     return parsedEqn;
 }
 
-void fillGlobals(int dataSize) {
+void fillGlobals(std::vector<std::string> data) {
+    int dataSize = data.size();
     int counter = 0;
-    for (int i = 1; i < dataSize; i++) {
+    for (int i = 0; i < dataSize - 1; i++) {
         std::string curr = data.at(i);
         std::vector<std::string> finalEqn = parseArgs(curr);
         if (counter == 0) {
@@ -234,38 +235,10 @@ int main(int argc, char **argv) {
 
     // read string from shared memory
     snprintf(read_buffer[1], BUFFER_SIZE, "%s", shmp->buf);
-
-    // std::vector<std::vector<std::string>> motherVect0;
-    // std::vector<std::vector<std::string>> motherVect1;
-    // std::vector<std::vector<std::string>> motherVect2;
-    // std::vector<std::vector<std::string>> motherVect3;
-
+    
+    // parse data from server
     std::vector<std::string> data = loadData(read_buffer[1]);
-    int dataSize = data.size();
-    fillGlobals(dataSize);
-    // int counter = 0;
-    // for (int i = 0; i < dataSize - 1; i++) {
-    //     std::string curr = data.at(i);
-    //     std::vector<std::string> finalEqn = parseArgs(curr);
-    //     if (counter == 0) {
-    //         motherVect0.push_back(finalEqn);
-    //     } else if (counter == 1) {
-    //         motherVect1.push_back(finalEqn);
-    //     } else if (counter == 2) {
-    //         motherVect2.push_back(finalEqn);
-    //     } else {
-    //         motherVect3.push_back(finalEqn);
-    //     }
-    //     if (counter == 3) {
-    //         counter = 0;
-    //     } else {
-    //         counter++;
-    //     }
-    // }
-    // global[0] = motherVect0;
-    // global[1] = motherVect1;
-    // global[2] = motherVect2;
-    // global[3] = motherVect3;
+    fillGlobals(data);
 
     // STEP 3: create threads
     pthread_t threads[4];
