@@ -117,7 +117,7 @@ int main(int argc, char **argv) {
         // FILE CLOSED is handled within loadData function
         data = loadData(path);
         std::string eqnstr = clientEqns(data);
-        snprintf(store_->buf[0], shared_mem_struct::kCols, "%s", eqnstr.substr(0, 10).c_str());
+        snprintf(store_->buf[0], shared_mem_struct::kCols, "%s", eqnstr.substr(0, 11).c_str());
         std::cout << store_->buf[0] << std::endl;
         std::stringstream eqnstream(eqnstr);
 
