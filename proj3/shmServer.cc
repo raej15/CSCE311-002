@@ -15,7 +15,6 @@
 #include <fstream>
 #include <sstream>
 
-struct shmbuf *shmp;
 struct Store *store;
 
 std::vector<std::string> loadData(std::string fileName) {
