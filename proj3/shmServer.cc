@@ -31,6 +31,8 @@ std::vector<std::string> loadData(std::string fileName) {
         currFile.close();
         std::cout << "\tFILE CLOSED" << std::endl;
     } else {
+        std::cout << "\tINVALID FILE" << std::endl;
+        // will send message to client via the shared memory
         data.push_back("INVALID FILE");
         return data;
     }
@@ -109,5 +111,6 @@ int main(int argc, char **argv) {
 
         // CLOSING SHARED MEMORY
         shmfd = shm_unlink(SHMPATH);
+        std::cout << "\tMEMORY CLOSED" << std::endl;
     }
 }
