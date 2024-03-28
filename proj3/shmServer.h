@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-struct shmbuf *shmp;
+//struct shmbuf *shmp;
 std::vector<std::string> loadData(std::string fileName);
 std::string clientEqns(std::vector<std::string> data);
 

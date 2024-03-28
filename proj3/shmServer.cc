@@ -15,7 +15,7 @@
 #include <fstream>
 #include <sstream>
 
-struct Store *store;
+struct Store *shmp;
 
 std::vector<std::string> loadData(std::string fileName) {
     std::ifstream currFile(fileName.c_str());
@@ -71,18 +71,32 @@ int main(int argc, char **argv) {
         std::cout << "CLIENT REQUEST RECIEVED" << std::endl;
 
         // STEP 3: open shared memory
-        int store = shm_open(SHMPATH, O_RDWR, 0);
+        int store_ = shm_open(SHMPATH, O_RDWR, 0);
         std::cout << "\tMEMORY OPEN" << std::endl;
 
         // create map of shared memory
-        shmp = reinterpret_cast<shmbuf *>(mmap(0,
-                              sizeof(*shmp),
-                              PROT_READ | PROT_WRITE,
-                              MAP_SHARED,
-                              shmfd,
-                              0));
+        // shmp = reinterpret_cast<shmbuf *>(mmap(0,
+        //                       sizeof(*shmp),
+        //                       PROT_READ | PROT_WRITE,
+        //                       MAP_SHARED,
+        //                       shmfd,
+        //                       0));
 
-        char read_buffer[BUFFER_SIZE];
+        // get copy of mapped mem
+        const int kProt = PROT_READ | PROT_WRITE;
+        store_ = static_cast< Store*>(
+            ::mmap(nullptr, lens, kProt, MAP_SHARED, shm_fd, 0));
+
+        if (store_ == MAP_FAILED)
+        {
+            std::cerr << ::strerror(errno) << std::endl;
+
+            ::exit(errno);
+        }
+
+        store_->buffer_size = shared_mem_struct::kCols;  // set store's buffer size
+
+        //char read_buffer[BUFFER_SIZE];
 
         // ready to read from client
         sem_post(sem1);
