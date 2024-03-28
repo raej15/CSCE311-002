@@ -128,7 +128,7 @@ std::vector<std::string> loadData(std::string str) {
             break;
         }
         data.push_back(line);
-        std::cout << line << std::endl;
+        // std::cout << line << std::endl;
         count++;
     }
     return data;
