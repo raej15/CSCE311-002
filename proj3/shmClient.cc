@@ -1,6 +1,7 @@
 // Copyright 2024 Rae Jones
 #include <proj3/shmClient.h>
 #include <proj3/shmConsts.h>
+#include <proj3/shmStore.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -17,6 +18,8 @@ typedef struct threadVars {
 } threadVars;
 
 struct shmbuf *shmp;
+struct shared_mem_struct::Store *store_;
+
 
 std::vector<std::vector<std::string>> global[4];
 std::vector<std::vector<std::string>> motherVect0;
@@ -191,25 +194,39 @@ int main(int argc, char **argv) {
     sem_t *sem2 = sem_open(SEM_CLIENT, 0);
 
     // STEP 1: create shared memory
-    int shmfd = shm_open(SHMPATH, O_CREAT | O_EXCL | O_RDWR,
+    int shm_fd = shm_open(SHMPATH, O_CREAT | O_EXCL | O_RDWR,
                          S_IRUSR | S_IWUSR);
-    ::ftruncate(shmfd, sizeof(struct shmbuf));
+    ::ftruncate(shm_fd, sizeof(struct shmbuf));
     printf("SHARED MEMORY ALLOCATED: %ld BYTES\n", sizeof(struct shmbuf));
 
-    // map shared memory
-    shmp = reinterpret_cast<shmbuf *>(mmap(0,
-                          sizeof(*shmp),
-                          PROT_READ | PROT_WRITE,
-                          MAP_SHARED,
-                          shmfd,
-                          0));
+    // // map shared memory
+    // shmp = reinterpret_cast<shmbuf *>(mmap(0,
+    //                       sizeof(*shmp),
+    //                       PROT_READ | PROT_WRITE,
+    //                       MAP_SHARED,
+    //                       shmfd,
+    //                       0));
 
-    if (shmp == MAP_FAILED) {
-        fprintf(stderr, "error mapping memory\n");
-        return -1;
-    }
-    // char read_buffer[BUFFER_SIZE];
-    char read_buffer[1 << 2][1 << 19];
+    // if (shmp == MAP_FAILED) {
+    //     fprintf(stderr, "error mapping memory\n");
+    //     return -1;
+    // }
+
+        const int kProt = PROT_READ | PROT_WRITE;
+        store_ = static_cast< shared_mem_struct::Store*>(
+            ::mmap(nullptr, shared_mem_struct::kCols, kProt, MAP_SHARED, shm_fd, 0));
+
+        if (store_ == MAP_FAILED)
+        {
+            std::cerr << ::strerror(errno) << std::endl;
+
+            ::exit(errno);
+        }
+
+        store_->lens[0] = shared_mem_struct::kCols;  // set store's buffer size
+
+        char read_buffer[shared_mem_struct::kCols];
+
     while (sem1 == 0) {
     }
 
@@ -222,7 +239,7 @@ int main(int argc, char **argv) {
     // read_buffer[sizeof(read_buffer[0])-1][sizeof(read_buffer[1])-1]=0;
 
     // STEP 2: load the path into shared memory
-    snprintf(shmp->buf, BUFFER_SIZE, "%s", argv[1]);
+    snprintf(shmp->buf[0], BUFFER_SIZE, "%s", argv[1]);
 
     // notify server that string is ready to read
     sem_post(sem2);
@@ -231,13 +248,13 @@ int main(int argc, char **argv) {
     sem_wait(sem1);
 
     // read string from shared memory
-    snprintf(read_buffer[1], BUFFER_SIZE, "%s", shmp->buf);
+    snprintf(read_buffer[1], BUFFER_SIZE, "%s", shmp->buf[0]);
     
     // parse data from server
     std::vector<std::string> data = loadData(read_buffer[1]);
     if (data.size() == 0) {
         std::cout << "INVALID FILE" << std::endl;
-        shmfd = shm_unlink(SHMPATH);
+        shm_fd = shm_unlink(SHMPATH);
         exit(0);
     }
     fillGlobals(data);
@@ -270,7 +287,7 @@ int main(int argc, char **argv) {
               << "SUM: " << finalSum << std::endl;
 
     // STEP 5: destroy shared memory
-    shmfd = shm_unlink(SHMPATH);
+    shm_fd = shm_unlink(SHMPATH);
 
     // STEP 6: exits
     exit(0);
