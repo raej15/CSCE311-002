@@ -133,8 +133,8 @@ int main(int argc, char **argv) {
         {
             // if (counter == 0)
             // {
-                snprintf(store_->buf[0] + count, shared_mem_struct::kCols, "%s", eqnstr.c_str());
-                std::cout << "0: " << store_->buf[0] << std::endl;
+                snprintf(store_->buf[1] + count, shared_mem_struct::kCols, "%s", eqnstr.c_str());
+                std::cout << "0: " << store_->buf[1] << std::endl;
             // }
             // else if (counter == 1)
             // {
