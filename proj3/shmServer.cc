@@ -145,10 +145,12 @@ int main(int argc, char **argv) {
             }
             else if (counter == 2)
             {
+                std::cout << curr << std::endl;
                 snprintf(store_->buf[2] + count, shared_mem_struct::kCols, "%s", curr.c_str());
             }
             else
             {
+                std::cout << curr << std::endl;
                 snprintf(store_->buf[3] + count, shared_mem_struct::kCols, "%s", curr.c_str());
             }
             if (counter == 3)
