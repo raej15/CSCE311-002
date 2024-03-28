@@ -134,13 +134,13 @@ int main(int argc, char **argv) {
             if (counter == 0)
             {
                 //snprintf(store_->buf[0] + count, shared_mem_struct::kCols - count, "%s", curr.c_str());
-                std::cout << "0: " << store_->buf[0] << std::endl;
+                //std::cout << "0: " << store_->buf[0] << std::endl;
             }
             else if (counter == 1)
             {
                 std::cout << curr << std::endl;
-                snprintf(store_->buf[1], BUFFER_SIZE, "%s", curr.c_str());
-                std::cout << "0: " << store_->buf[1] << std::endl;
+                snprintf(store_->buf[1] + count, shared_mem_struct::kCols - count, "%s", curr.c_str());
+                std::cout << "1: " << store_->buf[1] << std::endl;
 
             }
             else if (counter == 2)
