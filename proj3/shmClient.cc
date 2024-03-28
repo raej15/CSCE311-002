@@ -128,7 +128,7 @@ std::vector<std::string> loadData(std::string str) {
             break;
         }
         data.push_back(line);
-        std::cout << line << std::endl;
+        // std::cout << line << std::endl;
         count++;
     }
     return data;
@@ -200,33 +200,18 @@ int main(int argc, char **argv) {
     ::ftruncate(shm_fd, sizeof(struct shmbuf));
     printf("SHARED MEMORY ALLOCATED: %ld BYTES\n", sizeof(struct shmbuf));
 
-    // // map shared memory
-    // shmp = reinterpret_cast<shmbuf *>(mmap(0,
-    //                       sizeof(*shmp),
-    //                       PROT_READ | PROT_WRITE,
-    //                       MAP_SHARED,
-    //                       shmfd,
-    //                       0));
+    const int kProt = PROT_READ | PROT_WRITE;
+    store_ = static_cast< shared_mem_struct::Store*>(
+        ::mmap(nullptr, shared_mem_struct::kCols, kProt, MAP_SHARED, shm_fd, 0));
 
-    // if (shmp == MAP_FAILED) {
-    //     fprintf(stderr, "error mapping memory\n");
-    //     return -1;
-    // }
-
-        const int kProt = PROT_READ | PROT_WRITE;
-        store_ = static_cast< shared_mem_struct::Store*>(
-            ::mmap(nullptr, shared_mem_struct::kCols, kProt, MAP_SHARED, shm_fd, 0));
-
-        if (store_ == MAP_FAILED)
-        {
+    if (store_ == MAP_FAILED)
+    {
             std::cerr << ::strerror(errno) << std::endl;
 
             ::exit(errno);
-        }
+    }
 
-        //store_->lens[0] = shared_mem_struct::kCols;  // set store's buffer size
-
-        char read_buffer[shared_mem_struct::kCols];
+    char read_buffer[shared_mem_struct::kCols];
 
     while (sem1 == 0) {
     }
@@ -236,8 +221,6 @@ int main(int argc, char **argv) {
 
     // wait for server to be ready to read
     sem_wait(sem1);
-
-    // read_buffer[sizeof(read_buffer[0])-1][sizeof(read_buffer[1])-1]=0;
 
     // STEP 2: load the path into shared memory
     snprintf(store_->buf[0], BUFFER_SIZE, "%s", argv[1]);
