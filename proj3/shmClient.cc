@@ -128,8 +128,7 @@ std::vector<std::string> loadData(std::string str) {
     while (std::getline(s, line)) {
         if (line == "INVALID FILE") {
             std::cout << "INVALID FILE" << std::endl;
-            shmfd = shm_unlink(SHMPATH);
-            return 0;
+            break;
         }
         data.push_back(line);
         count++;
