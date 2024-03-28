@@ -16,6 +16,7 @@
 #include <sstream>
 
 struct Store *shmp;
+struct Store *store_;
 
 std::vector<std::string> loadData(std::string fileName) {
     std::ifstream currFile(fileName.c_str());
