@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
         sem_post(sem1);
 
         // writing file to client
-        int count = eqnstr.length();
+        int counter = 0;
         // for (int i = 0; i < 4; i++) {
         //     snprintf(store_->buf[i]+count, shared_mem_struct::kCols - count, "%s", eqnstr.c_str());
         // }
