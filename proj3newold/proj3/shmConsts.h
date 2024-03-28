@@ -24,9 +24,9 @@
 #define SEM_SERVER "/sem_server23231"
 #define SEM_CLIENT "/sem_client23231"
 
-struct shmbuf {
-    char buf[shared_mem_struct::kRows][shared_mem_struct::kCols];
-};
+// struct shmbuf {
+//     char buf[shared_mem_struct::kRows][shared_mem_struct::kCols];
+// };
 
 void quit();
 #endif  // PROJ3_SHMCONSTS_H_

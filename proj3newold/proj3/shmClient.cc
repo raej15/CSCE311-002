@@ -17,7 +17,7 @@ typedef struct threadVars {
     double tParSum;
 } threadVars;
 
-struct shmbuf *shmp;
+//struct shmbuf *shmp;
 struct shared_mem_struct::Store *store_;
 
 
@@ -198,8 +198,8 @@ int main(int argc, char **argv) {
     // STEP 1: create shared memory
     int shm_fd = shm_open(SHMPATH, O_CREAT | O_EXCL | O_RDWR,
                          S_IRUSR | S_IWUSR);
-    ::ftruncate(shm_fd, sizeof(struct shmbuf));
-    printf("SHARED MEMORY ALLOCATED: %ld BYTES\n", sizeof(struct shmbuf));
+    ::ftruncate(shm_fd, sizeof(struct Store));
+    printf("SHARED MEMORY ALLOCATED: %ld BYTES\n", sizeof(struct Store));
 
     const int kProt = PROT_READ | PROT_WRITE;
     store_ = static_cast<shared_mem_struct::Store *>(
