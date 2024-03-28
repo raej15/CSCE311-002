@@ -4,7 +4,7 @@
 #define PROJ3_SHMCONSTS_H_
 
 #pragma once
-
+#include <proj3/shmStore.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/mman.h>
