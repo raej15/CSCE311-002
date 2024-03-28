@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
         std::cout << "CLIENT REQUEST RECIEVED" << std::endl;
 
         // STEP 3: open shared memory
-        int store_ = shm_open(SHMPATH, O_RDWR, 0);
+        int shm_fd = shm_open(SHMPATH, O_RDWR, 0);
         std::cout << "\tMEMORY OPEN" << std::endl;
 
         // create map of shared memory
@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
         // get copy of mapped mem
         const int kProt = PROT_READ | PROT_WRITE;
         store_ = static_cast< Store*>(
-            ::mmap(nullptr, lens, kProt, MAP_SHARED, shm_fd, 0));
+            ::mmap(nullptr, shared_mem_struct::kCols, kProt, MAP_SHARED, shm_fd, 0));
 
         if (store_ == MAP_FAILED)
         {
@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
 
         store_->buffer_size = shared_mem_struct::kCols;  // set store's buffer size
 
-        //char read_buffer[BUFFER_SIZE];
+        char read_buffer[buffer_size];
 
         // ready to read from client
         sem_post(sem1);
@@ -106,7 +106,7 @@ int main(int argc, char **argv) {
         sem_wait(sem2);
 
         // read path from shared memory
-        snprintf(read_buffer, BUFFER_SIZE, "%s", shmp->buf);
+        snprintf(read_buffer, BUFFER_SIZE, "%s", store_->buf);
 
         // STEP 4: open file from shared memory
         std::cout << "\tOPENING: " << read_buffer << std::endl;
@@ -121,10 +121,10 @@ int main(int argc, char **argv) {
         sem_post(sem1);
 
         // writing file to client
-        snprintf(shmp->buf, BUFFER_SIZE, "%s", eqnstr.c_str());
+        snprintf(stor_->buf, BUFFER_SIZE, "%s", eqnstr.c_str());
 
         // CLOSING SHARED MEMORY
-        shmfd = shm_unlink(SHMPATH);
+        shm_fd = shm_unlink(SHMPATH);
         std::cout << "\tMEMORY CLOSED\n" << std::endl;
     }
 }
