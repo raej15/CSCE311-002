@@ -127,7 +127,6 @@ std::vector<std::string> loadData(std::string str) {
     int count = 0;
     while (std::getline(s, line)) {
         if (line == "INVALID FILE") {
-            std::cout << "INVALID FILE" << std::endl;
             break;
         }
         data.push_back(line);
@@ -242,6 +241,11 @@ int main(int argc, char **argv) {
     
     // parse data from server
     std::vector<std::string> data = loadData(read_buffer[1]);
+    if (data.size() == 0) {
+        std::cout << "INVALID FILE" << std::endl;
+        shmfd = shm_unlink(SHMPATH);
+        exit(0);
+    }
     fillGlobals(data);
 
     // STEP 3: create threads
