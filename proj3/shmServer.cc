@@ -117,12 +117,21 @@ int main(int argc, char **argv) {
         // FILE CLOSED is handled within loadData function
         data = loadData(path);
         std::string eqnstr = clientEqns(data);
-        snprintf(store_->buf[0], shared_mem_struct::kCols, "%s", eqnstr.substr(0, 12).c_str());
-        std::cout << store_->buf[0] << std::endl;
+
         std::stringstream eqnstream(eqnstr);
 
         // ready to write file to client
         sem_post(sem1);
+                snprintf(store_->buf[0], shared_mem_struct::kCols, "%s", eqnstr.substr(0, 12).c_str());
+        std::cout << store_->buf[0] << std::endl;
+
+        // wait for client to finish reading
+        sem_wait(sem2);
+
+        sem_post(sem1);
+        snprintf(store_->buf[1], shared_mem_struct::kCols, "%s", eqnstr.substr(12, 24).c_str());
+        std::cout << store_->buf[1] << std::endl;
+
 
         // writing file to client
         int count = eqnstr.length();

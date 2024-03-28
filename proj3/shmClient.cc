@@ -253,6 +253,12 @@ int main(int argc, char **argv) {
         snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[0]);
     //    std::cout << read_buffer << std::endl;
     //}
+
+    sem_post(sem2);
+
+    sem_wait(sem1);
+            snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[1]);
+
     // parse data from server
     std::vector<std::string> data = loadData(read_buffer);
     if (data.size() == 0) {
