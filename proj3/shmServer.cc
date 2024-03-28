@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
         sem_wait(sem2);
 
         // read path from shared memory
-        snprintf(read_buffer, BUFFER_SIZE, "%s", store_->buf[1]);
+        snprintf(read_buffer, shared_mem_struct::kCols, "%s", store_->buf[1]);
 
         // STEP 4: open file from shared memory
         std::cout << "\tOPENING: " << read_buffer << std::endl;
